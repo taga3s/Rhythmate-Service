@@ -1,0 +1,8 @@
+ARG POSTGRES_VERSION=15.4
+FROM postgres:${POSTGRES_VERSION}-alpine
+
+ENV LANG ja_JP.utf8
+ENV LANGUAGE ja_JP:ja
+ENV LC_ALL ja_JP.UTF-8
+
+ENV TZ Asia/Tokyo

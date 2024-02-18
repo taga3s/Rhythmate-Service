@@ -1,0 +1,20 @@
+version: '3'
+
+services:    
+  db:
+    container_name: rhythmate_db
+    build: 
+      context: .
+      dockerfile: docker/db/Dockerfile
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: rhyth_user
+      POSTGRES_PASSWORD: rhyth_password
+      POSTGRES_DB: rhyth_db
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  db-store:
