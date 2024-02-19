@@ -1,0 +1,176 @@
+openapi: "3.0.3"
+
+info:
+  title: "rhythmate API"
+  description: "rhythmateのAPIです。"
+  version: "1.0"
+
+servers:
+  - url: "http://localhost:3000/v1"
+    description: "ローカル環境"
+  - url: "http://example.com"
+    description: "本番環境"
+
+tags:
+  - name: "users"
+    description: "ユーザ情報―の操作"
+
+paths:
+  "/users/signup":
+    post:
+      tags: ["users"]
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersSignUpRequest"
+      responses:
+        "204":
+          description: "成功"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/users/login":
+    post:
+      tags: ["users"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersLoginRequest"
+      responses:
+        "204":
+          description: "成功"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/users/logout":
+    post:
+      tags: ["users"]
+      responses:
+        "204":
+          description: "成功"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/users/me":
+    get:
+      tags: ["users"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/users/:id":
+    patch:
+      tags: ["users"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersPatchRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    UsersSignUpRequest:
+      type: object
+      properties:
+        username: { type: string, example: "test" }
+        email: { type: string, example: "example@gmail.com" }
+        password: { type: string, example: "password" }
+      required:
+        - username
+        - email
+        - password
+    UsersLoginRequest:
+      type: object
+      properties:
+        email: { type: string, example: "example@gmail.com" }
+        password: { type: string, example: "password" }
+      required:
+        - email
+        - password
+    UsersPatchRequest:
+      type: object
+      properties:
+        username: { type: string, example: test }
+      required:
+        - username
+    UserResponse:
+      type: object
+      properties:
+        username: { type: string, example: "test" }
+        email: { type: string, example: "example@gmail.com" }
+        level: { type: number, example: 1 }
+    ErrorResponse:
+      type: object
+      properties:
+        message: { type: string, example: "errorMsg" }
+      required:
+        - message
