@@ -31,7 +31,7 @@ $ npm run start:watch
 ヘルスチェックのエンドポイントを叩き、起動しているか確認します。
 
 ```
-$ curl http://localhost:3000/health
+$ curl http://localhost:3000/v1/health
 { "health": "ok" }
 ```
 
