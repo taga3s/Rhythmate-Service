@@ -28,6 +28,7 @@ userRouter.post("/logout", auth, logoutController)
 userRouter.get("/me", auth, getLoginUserController)
 userRouter.patch(
   "/me",
+  auth,
   validate([
     body('name').isString().isLength({ min: 1 }).withMessage('必須項目です。'),
   ]),
