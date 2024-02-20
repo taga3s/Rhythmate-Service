@@ -4,9 +4,9 @@ export type signupResponse = {
 export type loginResponse = {
   status: string
 }
-export type getUserResponse = {
+export type getLoginUserResponse = {
   status: string
-  username: string
+  name: string
   email: string
   level: number
 }

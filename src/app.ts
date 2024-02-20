@@ -2,10 +2,12 @@ import express from "express";
 import "dotenv/config";
 import { healthRouter, userRouter } from "./route";
 import { cookie } from "express-validator";
+import cookieParser from "cookie-parser"
 
 const app = express();
 
 app.use(cookie())
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { getUserController, loginController, logoutController, signupController, updateUserController } from "../controller/user/user_controller";
+import { getLoginUserController, loginController, logoutController, signupController, updateUserController } from "../controller/user/user_controller";
 import { body } from "express-validator";
 import { validate } from "../pkg/validate";
+import { auth } from "./middlewares/auth";
 
 const userRouter = Router();
 
@@ -23,12 +24,12 @@ userRouter.post(
   ]),
   loginController
 )
-userRouter.post("/logout", logoutController)
-userRouter.get("/:id", getUserController)
+userRouter.post("/logout", auth, logoutController)
+userRouter.get("/me", auth, getLoginUserController)
 userRouter.patch(
-  "/:id",
+  "/me",
   validate([
-    body('email').isEmail().withMessage('必須項目です。')
+    body('name').isString().isLength({ min: 1 }).withMessage('必須項目です。'),
   ]),
   updateUserController
 )
