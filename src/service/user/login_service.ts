@@ -12,6 +12,11 @@ export const loginService = async (inputDTO: { email: string, password: string }
 
   const compared = await bcrypt.compare(inputDTO.password, user.passwordHash)
 
+
+  if (!compared) {
+    throw new CustomError("メールアドレスかパスワードが間違っています。", 400)
+  }
+
   return {
     id: user.id,
     name: user.name,
