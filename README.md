@@ -25,13 +25,13 @@ cp .env.example .env
 `http://localhost:3000`で立ち上がります。
 
 ```
-$ npm run dev:watch
+$ npm run start:watch
 ```
 
 ヘルスチェックのエンドポイントを叩き、起動しているか確認します。
 
 ```
-$ curl http://localhost:3000/health
+$ curl http://localhost:3000/v1/health
 { "health": "ok" }
 ```
 
