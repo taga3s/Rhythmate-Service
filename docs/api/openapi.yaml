@@ -153,14 +153,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UsersSignUpRequest"
+              $ref: "#/components/schemas/QuestsCreateRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersSignUpResponse"
+                $ref: "#/components/schemas/QuestsCreateResponse"
         "400":
           description: "クライアントエラー"
           content:
@@ -181,14 +181,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UsersSignUpRequest"
+              $ref: "#/components/schemas/QuestsDeleteRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersSignUpResponse"
+                $ref: "#/components/schemas/QuestsDeleteResponse"
         "400":
           description: "クライアントエラー"
           content:
@@ -200,7 +200,29 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"                
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests/:id":
+    get:
+      tags: ["quests"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     UsersSignUpRequest:
@@ -249,3 +271,53 @@ components:
         message: { type: string, example: "errorMsg" }
       required:
         - message
+    QuestsCreateRequest:
+      type: object
+      properties:
+        title: { type: string, example: "WorkOut" }
+        description: { type: string, example: "Push ups 30reps 3sets." }
+        starts_at: { type: string, example: "9:00" }
+        minutes: { type: number, example: 30 }
+        tag_id: { type: number, example: 1 }
+        difficulty: { type: number, example: 1 }
+        dates: { type: array, example: ["Mon", "Wed", "Fri"] }
+        user_id: { type: number, example: 1 }
+      required:
+        - title
+        - description
+        - starts_at
+        - minutes
+        - tag_id
+        - difficulty
+        - dates
+        - user_id
+    QuestsCreateResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+    QuestsDeleteRequest:
+      type: object
+      properties:
+        id: { type: number, example: 1 }
+      required:
+        - id
+    QuestsDeleteResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+    QuestsResponse:
+      type: object
+      properties:
+        title: { type: string, example: "WorkOut" }
+        description: { type: string, example: "Push ups 30reps 3sets." }
+        starts_at: { type: string, example: "9:00" }
+        started_at: { type: string, example: "9:10" }
+        minutes: { type: number, example: 30 }
+        tag_id: { type: number, example: 1 }
+        difficulty: { type: number, example: 1 }
+        is_done: { type: boolean, example: false }
+        dates: { type: array, example: ["Mon", "Wed", "Fri"] }
+        weekly_frequency: { type: number, example: 3 }
+        weekly_completion_count: { type: number, example: 2 }
+        user_id: { type: number, example: 1 }
+
