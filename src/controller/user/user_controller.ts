@@ -4,6 +4,7 @@ import { getUserResponse, signupResponse } from "./response";
 import { signupService } from "../../service/user/signup_service";
 import { loginService } from "../../service/user/login_service";
 import { generateToken } from "../../utils/jwt";
+import { CustomError } from "../../pkg/customError";
 
 // サインアップ
 export const signupController = async (req: Request<{}, {}, signupRequest>, res: Response) => {
@@ -14,8 +15,9 @@ export const signupController = async (req: Request<{}, {}, signupRequest>, res:
     const response: signupResponse = { status: "ok" }
     return res.status(200).json(response)
   } catch (err) {
-    if (err instanceof Error) {
-      res.status(500).json({ status: "error", message: err.message })
+
+    if (err instanceof CustomError) {
+      res.status(err.statusCode).json({ status: "error", message: err.message })
     }
     return res.status(500).json({ status: "error", message: "Internal server error." })
   }

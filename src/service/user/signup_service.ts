@@ -1,5 +1,6 @@
 import { userModel } from "../../model/user/user_model"
 import bcrypt from "bcrypt"
+import { CustomError } from "../../pkg/customError";
 
 export const signupService = async (inputDTO: { name: string, email: string, password: string, password_confirmation: string }) => {
   const model = userModel;
