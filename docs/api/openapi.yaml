@@ -14,6 +14,8 @@ servers:
 tags:
   - name: "users"
     description: "ユーザ情報―の操作"
+  - name: "quests"
+    description: "クエスト情報―の操作"
 
 paths:
   "/users/signup":
@@ -133,6 +135,34 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
           description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests":
+    post:
+      tags: ["quests"]
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersSignUpRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSignUpResponse"
+        "400":
+          description: "クライアントエラー"
           content:
             application/json:
               schema:
