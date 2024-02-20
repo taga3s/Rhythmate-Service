@@ -145,7 +145,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/quests":
+  "/quests/create":
     post:
       tags: ["quests"]
       deprecated: false
@@ -173,6 +173,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  "/quests/delete":
+    delete:
+      tags: ["quests"]
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersSignUpRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSignUpResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"                
 components:
   schemas:
     UsersSignUpRequest:
