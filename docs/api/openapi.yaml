@@ -167,30 +167,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-        "500":
-          description: "サーバーエラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  "/quests/delete":
-    delete:
-      tags: ["quests"]
-      deprecated: false
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/QuestsDeleteRequest"
-      responses:
-        "200":
-          description: "成功"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/QuestsDeleteResponse"
-        "400":
-          description: "クライアントエラー"
+        "401":
+          description: "認証エラー"
           content:
             application/json:
               schema:
@@ -211,6 +189,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/QuestsResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "401":
           description: "認証エラー"
           content:
@@ -223,6 +207,133 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      tags: ["quests"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuestsPatchRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: ["quests"]
+      deprecated: false
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsDeleteResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests/start/:id":
+    patch:
+      tags: ["quests"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests/finish/:id":
+    patch:
+      tags: ["quests"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests/:user_id":
+    get:
+      tags: ["quests"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsListResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     UsersSignUpRequest:
@@ -305,6 +416,13 @@ components:
       type: object
       properties:
         status: { type: string, example: "ok" }
+    QuestsPatchRequest:
+      type: object
+      properties:
+        title: { type: string, example: "WorkOut" }
+        description: { type: string, example: "Push ups 30reps 3sets." }
+        starts_at: { type: string, example: "9:00" }
+        minutes: { type: number, example: 30 }
     QuestsResponse:
       type: object
       properties:
@@ -320,4 +438,10 @@ components:
         weekly_frequency: { type: number, example: 3 }
         weekly_completion_count: { type: number, example: 2 }
         user_id: { type: number, example: 1 }
-
+    QuestsListResponse:
+      type: object
+      properties:
+        quests: { type: array, example: [ { $ref: "#/components/schemas/QuestsResponse" },
+                                          { $ref: "#/components/schemas/QuestsResponse" },
+                                          { $ref: "#/components/schemas/QuestsResponse" }
+                                        ] }
