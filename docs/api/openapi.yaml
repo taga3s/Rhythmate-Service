@@ -180,33 +180,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
   "/quests/:id":
-    get:
-      tags: ["quests"]
-      responses:
-        "200":
-          description: "成功"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/QuestsResponse"
-        "400":
-          description: "クライアントエラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "401":
-          description: "認証エラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "500":
-          description: "サーバーエラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
     patch:
       tags: ["quests"]
       requestBody:
