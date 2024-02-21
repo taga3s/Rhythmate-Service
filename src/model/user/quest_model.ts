@@ -3,24 +3,23 @@ import { Quest } from "./types"
 
 const prisma = new PrismaClient()
 
-const create = async (id: string, title: string, description: string, startsAt: Date, startedAt: Date, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyFrequency: number, weeklyCompletionCount: number, createdAt: Date, updatedAt: Date, userId: string): Promise<Quest> => {
+const create = async (title: string, description: string, startsAt: Date, minutes: number, tagId: string, difficulty: string, dates: string[], weeklyFrequency: number, userId: string): Promise<Quest> => {
+  const date_now = new Date()
+  const next_sunday = new Date(date_now.getFullYear(), date_now.getMonth(), date_now.getDate() + (7 - date_now.getDay()))
   const quest: Prisma.QuestCreateInput = {
-      id: id,
       title: title,
       description: description,
       startsAt: startsAt,
-      startedAt: startedAt,
+      startedAt: new Date(0,0,0,0,0,0,0),
       minutes: minutes,
       tagId: tagId,
       difficulty: difficulty,
-      isDone: isDone,
-      startDate: startDate,
-      endDate: endDate,
+      isDone: false,
+      startDate: date_now,
+      endDate: next_sunday,
       dates: dates,
       weeklyFrequency: weeklyFrequency,
-      weeklyCompletionCount: weeklyCompletionCount,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      weeklyCompletionCount: 0,
       userId: userId
     }
   const result = await prisma.quest.create({ data: quest });
@@ -51,12 +50,21 @@ const update = async (id: string, title: string, description: string, startsAt: 
   return result
 }
 
-const deleteById = async (id: string): Promise<Quest> => {
+const getById = async (id: string): Promise<Quest | null> => {
+  const result = await prisma.quest.findFirst({
+    where: {
+      id: id
+    }
+  })
+  return result
+}
+
+const deleteById = async (id: string): Promise<Quest | null> => {
   const result = await prisma.quest.delete({ where: { id: id } });
   return result
 }
 
-const getByUserId = async (userId: string): Promise<Quest[]> => {
+const getByUserId = async (userId: string): Promise<Quest[]| null> => {
   const result = await prisma.quest.findMany({
     where: {
       userId: userId
@@ -86,7 +94,8 @@ const getByUserId = async (userId: string): Promise<Quest[]> => {
 
 export const questModel = {
   getByUserId,
-  deleteById,
+  getById,
   create,
-  update
+  update,
+  deleteById
 }

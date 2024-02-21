@@ -29,12 +29,12 @@ model Quest {
   minutes               Int
   tagId                 String
   difficulty            String
-  isDone                Boolean
+  isDone                Boolean   @default(false)
   startDate             DateTime
   endDate               DateTime
   dates                 String[]
-  weeklyFrequency       Int
-  weeklyCompletionCount Int
+  weeklyFrequency       Int       
+  weeklyCompletionCount Int       @default(0)
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
   userId                String
