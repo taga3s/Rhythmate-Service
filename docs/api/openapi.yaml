@@ -145,7 +145,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/quests/create":
+  "/quests/":
     post:
       tags: ["quests"]
       deprecated: false
@@ -406,12 +406,6 @@ components:
       type: object
       properties:
         status: { type: string, example: "ok" }
-    QuestsDeleteRequest:
-      type: object
-      properties:
-        id: { type: number, example: 1 }
-      required:
-        - id
     QuestsDeleteResponse:
       type: object
       properties:
