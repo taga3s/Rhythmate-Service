@@ -19,3 +19,23 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+model Quest {
+  id                    String    @id @default(uuid())
+  title                 String
+  description           String
+  startsAt              DateTime
+  startedAt             DateTime
+  minutes               Int
+  tagId                 String
+  difficulty            String
+  isDone                Boolean
+  startDate             DateTime
+  endDate               DateTime
+  dates                 String[]
+  weeklyFrequency       Int
+  weeklyCompletionCount Int
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  userId                String
+}
