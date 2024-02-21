@@ -13,9 +13,9 @@ servers:
 
 tags:
   - name: "users"
-    description: "ユーザ情報―の操作"
+    description: "ユーザ情報の操作"
   - name: "quests"
-    description: "クエスト情報―の操作"
+    description: "クエスト情報の操作"
 
 paths:
   "/users/signup":
@@ -145,7 +145,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/quests/":
+  "/quests":
     post:
       tags: ["quests"]
       deprecated: false
