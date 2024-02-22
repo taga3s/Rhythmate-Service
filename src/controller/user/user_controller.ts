@@ -51,7 +51,7 @@ export const loginController = async (req: Request<{}, {}, loginRequest>, res: R
 // ログアウト
 export const logoutController = async (req: Request, res: Response) => {
   res.cookie('access_token', '')
-  res.status(204)
+  res.sendStatus(204)
 }
 
 // ユーザー取得（条件付き）
