@@ -42,7 +42,7 @@ export const deleteQuestController = async (req: Request, res: Response) => {
 
 // クエストの更新
 export const updateQuestController = async (req: Request, res: Response) => {
-    const inputDTO = req.body;
+    const inputDTO = { id: req.params.id, ...req.body};
 
     try {
         const outputDTO = await updateQuestService(inputDTO);
