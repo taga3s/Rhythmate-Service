@@ -12,21 +12,21 @@ export const updateQuestService = async (inputDTO: { id: string, title: string, 
         throw new CustomError("指定したidのクエストが存在しません", 400);
     }
 
-    const quest_updated = await model.update(inputDTO.id, inputDTO.title, inputDTO.description, inputDTO.startsAt, inputDTO.startedAt, inputDTO.minutes, inputDTO.tagId, inputDTO.difficulty, inputDTO.isDone, inputDTO.startDate, inputDTO.endDate, inputDTO.dates, inputDTO.weeklyCompletionCount, inputDTO.startDate, inputDTO.endDate, inputDTO.userId)
+    const updatedQuest = await model.update(inputDTO.id, inputDTO.title, inputDTO.description, inputDTO.startsAt, inputDTO.startedAt, inputDTO.minutes, inputDTO.tagId, inputDTO.difficulty, inputDTO.isDone, inputDTO.startDate, inputDTO.endDate, inputDTO.dates, inputDTO.weeklyCompletionCount, inputDTO.startDate, inputDTO.endDate, inputDTO.userId)
     
     return {
-        title: quest_updated.title,
-        description: quest_updated.description,
-        startsAt: quest_updated.startsAt,
-        minutes: quest_updated.minutes,
-        tagId: quest_updated.tagId,
-        difficulty: quest_updated.difficulty,
-        isDone: quest_updated.isDone,
-        startDate: quest_updated.startDate,
-        endDate: quest_updated.endDate,
-        dates: quest_updated.dates,
-        weeklyFrequency: quest_updated.weeklyFrequency,
-        weeklyCompletionCount: quest_updated.weeklyCompletionCount,
-        userId: quest_updated.userId
+        title: updatedQuest.title,
+        description: updatedQuest.description,
+        startsAt: updatedQuest.startsAt,
+        minutes: updatedQuest.minutes,
+        tagId: updatedQuest.tagId,
+        difficulty: updatedQuest.difficulty,
+        isDone: updatedQuest.isDone,
+        startDate: updatedQuest.startDate,
+        endDate: updatedQuest.endDate,
+        dates: updatedQuest.dates,
+        weeklyFrequency: updatedQuest.weeklyFrequency,
+        weeklyCompletionCount: updatedQuest.weeklyCompletionCount,
+        userId: updatedQuest.userId
     }
     }

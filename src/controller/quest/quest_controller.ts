@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { createQuestRequest, deleteQuestRequest, updateQuestRequest, getQuestByUserIdRequest } from "../quest/request";
-import { createQuestResponse, deleteQuestResponse, updateQuestResponse, getQuestByUserIdResponse } from "../quest/response";
+import { createQuestRequest, deleteQuestRequest, updateQuestRequest, getQuestRequest } from "../quest/request";
+import { createQuestResponse, deleteQuestResponse, updateQuestResponse, getQuestResponse } from "../quest/response";
 import { createQuestService } from "../../service/quest/create_quest_service";
 import { deleteQuestService } from "../../service/quest/delete_quest_service";
 import { updateQuestService } from "../../service/quest/update_quest_service";
-import { getQuestByUserIdService } from "../../service/quest/get_quest_service";
+import { getQuestService } from "../../service/quest/get_quest_service";
 import { CustomError } from "../../pkg/customError";
 
 // クエストの作成
@@ -26,8 +26,7 @@ export const createQuestController = async (req: Request, res: Response) => {
 
 // クエストの削除
 export const deleteQuestController = async (req: Request, res: Response) => {
-    const inputDTO = req.body;
-
+    const inputDTO = { id: req.params.id };
     try {
         const outputDTO = await deleteQuestService(inputDTO);
         const response: deleteQuestResponse = { status: "ok" }
@@ -59,13 +58,13 @@ export const updateQuestController = async (req: Request, res: Response) => {
 }
 
 // ユーザーの所持するすべてのクエストを取得
-export const getQuestByUserIdController = async (req: Request, res: Response) => {
+export const getQuestController = async (req: Request, res: Response) => {
     
-    const inputDTO = req.body;
+    const inputDTO = { userId : req.params.userId};
     try {
         
-        const outputDTO = await getQuestByUserIdService(inputDTO);
-        const response: getQuestByUserIdResponse = {
+        const outputDTO = await getQuestService(inputDTO);
+        const response: getQuestResponse = {
             status: "ok",
             quests: outputDTO.quests
         }

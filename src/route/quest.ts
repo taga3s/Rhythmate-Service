@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createQuestController, updateQuestController, deleteQuestController, getQuestByUserIdController } from "../controller/quest/quest_controller";
+import { createQuestController, updateQuestController, deleteQuestController, getQuestController } from "../controller/quest/quest_controller";
 import { body } from "express-validator";
 import { validate } from "../pkg/validate";
 
@@ -36,7 +36,7 @@ questRouter.get(
   validate([
     body('user_id').isString().isLength({ min: 1 }).withMessage('必須項目です。'),
   ]),
-  getQuestByUserIdController
+  getQuestController
 );
 
 export { questRouter }

@@ -12,7 +12,7 @@ export type updateQuestResponse = {
   status: string
 }
 
-export type getQuestByUserIdResponse = {
+export type getQuestResponse = {
   status: string
   quests: Quest[] | null
 }

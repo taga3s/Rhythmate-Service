@@ -25,7 +25,6 @@ const create = async (title: string, description: string, startsAt: string, minu
     }
   
   const result = await prisma.quest.create({ data: quest });
-  console.log(result)
   return result
 }
 
@@ -75,7 +74,6 @@ const getByUserId = async (userId: string): Promise<Quest[]| null> => {
   })
   return result
 }
-
 
 
 // const handlePrismaError = (err) => {

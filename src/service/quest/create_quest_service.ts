@@ -8,7 +8,6 @@ export const createQuestService = async (inputDTO: { title: string, description:
     }
 
     const quest = await model.create(inputDTO.title, inputDTO.description, inputDTO.startsAt, inputDTO.minutes, inputDTO.tagId, inputDTO.difficulty, inputDTO.dates, inputDTO.userId)
-    console.log(quest)
     return {
         title: quest.title,
         description: quest.description,

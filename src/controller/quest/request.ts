@@ -26,6 +26,6 @@ export type updateQuestRequest = {
   weeklyFrequency: number
 }
 
-export type getQuestByUserIdRequest = {
+export type getQuestRequest = {
   userId: string
 }
