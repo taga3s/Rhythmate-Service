@@ -1,4 +1,4 @@
-import { questModel } from "../../model/user/quest_model"
+import { questModel } from "../../model/quest/quest_model"
 import { CustomError } from "../../pkg/customError";
     
 export const deleteQuestService = async (inputDTO: { id: string }) => {

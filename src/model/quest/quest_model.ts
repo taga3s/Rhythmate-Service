@@ -1,16 +1,17 @@
 import { Prisma, PrismaClient } from "@prisma/client"
 import { Quest } from "./types"
 
+
 const prisma = new PrismaClient()
 
-const create = async (title: string, description: string, startsAt: Date, minutes: number, tagId: string, difficulty: string, dates: string[], weeklyFrequency: number, userId: string): Promise<Quest> => {
+const create = async (title: string, description: string, startsAt: string, minutes: number, tagId: string, difficulty: string, dates: string[], userId: string): Promise<Quest> => {
   const date_now = new Date()
   const next_sunday = new Date(date_now.getFullYear(), date_now.getMonth(), date_now.getDate() + (7 - date_now.getDay()))
   const quest: Prisma.QuestCreateInput = {
       title: title,
       description: description,
       startsAt: startsAt,
-      startedAt: new Date(0,0,0,0,0,0,0),
+      startedAt: "00:00:00",
       minutes: minutes,
       tagId: tagId,
       difficulty: difficulty,
@@ -18,7 +19,7 @@ const create = async (title: string, description: string, startsAt: Date, minute
       startDate: date_now,
       endDate: next_sunday,
       dates: dates,
-      weeklyFrequency: weeklyFrequency,
+      weeklyFrequency: dates.length,
       weeklyCompletionCount: 0,
       userId: userId
     }
@@ -26,7 +27,7 @@ const create = async (title: string, description: string, startsAt: Date, minute
   return result
 }
 
-const update = async (id: string, title: string, description: string, startsAt: Date, startedAt: Date, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyFrequency: number, weeklyCompletionCount: number, createdAt: Date, updatedAt: Date, userId: string): Promise<Quest> => {
+const update = async (id: string, title: string, description: string, startsAt: string, startedAt: string, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyFrequency: number, weeklyCompletionCount: number, createdAt: Date, updatedAt: Date, userId: string): Promise<Quest> => {
   const quest: Prisma.QuestUpdateInput = {
       id: id,
       title: title,

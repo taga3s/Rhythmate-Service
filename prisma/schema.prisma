@@ -24,8 +24,8 @@ model Quest {
   id                    String    @id @default(uuid())
   title                 String
   description           String
-  startsAt              DateTime
-  startedAt             DateTime
+  startsAt              String
+  startedAt             String
   minutes               Int
   tagId                 String
   difficulty            String

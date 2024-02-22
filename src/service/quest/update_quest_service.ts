@@ -1,7 +1,7 @@
-import { questModel } from "../../model/user/quest_model"
+import { questModel } from "../../model/quest/quest_model"
 import { CustomError } from "../../pkg/customError";
 
-export const updateQuestService = async (inputDTO: { id: string, title: string, description: string, startsAt: Date, startedAt: Date, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyFrequency: number, weeklyCompletionCount: number, userId: string }) => {
+export const updateQuestService = async (inputDTO: { id: string, title: string, description: string, startsAt: string, startedAt: string, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyFrequency: number, weeklyCompletionCount: number, userId: string }) => {
     const model = questModel;
     if (inputDTO.minutes < 0) {
         throw new CustomError("実施時間は正の値を入力してください", 400)
