@@ -1,15 +1,15 @@
-export type signupRequest = {
+export type SignupRequest = {
   name: string
   email: string
   password: string
   password_confirmation: string
 }
 
-export type loginRequest = {
+export type LoginRequest = {
   email: string
   password: string
 }
 
-export type updateLoginUserRequest = {
+export type UpdateLoginUserRequest = {
   name: string
 }
