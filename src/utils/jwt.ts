@@ -10,3 +10,8 @@ export const generateToken = (user_id: string, name: string) => {
 
   return token
 }
+
+export const verifyToken = (token: string) => {
+  const secret = process.env.SECRET ?? ""
+  return jwt.verify(token, secret)
+}
