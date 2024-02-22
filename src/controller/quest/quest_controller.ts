@@ -16,6 +16,7 @@ export const createQuestController = async (req: Request, res: Response) => {
         const response: createQuestResponse = { status: "ok" }
         return res.status(200).json(response)
     } catch (err) {
+
         if (err instanceof CustomError) {
             return res.status(err.statusCode).json({ status: "error", message: err.message })
         }
@@ -59,9 +60,10 @@ export const updateQuestController = async (req: Request, res: Response) => {
 
 // ユーザーの所持するすべてのクエストを取得
 export const getQuestByUserIdController = async (req: Request, res: Response) => {
+    
     const inputDTO = req.body;
-
     try {
+        
         const outputDTO = await getQuestByUserIdService(inputDTO);
         const response: getQuestByUserIdResponse = {
             status: "ok",
@@ -69,7 +71,6 @@ export const getQuestByUserIdController = async (req: Request, res: Response) =>
         }
         return res.status(200).json(response)
     } catch (err) {
-
         if (err instanceof CustomError) {
             return res.status(err.statusCode).json({ status: "error", message: err.message })
         }

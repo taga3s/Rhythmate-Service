@@ -13,7 +13,7 @@ const create = async (title: string, description: string, startsAt: string, minu
       startsAt: startsAt,
       startedAt: "00:00:00",
       minutes: minutes,
-      tagId: tagId,
+      tagId: tagId !== null ? tagId : "noTag",
       difficulty: difficulty,
       isDone: false,
       startDate: date_now,
@@ -23,11 +23,13 @@ const create = async (title: string, description: string, startsAt: string, minu
       weeklyCompletionCount: 0,
       userId: userId
     }
+  
   const result = await prisma.quest.create({ data: quest });
+  console.log(result)
   return result
 }
 
-const update = async (id: string, title: string, description: string, startsAt: string, startedAt: string, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyFrequency: number, weeklyCompletionCount: number, createdAt: Date, updatedAt: Date, userId: string): Promise<Quest> => {
+const update = async (id: string, title: string, description: string, startsAt: string, startedAt: string, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyCompletionCount: number, createdAt: Date, updatedAt: Date, userId: string): Promise<Quest> => {
   const quest: Prisma.QuestUpdateInput = {
       id: id,
       title: title,
@@ -41,7 +43,7 @@ const update = async (id: string, title: string, description: string, startsAt: 
       startDate: startDate,
       endDate: endDate,
       dates: dates,
-      weeklyFrequency: weeklyFrequency,
+      weeklyFrequency: dates.length,
       weeklyCompletionCount: weeklyCompletionCount,
       createdAt: createdAt,
       updatedAt: updatedAt,
