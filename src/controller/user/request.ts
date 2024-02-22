@@ -10,6 +10,6 @@ export type loginRequest = {
   password: string
 }
 
-export type updateUserRequest = {
-  username: string
+export type updateLoginUserRequest = {
+  name: string
 }
