@@ -1,3 +1,5 @@
+import { Quest } from '../../model/quest/types'
+
 export type signupResponse = {
   status: string
 }

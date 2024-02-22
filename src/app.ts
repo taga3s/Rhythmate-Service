@@ -1,6 +1,6 @@
 import express from "express";
 import "dotenv/config";
-import { healthRouter, userRouter } from "./route";
+import { healthRouter, userRouter, questRouter } from "./route";
 import { cookie } from "express-validator";
 import cookieParser from "cookie-parser"
 import { allowCrossDomain } from "./utils/cors";
@@ -18,6 +18,7 @@ app.use(allowCrossDomain)
 // ルーティング
 app.use("/v1/health", healthRouter)
 app.use("/v1/users", userRouter)
+app.use("/v1/quest", questRouter)
 
 const PORT = process.env.PORT;
 
