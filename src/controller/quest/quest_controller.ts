@@ -13,7 +13,16 @@ import { Quest } from "../../model/quest/types";
 // クエストの作成
 export const createQuestController = async (req: Request<{}, {}, CreateQuestRequest>, res: Response) => {
     const decoded = verifyToken(req.cookies.access_token) as JwtPayload
-    const inputDTO = { userId : decoded.userId , ...req.body};
+    const inputDTO = {
+        userId: decoded.userId,
+        title: req.body.title,
+        description: req.body.description,
+        startsAt: req.body.starts_at,
+        minutes: req.body.minutes,
+        tagId: req.body.tag_id,
+        difficulty: req.body.difficulty,
+        dates: req.body.dates,
+    };
 
     try {
         const outputDTO = await createQuestService(inputDTO);
@@ -60,9 +69,23 @@ export const deleteQuestController = async (req: Request<{id : string}>, res: Re
 
 // クエストの更新
 export const updateQuestController = async (req: Request<{id: string}, {}, UpdateQuestRequest>, res: Response) => {
-    const weeklyFrequency = req.body.dates.length; // 週間の頻度を計算
     const decoded = verifyToken(req.cookies.access_token) as JwtPayload // decodeしたtokenを取得
-    const inputDTO = { id: req.params.id, weeklyFrequency: weeklyFrequency, userId : decoded.userId, ...req.body };
+    const inputDTO = { 
+        id: req.params.id, 
+        title: req.body.title,
+        description: req.body.description,
+        startsAt: req.body.starts_at,
+        startedAt: req.body.started_at,
+        minutes: req.body.minutes,
+        tagId: req.body.tag_id,
+        difficulty: req.body.difficulty,
+        isDone: req.body.is_Done,
+        startDate: req.body.start_date,
+        endDate: req.body.end_date,
+        dates: req.body.dates,
+        weeklyCompletionCount: req.body.weekly_completion_count,
+        userId : decoded.userId, 
+    };
 
     try {
         const outputDTO = await updateQuestService(inputDTO);
@@ -79,7 +102,7 @@ export const updateQuestController = async (req: Request<{id: string}, {}, Updat
             end_date: outputDTO.endDate,
             dates: outputDTO.dates,
             weekly_frequency: outputDTO.weeklyFrequency,
-            weekly_completion_count: outputDTO.weeklyCompletionCount, //不要かも
+            weekly_completion_count: outputDTO.weeklyCompletionCount, 
             user_id: outputDTO.userId
         }
         return res.status(200).json(response)
@@ -93,14 +116,14 @@ export const updateQuestController = async (req: Request<{id: string}, {}, Updat
 }
 
 // ユーザーの所持するすべてのクエストを取得
-export const getQuestController = async (req: Request<{userId : string}>, res: Response) => {
-
-    const inputDTO = { userId: req.params.userId };
+export const getQuestController = async (req: Request, res: Response) => {
+    const decoded = verifyToken(req.cookies.access_token) as JwtPayload
+    const inputDTO = { userId: decoded.userId };
     try {
         const outputDTO = await getQuestService(inputDTO);
         const response: GetQuestResponse = {
             status: "ok",
-            quests: outputDTO.quests?.map((quest: Quest) => { // Add type annotation to 'quest'
+            quests: outputDTO.quests?.map((quest: Quest) => { 
                 return {
                     id: quest.id,
                     title: quest.title,
