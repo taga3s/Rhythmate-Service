@@ -41,7 +41,6 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
             end_date: outputDTO.endDate,
             dates: outputDTO.dates,
             weekly_frequency: outputDTO.weeklyFrequency,
-            user_id: outputDTO.userId
         }
         return res.status(200).json(response)
     } catch (err) {
@@ -106,7 +105,6 @@ export const updateQuestController = async (req: Request<{id: string}, {}, Updat
             dates: outputDTO.dates,
             weekly_frequency: outputDTO.weeklyFrequency,
             weekly_completion_count: outputDTO.weeklyCompletionCount, 
-            user_id: outputDTO.userId
         }
         return res.status(200).json(response)
     } catch (err) {
@@ -142,7 +140,6 @@ export const getQuestController = async (req: Request, res: Response) => {
                     dates: quest.dates,
                     weekly_frequency: quest.weeklyFrequency,
                     weekly_completion_count: quest.weeklyCompletionCount,
-                    user_id: quest.userId
                 }
             })
         };
@@ -177,7 +174,6 @@ export const startQuestController = async (req: Request<{id : string}>, res: Res
             dates: outputDTO.dates,
             weekly_frequency: outputDTO.weeklyFrequency,
             weekly_completion_count: outputDTO.weeklyCompletionCount,
-            user_id: outputDTO.userId
         };
         return res.status(200).json(response);
     } catch (err) {
@@ -209,7 +205,6 @@ export const finishQuestController = async (req: Request<{id : string}>, res: Re
             dates: outputDTO.dates,
             weekly_frequency: outputDTO.weeklyFrequency,
             weekly_completion_count: outputDTO.weeklyCompletionCount,
-            user_id: outputDTO.userId
         };
         return res.status(200).json(response);
     } catch (err) {

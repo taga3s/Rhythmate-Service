@@ -11,7 +11,6 @@ export type CreateQuestResponse = {
   end_date: Date,
   dates: string[],
   weekly_frequency: number,
-  user_id: string
 }
 
 export type UpdateQuestResponse = {
@@ -29,7 +28,6 @@ export type UpdateQuestResponse = {
   dates: string[],
   weekly_frequency: number,
   weekly_completion_count: number,
-  user_id: string
 }
 
 export type DeleteQuestResponse = {
@@ -53,7 +51,7 @@ export type GetQuestResponse = {
     dates: string[],
     weekly_frequency: number,
     weekly_completion_count: number,
-    user_id: string}[]
+  }[]
 }
 
 export type StartQuestResponse = {
@@ -72,7 +70,6 @@ export type StartQuestResponse = {
   dates: string[],
   weekly_frequency: number,
   weekly_completion_count: number,
-  user_id: string
 }
 
 export type FinishQuestResponse = {
@@ -91,5 +88,4 @@ export type FinishQuestResponse = {
   dates: string[],
   weekly_frequency: number,
   weekly_completion_count: number,
-  user_id: string
 }
