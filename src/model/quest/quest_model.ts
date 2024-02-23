@@ -1,100 +1,128 @@
-import { Prisma, PrismaClient } from "@prisma/client"
-import { Quest } from "./types"
+import { Prisma, PrismaClient } from "@prisma/client";
+import { Quest } from "./types";
 
+const prisma = new PrismaClient();
 
-const prisma = new PrismaClient()
-
-const create = async (title: string, description: string, startsAt: string, minutes: number, tagId: string, difficulty: string, dates: string[], userId: string): Promise<Quest> => {
-  const date_now = new Date()
-  const next_sunday = new Date(date_now.getFullYear(), date_now.getMonth(), date_now.getDate() + (7 - date_now.getDay()))
+const create = async (
+  title: string,
+  description: string,
+  startsAt: string,
+  minutes: number,
+  tagId: string,
+  difficulty: string,
+  dates: string[],
+  userId: string,
+): Promise<Quest> => {
+  const date_now = new Date();
+  const next_sunday = new Date(
+    date_now.getFullYear(),
+    date_now.getMonth(),
+    date_now.getDate() + (7 - date_now.getDay()),
+  );
   const quest: Prisma.QuestCreateInput = {
-      title: title,
-      description: description,
-      startsAt: startsAt,
-      startedAt: "NOT_STARTED_YET",
-      minutes: minutes,
-      tagId: tagId !== null ? tagId : "NO_TAG_ASSIGNED",
-      difficulty: difficulty,
-      isDone: false,
-      startDate: date_now,
-      endDate: next_sunday,
-      dates: dates,
-      weeklyFrequency: dates.length,
-      weeklyCompletionCount: 0,
-      userId: userId
-    }
-  
-  const result = await prisma.quest.create({ data: quest });
-  return result
-}
+    title: title,
+    description: description,
+    startsAt: startsAt,
+    startedAt: "NOT_STARTED_YET",
+    minutes: minutes,
+    tagId: tagId !== null ? tagId : "NO_TAG_ASSIGNED",
+    difficulty: difficulty,
+    isDone: false,
+    startDate: date_now,
+    endDate: next_sunday,
+    dates: dates,
+    weeklyFrequency: dates.length,
+    weeklyCompletionCount: 0,
+    userId: userId,
+  };
 
-const update = async (id: string, title: string, description: string, startsAt: string, startedAt: string, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyCompletionCount: number, createdAt: Date, updatedAt: Date, userId: string): Promise<Quest> => {
+  const result = await prisma.quest.create({ data: quest });
+  return result;
+};
+
+const update = async (
+  id: string,
+  title: string,
+  description: string,
+  startsAt: string,
+  startedAt: string,
+  minutes: number,
+  tagId: string,
+  difficulty: string,
+  isDone: boolean,
+  startDate: Date,
+  endDate: Date,
+  dates: string[],
+  weeklyCompletionCount: number,
+  createdAt: Date,
+  updatedAt: Date,
+  userId: string,
+): Promise<Quest> => {
   const quest: Prisma.QuestUpdateInput = {
-      id: id,
-      title: title,
-      description: description,
-      startsAt: startsAt,
-      startedAt: startedAt,
-      minutes: minutes,
-      tagId: tagId,
-      difficulty: difficulty,
-      isDone: isDone,
-      startDate: startDate,
-      endDate: endDate,
-      dates: dates,
-      weeklyFrequency: dates.length,
-      weeklyCompletionCount: weeklyCompletionCount,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      userId: userId
-    }
+    id: id,
+    title: title,
+    description: description,
+    startsAt: startsAt,
+    startedAt: startedAt,
+    minutes: minutes,
+    tagId: tagId,
+    difficulty: difficulty,
+    isDone: isDone,
+    startDate: startDate,
+    endDate: endDate,
+    dates: dates,
+    weeklyFrequency: dates.length,
+    weeklyCompletionCount: weeklyCompletionCount,
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+    userId: userId,
+  };
   const result = await prisma.quest.update({ where: { id: id }, data: quest });
-  return result
-}
+  return result;
+};
 
 const getById = async (id: string): Promise<Quest | null> => {
   const result = await prisma.quest.findFirst({
     where: {
-      id: id
-    }
-  })
-  return result
-}
+      id: id,
+    },
+  });
+  return result;
+};
 
 const deleteById = async (id: string): Promise<Quest | null> => {
   const result = await prisma.quest.delete({ where: { id: id } });
-  return result
-}
+  return result;
+};
 
-const getByUserId = async (userId: string): Promise<Quest[]| null> => {
+const getByUserId = async (userId: string): Promise<Quest[] | null> => {
   const result = await prisma.quest.findMany({
     where: {
-      userId: userId
-    }
-  })
-  return result
-}
+      userId: userId,
+    },
+  });
+  return result;
+};
 
 const startById = async (id: string): Promise<Quest | null> => {
   const quest: Prisma.QuestUpdateInput = {
     id: id,
-    startedAt: new Date().toLocaleTimeString()
-  }
-const result = await prisma.quest.update({ where: { id: id }, data: quest });
-  return result
-}
+    startedAt: new Date().toLocaleTimeString(),
+  };
+  const result = await prisma.quest.update({ where: { id: id }, data: quest });
+  return result;
+};
 
 const finishById = async (id: string): Promise<Quest | null> => {
-
   const quest: Prisma.QuestUpdateInput = {
     id: id,
     isDone: true,
-    weeklyCompletionCount: {increment: 1},
-  }
+    weeklyCompletionCount: { increment: 1 },
+  };
 
-const result = await prisma.quest.update({ where: { id: id }, data: quest });
-  return result
-}
+  const result = await prisma.quest.update({ where: { id: id }, data: quest });
+  return result;
+};
 
 // const handlePrismaError = (err) => {
 //   switch (err.code) {
@@ -120,5 +148,5 @@ export const questModel = {
   update,
   deleteById,
   startById,
-  finishById
-}
+  finishById,
+};

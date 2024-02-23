@@ -15,88 +15,87 @@ export const signupController = async (req: Request<{}, {}, SignupRequest>, res:
 
   try {
     const outputDTO = await signupService(inputDTO);
-    const response: SignupResponse = { status: "ok" }
-    return res.status(200).json(response)
+    const response: SignupResponse = { status: "ok" };
+    return res.status(200).json(response);
   } catch (err) {
-
     if (err instanceof CustomError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message })
+      return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" })
+    return res.status(500).json({ status: "error", message: "サーバーエラー" });
   }
-}
+};
 
 // ログイン
 export const loginController = async (req: Request<{}, {}, LoginRequest>, res: Response) => {
   const inputDTO = req.body;
 
   try {
-    const outputDTO = await loginService(inputDTO)
+    const outputDTO = await loginService(inputDTO);
 
     // jwtを生成し、クッキーにセットする。
-    const jwt = generateToken(outputDTO.id, outputDTO.email)
-    res.cookie('access_token', jwt)
+    const jwt = generateToken(outputDTO.id, outputDTO.email);
+    res.cookie("access_token", jwt);
 
-    const response: LoginResponse = { status: "ok" }
+    const response: LoginResponse = { status: "ok" };
 
-    return res.status(200).json(response)
+    return res.status(200).json(response);
   } catch (err) {
     if (err instanceof CustomError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message })
+      return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" })
+    return res.status(500).json({ status: "error", message: "サーバーエラー" });
   }
-}
+};
 
 // ログアウト
 export const logoutController = async (req: Request, res: Response) => {
-  res.cookie('access_token', '')
-  res.sendStatus(204)
-}
+  res.cookie("access_token", "");
+  res.sendStatus(204);
+};
 
 // ユーザー取得（条件付き）
 export const getLoginUserController = async (req: Request, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload
-  const inputDTO = { userId: decoded.userId }
+  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
+  const inputDTO = { userId: decoded.userId };
 
   try {
-    const outputDTO = await getLoginUserService(inputDTO)
+    const outputDTO = await getLoginUserService(inputDTO);
     const response: GetLoginUserResponse = {
       status: "ok",
       name: outputDTO.name,
       email: outputDTO.email,
-      level: outputDTO.level
-    }
-    res.status(200).json(response)
+      level: outputDTO.level,
+    };
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof CustomError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message })
+      return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" })
+    return res.status(500).json({ status: "error", message: "サーバーエラー" });
   }
-}
+};
 
 //　ユーザー情報更新（条件付き）
 export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserRequest>, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload
+  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
   const inputDTO = {
     userId: decoded.userId,
-    ...req.body
-  }
+    ...req.body,
+  };
 
   try {
-    const outputDTO = await updateLoginUserService(inputDTO)
+    const outputDTO = await updateLoginUserService(inputDTO);
     const response: GetLoginUserResponse = {
       status: "ok",
       name: outputDTO.name,
       email: outputDTO.email,
-      level: outputDTO.level
-    }
-    return res.status(200).json(response)
+      level: outputDTO.level,
+    };
+    return res.status(200).json(response);
   } catch (err) {
     if (err instanceof CustomError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message })
+      return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" })
+    return res.status(500).json({ status: "error", message: "サーバーエラー" });
   }
-}
+};

@@ -1,48 +1,48 @@
-import { Prisma, PrismaClient } from "@prisma/client"
-import { User } from "./types"
+import { Prisma, PrismaClient } from "@prisma/client";
+import { User } from "./types";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 const getById = async (id: string): Promise<User | null> => {
   const result = await prisma.user.findFirst({
     where: {
-      id: id
-    }
-  })
-  return result
-}
+      id: id,
+    },
+  });
+  return result;
+};
 
 const getByEmail = async (email: string): Promise<User | null> => {
   const result = await prisma.user.findFirst({
     where: {
-      email: email
-    }
-  })
-  return result
-}
+      email: email,
+    },
+  });
+  return result;
+};
 
 const create = async (name: string, email: string, passwordHash: string): Promise<User> => {
   const user: Prisma.UserCreateInput = {
     name: name,
     email: email,
-    passwordHash: passwordHash
-  }
+    passwordHash: passwordHash,
+  };
   const result = await prisma.user.create({ data: user });
-  return result
-}
+  return result;
+};
 
 const update = async (id: string, name: string): Promise<User> => {
   const user: Prisma.UserUpdateInput = {
-    name: name
-  }
+    name: name,
+  };
   const result = await prisma.user.update({
     where: {
-      id: id
+      id: id,
     },
-    data: user
-  })
-  return result
-}
+    data: user,
+  });
+  return result;
+};
 
 // const handlePrismaError = (err) => {
 //   switch (err.code) {
@@ -65,5 +65,5 @@ export const userModel = {
   getById,
   getByEmail,
   create,
-  update
-}
+  update,
+};
