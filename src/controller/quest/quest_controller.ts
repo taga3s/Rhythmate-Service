@@ -8,6 +8,7 @@ import { updateQuestService } from "../../service/quest/update_quest_service";
 import { getQuestService } from "../../service/quest/get_quest_service";
 import { CustomError } from "../../pkg/customError";
 import { JwtPayload } from "jsonwebtoken";
+import { Quest } from "../../model/quest/types";
 
 // クエストの作成
 export const createQuestController = async (req: Request<{}, {}, CreateQuestRequest>, res: Response) => {
@@ -96,13 +97,30 @@ export const getQuestController = async (req: Request<{userId : string}>, res: R
 
     const inputDTO = { userId: req.params.userId };
     try {
-
         const outputDTO = await getQuestService(inputDTO);
         const response: GetQuestResponse = {
             status: "ok",
-            quests: outputDTO.quests
-        }
-        return res.status(200).json(response)
+            quests: outputDTO.quests?.map((quest: Quest) => { // Add type annotation to 'quest'
+                return {
+                    id: quest.id,
+                    title: quest.title,
+                    description: quest.description,
+                    starts_at: quest.startsAt,
+                    started_at: quest.startedAt,
+                    minutes: quest.minutes,
+                    tag_id: quest.tagId,
+                    difficulty: quest.difficulty,
+                    is_done: quest.isDone,
+                    start_date: quest.startDate,
+                    end_date: quest.endDate,
+                    dates: quest.dates,
+                    weekly_frequency: quest.weeklyFrequency,
+                    weekly_completion_count: quest.weeklyCompletionCount,
+                    user_id: quest.userId
+                }
+            })
+        };
+        return res.status(200).json(response);
     } catch (err) {
         if (err instanceof CustomError) {
             return res.status(err.statusCode).json({ status: "error", message: err.message })
