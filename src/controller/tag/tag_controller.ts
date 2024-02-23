@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { CreateTagRequest, UpdateTagRequest } from "./request";
-import { TagResponse, GetTagResponse, DeleteTagResponse } from "./response";
+import { CreateTagResponse, UpdateTagResponse, GetTagResponse, DeleteTagResponse } from "./response";
 import { verifyToken } from "../../utils/jwt";
 import { createTagService } from "../../service/tag/create_tag_service";
 import { deleteTagService } from "../../service/tag/delete_tag_service";
@@ -13,14 +13,13 @@ import { Tag } from "../../model/tag/types";
 // タグの作成
 export const createTagController = async (req: Request<{}, {}, CreateTagRequest>, res: Response) => {
   const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
-  console.log(decoded);
   const inputDTO = {
-    userId: decoded.user_id,
+    userId: decoded.userId,
     name: req.body.name,
   };
   try {
     const outputDTO = await createTagService(inputDTO);
-    const response: TagResponse = {
+    const response: CreateTagResponse = {
       status: "ok",
       id : outputDTO.id,
       name: outputDTO.name,
@@ -60,7 +59,7 @@ export const updateTagController = async (req: Request<{id : string}, {}, Update
 
   try {
     const outputDTO = await updateTagService(inputDTO);
-    const response: TagResponse = {
+    const response: UpdateTagResponse = {
       status: "ok",
       id : outputDTO.id,
       name: outputDTO.name,

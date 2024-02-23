@@ -6,9 +6,6 @@ export const createTagService = async (inputDTO:{
   userId: string;
 }) => {
   const model = tagModel;
-  if(inputDTO.name === ''){
-    throw new CustomError('タグ名を入力してください', 400);
-  }
   const tag = await model.create(inputDTO.name, inputDTO.userId);
   return {
     id : tag.id,
