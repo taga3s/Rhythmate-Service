@@ -33,7 +33,11 @@ const create = async (
     dates: dates,
     weeklyFrequency: dates.length,
     weeklyCompletionCount: 0,
-    userId: userId,
+    user: {
+      connect: {
+        id: userId,
+      },
+    },
   };
 
   const result = await prisma.quest.create({ data: quest });
@@ -75,7 +79,11 @@ const update = async (
     weeklyCompletionCount: weeklyCompletionCount,
     createdAt: createdAt,
     updatedAt: updatedAt,
-    userId: userId,
+    user: {
+      connect: {
+        id: userId,
+      },
+    },
   };
   const result = await prisma.quest.update({ where: { id: id }, data: quest });
   return result;
