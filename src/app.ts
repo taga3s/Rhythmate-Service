@@ -18,7 +18,7 @@ app.use(allowCrossDomain)
 // ルーティング
 app.use("/v1/health", healthRouter)
 app.use("/v1/users", userRouter)
-app.use("/v1/quest", questRouter)
+app.use("/v1/quests", questRouter)
 
 const PORT = process.env.PORT;
 
