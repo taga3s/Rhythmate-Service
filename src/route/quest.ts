@@ -22,17 +22,11 @@ questRouter.post(
 questRouter.patch(
   "/:id",
   auth,
-  validate([
-    body('id').isString().isLength({ min: 1 }).withMessage('必須項目です。'),
-  ]),
   updateQuestController
 );
 questRouter.delete(
   "/:id",
   auth,
-  validate([
-    body('id').isString().isLength({ min: 1 }).withMessage('必須項目です。'),
-  ]),
   deleteQuestController
 );
 questRouter.get(

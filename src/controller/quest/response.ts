@@ -1,5 +1,3 @@
-import { Quest } from '../../model/quest/types'
-
 export type CreateQuestResponse = {
   status: string
   title: string,
