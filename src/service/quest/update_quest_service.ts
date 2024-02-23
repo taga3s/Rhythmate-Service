@@ -1,7 +1,8 @@
 import { questModel } from "../../model/quest/quest_model"
 import { CustomError } from "../../pkg/customError";
+type inputDTO = { id: string, title: string, description: string, startsAt: string, startedAt: string, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyCompletionCount: number, userId: string }
 
-export const updateQuestService = async (inputDTO: { id: string, title: string, description: string, startsAt: string, startedAt: string, minutes: number, tagId: string, difficulty: string, isDone: boolean, startDate: Date, endDate: Date, dates: string[], weeklyCompletionCount: number, userId: string }) => {
+export const updateQuestService = async (inputDTO: inputDTO) => {
     const model = questModel;
     
     if (inputDTO.minutes < 0) {

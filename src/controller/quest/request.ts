@@ -1,9 +1,9 @@
 export type CreateQuestRequest = {
   title: string
   description: string
-  startsAt: Date
+  starts_at: string
   minutes: number
-  tagId: string
+  tag_id: string
   difficulty: string
   dates: string[]
   // userId: string
@@ -14,16 +14,19 @@ export type CreateQuestRequest = {
 // }
 
 export type UpdateQuestRequest = {
-  id: string
+  // id: string
   title: string
   description: string
-  startsAt: Date
+  starts_at: string
+  started_at: string
   minutes: number
-  tagId: string
+  tag_id: string
   difficulty: string
-  startDate: Date
-  endDate: Date
-  weeklyFrequency: number
+  is_Done: boolean
+  start_date: Date
+  end_date: Date
+  dates: string[]
+  weekly_completion_count: number
 }
 
 // export type getQuestRequest = {
