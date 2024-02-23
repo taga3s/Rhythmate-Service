@@ -4,4 +4,4 @@ const healthRouter = Router();
 
 healthRouter.get("/", (req, res) => res.json({ health: "ok" }));
 
-export { healthRouter }
+export { healthRouter };

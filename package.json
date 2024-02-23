@@ -8,7 +8,8 @@
     "start:watch": "tsc-watch --onSuccess \"node dist/app.js\"",
     "build": "tsc",
     "biom": "biome lint --apply-unsafe src && biome format --write src",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "biome format --write src"
   },
   "keywords": [],
   "author": "",

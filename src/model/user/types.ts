@@ -6,6 +6,6 @@ export type User = {
   level: number;
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
 // export interface UserModel { }

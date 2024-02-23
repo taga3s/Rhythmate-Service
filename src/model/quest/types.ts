@@ -16,6 +16,6 @@ export type Quest = {
   createdAt: Date;
   updatedAt: Date;
   userId: string;
-}
+};
 
 // export interface UserModel { }
