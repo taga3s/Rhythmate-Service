@@ -16,6 +16,10 @@ tags:
     description: "ユーザ情報の操作"
   - name: "quests"
     description: "クエスト情報の操作"
+  - name: "tags"
+    description: "タグ情報の操作"
+  - name: "weeklyReports"
+    description: "週次レポート情報の操作"
 
 paths:
   "/users/signup":
@@ -278,7 +282,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/quests/:user_id":
+  "/quests/:userId":
     get:
       tags: ["quests"]
       responses:
@@ -300,6 +304,112 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/tags":
+    post:
+      tags: ["tags"]
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TagsCreateRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsCreateResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/tags/:id":
+    patch:
+      tags: ["tags"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TagsCreateRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsCreateResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: ["tags"]
+      deprecated: false
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsDeleteResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/tags/:userId":
+    get:
+      tags: ["tags"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsResponse"
+
         "500":
           description: "サーバーエラー"
           content:
@@ -365,7 +475,7 @@ components:
         tag_id: { type: number, example: 1 }
         difficulty: { type: number, example: 1 }
         dates: { type: array, example: ["Mon", "Wed", "Fri"] }
-        user_id: { type: number, example: 1 }
+        userId: { type: number, example: 1 }
       required:
         - title
         - description
@@ -374,7 +484,7 @@ components:
         - tag_id
         - difficulty
         - dates
-        - user_id
+        - userId
     QuestsCreateResponse:
       type: object
       properties:
@@ -404,7 +514,7 @@ components:
         dates: { type: array, example: ["Mon", "Wed", "Fri"] }
         weekly_frequency: { type: number, example: 3 }
         weekly_completion_count: { type: number, example: 2 }
-        user_id: { type: number, example: 1 }
+        userId: { type: number, example: 1 }
     QuestsListResponse:
       type: object
       properties:
@@ -412,3 +522,24 @@ components:
                                           { $ref: "#/components/schemas/QuestsResponse" },
                                           { $ref: "#/components/schemas/QuestsResponse" }
                                         ] }
+    TagsResponse:
+      type: object
+      properties:
+        tags: { type: array, example: [ { id: 1, name: "TechStudy" },
+                                        { id: 2, name: "EnglishStudy" },
+                                        { id: 3, name: "Health" }
+                                      ] }
+    TagsCreateRequest:
+      type: object
+      properties:
+        name: { type: string, example: "TechStudy" }
+      required:
+        - name
+    TagsCreateResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+    TagsDeleteResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }

@@ -39,7 +39,7 @@ questRouter.get(
   "/",
   auth,
   validate([
-    body('user_id').isString().isLength({ min: 1 }).withMessage('必須項目です。'),
+    body('userId').isString().isLength({ min: 1 }).withMessage('必須項目です。'),
   ]),
   getQuestController
 );

@@ -20,7 +20,6 @@ export const createQuestService = async (inputDTO: { title: string, description:
         endDate: quest.endDate,
         dates: quest.dates,
         weeklyFrequency: quest.weeklyFrequency,
-        weeklyCompletionCount: quest.weeklyCompletionCount,
         userId: quest.userId
     }
     }

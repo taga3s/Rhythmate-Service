@@ -57,7 +57,7 @@ export const logoutController = async (req: Request, res: Response) => {
 // ユーザー取得（条件付き）
 export const getLoginUserController = async (req: Request, res: Response) => {
   const decoded = verifyToken(req.cookies.access_token) as JwtPayload
-  const inputDTO = { user_id: decoded.user_id }
+  const inputDTO = { userId: decoded.userId }
 
   try {
     const outputDTO = await getLoginUserService(inputDTO)
@@ -80,7 +80,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
 export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserRequest>, res: Response) => {
   const decoded = verifyToken(req.cookies.access_token) as JwtPayload
   const inputDTO = {
-    user_id: decoded.user_id,
+    userId: decoded.userId,
     ...req.body
   }
 
