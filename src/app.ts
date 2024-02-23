@@ -20,7 +20,7 @@ app.use("/v1/health", healthRouter);
 app.use("/v1/users", userRouter);
 app.use("/v1/quests", questRouter);
 app.use("/v1/tags", tagRouter);
-app.use("/v1/weeklyreports", weeklyReportRouter);
+app.use("/v1/weekly-reports", weeklyReportRouter);
 
 const PORT = process.env.PORT;
 

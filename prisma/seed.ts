@@ -2,6 +2,15 @@ import { PrismaClient, Prisma } from '@prisma/client'
 const prisma = new PrismaClient()
 
 // モデル投入用のデータ定義
+const userData: Prisma.UserCreateInput[] = [
+    {
+        id: "8fa4f0b8-c51e-4e09-ae52-ec2ecf248ea0",
+        name: "175cm69kg",
+        email: "test@gmail.com",
+        passwordHash: "password-hash",
+    }
+]
+
 const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
     {
       id: "1",
@@ -57,7 +66,13 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
 
 ]
 const transfer = async () => {
-    for (const data of weeklyReportData) {
+    for (const data of userData) { // ユーザデータを登録
+        const user = await prisma.user.create({
+            data,
+        })
+        console.log(`Created user with id: ${user.id}`)
+    }
+    for (const data of weeklyReportData) { // 週次レポートを登録
         const user = await prisma.weeklyReport.create({
             data,
         })
