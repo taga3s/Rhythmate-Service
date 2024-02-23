@@ -13,3 +13,5 @@ weeklyReportRouter.get(
   auth,
   getWeeklyReportController
 );
+
+export { weeklyReportRouter };
