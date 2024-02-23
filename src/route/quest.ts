@@ -30,7 +30,7 @@ questRouter.delete(
   deleteQuestController
 );
 questRouter.get(
-  "/:userId",
+  "/",
   auth,
   getQuestController
 );
