@@ -12,6 +12,7 @@ export const createQuestService = async (inputDTO: { title: string, description:
         title: quest.title,
         description: quest.description,
         startsAt: quest.startsAt,
+        startedAt: quest.startedAt,
         minutes: quest.minutes,
         tagId: quest.tagId,
         difficulty: quest.difficulty,
