@@ -19,6 +19,7 @@ export const updateQuestService = async (inputDTO: inputDTO) => {
         title: updatedQuest.title,
         description: updatedQuest.description,
         startsAt: updatedQuest.startsAt,
+        startedAt: updatedQuest.startedAt,
         minutes: updatedQuest.minutes,
         tagId: updatedQuest.tagId,
         difficulty: updatedQuest.difficulty,

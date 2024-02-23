@@ -96,6 +96,7 @@ export const updateQuestController = async (req: Request<{id: string}, {}, Updat
             title: outputDTO.title,
             description: outputDTO.description,
             starts_at: outputDTO.startsAt,
+            started_at: outputDTO.startedAt,
             minutes: outputDTO.minutes,
             tag_id: outputDTO.tagId,
             difficulty: outputDTO.difficulty,

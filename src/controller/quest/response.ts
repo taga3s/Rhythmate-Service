@@ -19,6 +19,7 @@ export type UpdateQuestResponse = {
   title: string,
   description: string,
   starts_at: string,
+  started_at: string,
   minutes: number,
   tag_id: string,
   difficulty: string,

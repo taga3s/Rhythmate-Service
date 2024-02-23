@@ -5,13 +5,11 @@ type inputDTO = { id: string }
 export const finishQuestService = async (inputDTO: inputDTO) => {
     const model = questModel;
     const quest = await model.getById(inputDTO.id);
-    if (!quest){
-        throw new CustomError("指定したidのクエストが存在しません", 400);
-    }
+    if (!quest){throw new CustomError("指定したidのクエストが存在しません", 400);}
+    if (quest.startedAt === "NOT_STARTED_YET"){throw new CustomError("まだ開始されていないクエストです", 400);}
+    if (quest.isDone === true){throw new CustomError("既に完了しているクエストです", 400);}
     const finishedQuest = await model.finishById(inputDTO.id);
-    if (!finishedQuest) {
-        throw new CustomError("クエストの完了に失敗しました", 500);
-    }
+    if (!finishedQuest) {throw new CustomError("クエストの完了に失敗しました", 500);}
     
     return {
         id: finishedQuest.id,
