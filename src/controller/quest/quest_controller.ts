@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { CreateQuestRequest, UpdateQuestRequest } from "../quest/request";
-import { CreateQuestResponse, DeleteQuestResponse, UpdateQuestResponse, GetQuestResponse } from "../quest/response";
+import { CreateQuestResponse, DeleteQuestResponse, UpdateQuestResponse, GetQuestResponse, StartQuestResponse, FinishQuestResponse } from "../quest/response";
 import { verifyToken } from "../../utils/jwt";
 import { createQuestService } from "../../service/quest/create_quest_service";
 import { deleteQuestService } from "../../service/quest/delete_quest_service";
 import { updateQuestService } from "../../service/quest/update_quest_service";
 import { getQuestService } from "../../service/quest/get_quest_service";
+import { startQuestService } from "../../service/quest/start_quest_service";
+import { finishQuestService } from "../../service/quest/finish_quest_service";
 import { CustomError } from "../../pkg/customError";
 import { JwtPayload } from "jsonwebtoken";
 import { Quest } from "../../model/quest/types";
@@ -142,6 +144,71 @@ export const getQuestController = async (req: Request, res: Response) => {
                     user_id: quest.userId
                 }
             })
+        };
+        return res.status(200).json(response);
+    } catch (err) {
+        if (err instanceof CustomError) {
+            return res.status(err.statusCode).json({ status: "error", message: err.message })
+        }
+        return res.status(500).json({ status: "error", message: "Internal server error." })
+    }
+}
+
+
+// クエストの開始
+export const startQuestController = async (req: Request<{id : string}>, res: Response) => {
+    const inputDTO = { id: req.params.id };
+    try {
+        const outputDTO = await startQuestService(inputDTO);
+        const response: StartQuestResponse = {
+            status: "ok",
+            id: outputDTO.id,
+            title: outputDTO.title,
+            description: outputDTO.description,
+            starts_at: outputDTO.startsAt,
+            started_at: outputDTO.startedAt,
+            minutes: outputDTO.minutes,
+            tag_id: outputDTO.tagId,
+            difficulty: outputDTO.difficulty,
+            is_done: outputDTO.isDone,
+            start_date: outputDTO.startDate,
+            end_date: outputDTO.endDate,
+            dates: outputDTO.dates,
+            weekly_frequency: outputDTO.weeklyFrequency,
+            weekly_completion_count: outputDTO.weeklyCompletionCount,
+            user_id: outputDTO.userId
+        };
+        return res.status(200).json(response);
+    } catch (err) {
+        if (err instanceof CustomError) {
+            return res.status(err.statusCode).json({ status: "error", message: err.message })
+        }
+        return res.status(500).json({ status: "error", message: "Internal server error." })
+    }
+}
+
+// クエストの完了
+export const finishQuestController = async (req: Request<{id : string}>, res: Response) => {
+    const inputDTO = { id: req.params.id };
+    try {
+        const outputDTO = await finishQuestService(inputDTO);
+        const response: FinishQuestResponse = {
+            status: "ok",
+            id: outputDTO.id,
+            title: outputDTO.title,
+            description: outputDTO.description,
+            starts_at: outputDTO.startsAt,
+            started_at: outputDTO.startedAt,
+            minutes: outputDTO.minutes,
+            tag_id: outputDTO.tagId,
+            difficulty: outputDTO.difficulty,
+            is_done: outputDTO.isDone,
+            start_date: outputDTO.startDate,
+            end_date: outputDTO.endDate,
+            dates: outputDTO.dates,
+            weekly_frequency: outputDTO.weeklyFrequency,
+            weekly_completion_count: outputDTO.weeklyCompletionCount,
+            user_id: outputDTO.userId
         };
         return res.status(200).json(response);
     } catch (err) {

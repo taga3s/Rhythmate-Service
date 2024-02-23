@@ -75,6 +75,26 @@ const getByUserId = async (userId: string): Promise<Quest[]| null> => {
   return result
 }
 
+const startById = async (id: string): Promise<Quest | null> => {
+  const quest: Prisma.QuestUpdateInput = {
+    id: id,
+    startedAt: new Date().toLocaleTimeString()
+  }
+const result = await prisma.quest.update({ where: { id: id }, data: quest });
+  return result
+}
+
+const finishById = async (id: string): Promise<Quest | null> => {
+
+  const quest: Prisma.QuestUpdateInput = {
+    id: id,
+    isDone: true,
+    weeklyCompletionCount: {increment: 1},
+  }
+
+const result = await prisma.quest.update({ where: { id: id }, data: quest });
+  return result
+}
 
 // const handlePrismaError = (err) => {
 //   switch (err.code) {
@@ -98,5 +118,7 @@ export const questModel = {
   getById,
   create,
   update,
-  deleteById
+  deleteById,
+  startById,
+  finishById
 }

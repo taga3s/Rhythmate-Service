@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createQuestController, updateQuestController, deleteQuestController, getQuestController } from "../controller/quest/quest_controller";
+import { createQuestController, updateQuestController, deleteQuestController, getQuestController, startQuestController, finishQuestController } from "../controller/quest/quest_controller";
 import { body } from "express-validator";
 import { validate } from "../pkg/validate";
 import { auth } from "./middlewares/auth";
@@ -34,5 +34,14 @@ questRouter.get(
   auth,
   getQuestController
 );
-
+questRouter.patch(
+  "/start/:id",
+  auth,
+  startQuestController
+);
+questRouter.patch(
+  "/finish/:id",
+  auth,
+  finishQuestController
+);
 export { questRouter }

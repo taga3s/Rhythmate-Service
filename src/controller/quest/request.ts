@@ -6,12 +6,7 @@ export type CreateQuestRequest = {
   tag_id: string
   difficulty: string
   dates: string[]
-  // userId: string
 }
-
-// export type deleteQuestRequest = {
-//   id: string
-// }
 
 export type UpdateQuestRequest = {
   // id: string
@@ -28,7 +23,3 @@ export type UpdateQuestRequest = {
   dates: string[]
   weekly_completion_count: number
 }
-
-// export type getQuestRequest = {
-//   userId: string
-// }
