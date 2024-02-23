@@ -21,7 +21,7 @@ model User {
 }
 
 model Quest {
-  id                    String    @id @default(uuid())
+  id                    String   @id @default(uuid())
   title                 String
   description           String
   startsAt              String
@@ -29,13 +29,21 @@ model Quest {
   minutes               Int
   tagId                 String
   difficulty            String
-  isDone                Boolean   @default(false)
+  isDone                Boolean  @default(false)
   startDate             DateTime
   endDate               DateTime
   dates                 String[]
-  weeklyFrequency       Int       
-  weeklyCompletionCount Int       @default(0)
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  weeklyFrequency       Int
+  weeklyCompletionCount Int      @default(0)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
   userId                String
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
 }
