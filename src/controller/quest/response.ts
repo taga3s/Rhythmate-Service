@@ -1,18 +1,18 @@
 import { Quest } from '../../model/quest/types'
 
-export type createQuestResponse = {
+export type CreateQuestResponse = {
   status: string
 }
 
-export type deleteQuestResponse = {
+export type DeleteQuestResponse = {
   status: string
 }
 
-export type updateQuestResponse = {
+export type UpdateQuestResponse = {
   status: string
 }
 
-export type getQuestResponse = {
+export type GetQuestResponse = {
   status: string
   quests: Quest[] | null
 }

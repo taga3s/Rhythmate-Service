@@ -1,4 +1,4 @@
-export type createQuestRequest = {
+export type CreateQuestRequest = {
   title: string
   description: string
   startsAt: Date
@@ -6,14 +6,14 @@ export type createQuestRequest = {
   tagId: string
   difficulty: string
   dates: string[]
-  userId: string
+  // userId: string
 }
 
-export type deleteQuestRequest = {
-  id: string
-}
+// export type deleteQuestRequest = {
+//   id: string
+// }
 
-export type updateQuestRequest = {
+export type UpdateQuestRequest = {
   id: string
   title: string
   description: string
@@ -26,6 +26,6 @@ export type updateQuestRequest = {
   weeklyFrequency: number
 }
 
-export type getQuestRequest = {
-  userId: string
-}
+// export type getQuestRequest = {
+//   userId: string
+// }
