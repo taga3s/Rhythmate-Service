@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { loginRequest, signupRequest, updateLoginUserRequest } from "./request";
-import { getLoginUserResponse, signupResponse } from "./response";
+import { LoginRequest, SignupRequest, UpdateLoginUserRequest } from "./request";
+import { GetLoginUserResponse, LoginResponse, SignupResponse } from "./response";
 import { signupService } from "../../service/user/signup_service";
 import { loginService } from "../../service/user/login_service";
 import { generateToken, verifyToken } from "../../utils/jwt";
@@ -10,12 +10,12 @@ import { getLoginUserService } from "../../service/user/get_login_user_service";
 import { updateLoginUserService } from "../../service/user/update_login_user_service";
 
 // サインアップ
-export const signupController = async (req: Request<{}, {}, signupRequest>, res: Response) => {
+export const signupController = async (req: Request<{}, {}, SignupRequest>, res: Response) => {
   const inputDTO = req.body;
 
   try {
     const outputDTO = await signupService(inputDTO);
-    const response: signupResponse = { status: "ok" }
+    const response: SignupResponse = { status: "ok" }
     return res.status(200).json(response)
   } catch (err) {
 
@@ -27,7 +27,7 @@ export const signupController = async (req: Request<{}, {}, signupRequest>, res:
 }
 
 // ログイン
-export const loginController = async (req: Request<{}, {}, loginRequest>, res: Response) => {
+export const loginController = async (req: Request<{}, {}, LoginRequest>, res: Response) => {
   const inputDTO = req.body;
 
   try {
@@ -37,7 +37,7 @@ export const loginController = async (req: Request<{}, {}, loginRequest>, res: R
     const jwt = generateToken(outputDTO.id, outputDTO.email)
     res.cookie('access_token', jwt)
 
-    const response: signupResponse = { status: "ok" }
+    const response: LoginResponse = { status: "ok" }
 
     return res.status(200).json(response)
   } catch (err) {
@@ -61,7 +61,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
 
   try {
     const outputDTO = await getLoginUserService(inputDTO)
-    const response: getLoginUserResponse = {
+    const response: GetLoginUserResponse = {
       status: "ok",
       name: outputDTO.name,
       email: outputDTO.email,
@@ -77,7 +77,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
 }
 
 //　ユーザー情報更新（条件付き）
-export const updateUserController = async (req: Request<{}, {}, updateLoginUserRequest>, res: Response) => {
+export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserRequest>, res: Response) => {
   const decoded = verifyToken(req.cookies.access_token) as JwtPayload
   const inputDTO = {
     user_id: decoded.user_id,
@@ -86,7 +86,7 @@ export const updateUserController = async (req: Request<{}, {}, updateLoginUserR
 
   try {
     const outputDTO = await updateLoginUserService(inputDTO)
-    const response: getLoginUserResponse = {
+    const response: GetLoginUserResponse = {
       status: "ok",
       name: outputDTO.name,
       email: outputDTO.email,

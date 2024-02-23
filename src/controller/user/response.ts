@@ -1,12 +1,10 @@
-import { Quest } from '../../model/quest/types'
-
-export type signupResponse = {
+export type SignupResponse = {
   status: string
 }
-export type loginResponse = {
+export type LoginResponse = {
   status: string
 }
-export type getLoginUserResponse = {
+export type GetLoginUserResponse = {
   status: string
   name: string
   email: string
