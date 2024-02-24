@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { WeeklyReport } from "./types";
+import cron from "node-cron";
 
 const prisma = new PrismaClient();
 
@@ -115,6 +116,16 @@ const getByUserId = async (userId: string): Promise<WeeklyReport[]> => {
     },
   });
   return result;
+}
+
+async function EveryWeek() : Promise<any>{
+  cron.schedule('59 59 23 * * 0', async () => {
+    const users = await prisma.user.findMany();
+    const result = await Promise.all(users.map(async (user) => {
+      await create(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id);
+    }));
+  return result;
+});
 }
 
 export const weeklyReportModel = {

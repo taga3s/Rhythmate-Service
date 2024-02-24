@@ -1,6 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Quest } from "./types";
-import { get } from "http";
 import cron from "node-cron";
 
 const prisma = new PrismaClient();
@@ -159,30 +158,27 @@ const forceFinishById = async (id: string): Promise<Quest> => {
   return result
 }
 
-export async function cronEveryday() : Promise<any>{
+async function Everyday() : Promise<any>{
   cron.schedule('59 59 23 * * *', async () => {
-    const resultQuest = await prisma.quest.updateMany({
+    const result = await prisma.quest.updateMany({
       data: {
         state: "INACTIVE",
         startedAt: "NOT_STARTED_YET",
         isSucceeded: false,
       }
     });
+  return result;
 });
 }
 
-export async function cronEverySunday() : Promise<any>{
+async function EverySunday() : Promise<any>{
   cron.schedule('59 59 23 * * 0', async () => {
-    const resultQuest = await prisma.quest.updateMany({
+    const result = await prisma.quest.updateMany({
       data: {
         weeklyCompletionCount: 0,
       }
     });
-    const resultWeeklyReport = await prisma.weeklyReport.updateMany({
-      data: {
-
-      }
-  });
+    return result;
 });
 }
 
@@ -212,4 +208,9 @@ export const questModel = {
   startById,
   finishById,
   forceFinishById
+};
+
+export const cronQuestModel = {
+  Everyday,
+  EverySunday
 };
