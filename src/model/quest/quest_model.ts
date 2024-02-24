@@ -158,8 +158,8 @@ const forceFinishById = async (id: string): Promise<Quest> => {
   return result
 }
 
-async function Everyday() : Promise<any>{
-  cron.schedule('59 59 23 * * *', async () => {
+async function EveryDay() : Promise<any>{
+  cron.schedule('*59 59 23 * * *', async () => {
     const result = await prisma.quest.updateMany({
       data: {
         state: "INACTIVE",
@@ -211,6 +211,6 @@ export const questModel = {
 };
 
 export const cronQuestModel = {
-  Everyday,
+  EveryDay,
   EverySunday
 };

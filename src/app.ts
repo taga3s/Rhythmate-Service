@@ -4,6 +4,8 @@ import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter } 
 import { cookie } from "express-validator";
 import cookieParser from "cookie-parser";
 import { allowCrossDomain } from "./utils/cors";
+import { cronQuestModel } from "./model/quest/quest_model";
+import { cronWeeklyReportModel } from "./model/weeklyreport/weekly_report_model";
 
 const app = express();
 
@@ -21,6 +23,10 @@ app.use("/v1/users", userRouter);
 app.use("/v1/quests", questRouter);
 app.use("/v1/tags", tagRouter);
 app.use("/v1/weekly-reports", weeklyReportRouter);
+
+cronQuestModel.EveryDay();
+cronQuestModel.EverySunday();
+cronWeeklyReportModel.EverySunday();
 
 const PORT = process.env.PORT;
 

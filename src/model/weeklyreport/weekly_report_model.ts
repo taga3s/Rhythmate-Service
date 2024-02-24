@@ -118,8 +118,8 @@ const getByUserId = async (userId: string): Promise<WeeklyReport[]> => {
   return result;
 }
 
-async function EveryWeek() : Promise<any>{
-  cron.schedule('59 59 23 * * 0', async () => {
+async function EverySunday() : Promise<any>{
+  cron.schedule('59 59 23 * * 0', async () => { //'59 59 23 * * 0'
     const users = await prisma.user.findMany();
     const result = await Promise.all(users.map(async (user) => {
       await create(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id);
@@ -135,4 +135,8 @@ export const weeklyReportModel = {
   deleteById,
   getById,
   getByUserId,
+};
+
+export const cronWeeklyReportModel = {
+  EverySunday,
 };
