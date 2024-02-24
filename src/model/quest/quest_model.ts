@@ -1,7 +1,22 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Quest } from "./types";
+import { get } from "http";
 
 const prisma = new PrismaClient();
+
+const getCurrentDateTime = () => {
+  const now = new Date();
+  // 年、月、日、時、分、秒を取得
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため、+1する
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  // フォーマットされた文字列を返す
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; 
+};
 
 const create = async (
   title: string,
@@ -116,7 +131,7 @@ const getByUserId = async (userId: string): Promise<Quest[] | null> => {
 const startById = async (id: string): Promise<Quest | null> => {
   const quest: Prisma.QuestUpdateInput = {
     id: id,
-    startedAt: new Date().toLocaleTimeString(),
+    startedAt: getCurrentDateTime(),
   };
   const result = await prisma.quest.update({ where: { id: id }, data: quest });
   return result;
@@ -126,7 +141,7 @@ const finishById = async (id: string): Promise<Quest | null> => {
   const quest: Prisma.QuestUpdateInput = {
     id: id,
     isSucceeded: true,
-    state: "inactive",
+    state: "ACTIVE",
     continuationLevel: { increment: 1 },
     weeklyCompletionCount: { increment: 1 },
     totalCompletionCount: { increment: 1 },
