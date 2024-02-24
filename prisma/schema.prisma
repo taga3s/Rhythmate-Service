@@ -11,13 +11,16 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  name         String
-  email        String
-  passwordHash String
-  level        Int      @default(1)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              String   @id @default(uuid())
+  name            String
+  email           String
+  passwordHash    String
+  level           Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  quests          Quest[]
+  tags            Tag[]
+  weeklyReports   WeeklyReport[]
 }
 
 model Quest {
@@ -38,6 +41,7 @@ model Quest {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
   userId                String
+  user                  User     @relation(fields: [userId], references: [id])
 }
 
 model Tag {
@@ -46,4 +50,20 @@ model Tag {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model WeeklyReport {
+  id                      String    @id @default(uuid())
+  completedQuests         Int
+  failedQuests            Int
+  completedPercentage     Float
+  completedDays           Int
+  completedQuestsEachDay  Int[]
+  startDate               DateTime
+  endDate                 DateTime
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  userId                  String   
+  user                    User     @relation(fields: [userId], references: [id])
 }

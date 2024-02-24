@@ -6,7 +6,11 @@ const prisma = new PrismaClient();
 const create = async (name: string, userId: string): Promise<Tag> => {
   const tag: Prisma.TagCreateInput = {
     name: name,
-    userId: userId,
+    user: {
+      connect: {
+        id: userId,
+      },
+    }
   };
   const result = await prisma.tag.create({ data: tag });
   return result;
