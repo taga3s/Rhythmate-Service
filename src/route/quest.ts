@@ -6,6 +6,7 @@ import {
   getQuestController,
   startQuestController,
   finishQuestController,
+  forceFinishQuestController,
 } from "../controller/quest/quest_controller";
 import { body } from "express-validator";
 import { validate } from "../pkg/validate";
@@ -31,4 +32,5 @@ questRouter.delete("/:id", auth, deleteQuestController);
 questRouter.get("/", auth, getQuestController);
 questRouter.patch("/start/:id", auth, startQuestController);
 questRouter.patch("/finish/:id", auth, finishQuestController);
+questRouter.patch("/force-finish/:id", auth, forceFinishQuestController);
 export { questRouter };
