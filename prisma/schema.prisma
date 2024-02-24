@@ -32,7 +32,7 @@ model Quest {
   minutes               Int
   tagId                 String
   difficulty            String
-  state                 String
+  state                 String   @default("inactive")
   isSucceeded           Boolean  @default(false)
   continuationLevel     Int      @default(1)
   startDate             DateTime

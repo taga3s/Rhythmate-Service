@@ -7,7 +7,8 @@ export type CreateQuestResponse = {
   minutes: number;
   tag_id: string;
   difficulty: string;
-  is_done: boolean;
+  state: string;
+  is_succeeded: boolean;
   start_date: Date;
   end_date: Date;
   dates: string[];
@@ -16,6 +17,7 @@ export type CreateQuestResponse = {
 
 export type UpdateQuestResponse = {
   status: string;
+  id: string;
   title: string;
   description: string;
   starts_at: string;
@@ -23,12 +25,15 @@ export type UpdateQuestResponse = {
   minutes: number;
   tag_id: string;
   difficulty: string;
-  is_done: boolean;
+  state: string;
+  is_succeeded: boolean;
+  continuation_level: number;
   start_date: Date;
   end_date: Date;
   dates: string[];
   weekly_frequency: number;
   weekly_completion_count: number;
+  total_completion_count: number;
 };
 
 export type DeleteQuestResponse = {
@@ -46,12 +51,15 @@ export type GetQuestResponse = {
     minutes: number;
     tag_id: string;
     difficulty: string;
-    is_done: boolean;
+    state: string;
+    is_succeeded: boolean;
+    continuation_level: number;
     start_date: Date;
     end_date: Date;
     dates: string[];
     weekly_frequency: number;
     weekly_completion_count: number;
+    total_completion_count: number;
   }[];
 };
 
@@ -65,12 +73,15 @@ export type StartQuestResponse = {
   minutes: number;
   tag_id: string;
   difficulty: string;
-  is_done: boolean;
+  state: string;
+  is_succeeded: boolean;
+  continuation_level: number;
   start_date: Date;
   end_date: Date;
   dates: string[];
   weekly_frequency: number;
   weekly_completion_count: number;
+  total_completion_count: number;
 };
 
 export type FinishQuestResponse = {
@@ -83,10 +94,13 @@ export type FinishQuestResponse = {
   minutes: number;
   tag_id: string;
   difficulty: string;
-  is_done: boolean;
+  state: string;
+  is_succeeded: boolean;
+  continuation_level: number;
   start_date: Date;
   end_date: Date;
   dates: string[];
   weekly_frequency: number;
   weekly_completion_count: number;
+  total_completion_count: number;
 };

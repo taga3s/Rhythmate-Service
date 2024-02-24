@@ -1,20 +1,23 @@
 import { questModel } from "../../model/quest/quest_model";
 import { CustomError } from "../../pkg/customError";
 type inputDTO = {
-  id: string;
-  title: string;
-  description: string;
-  startsAt: string;
-  startedAt: string;
-  minutes: number;
-  tagId: string;
-  difficulty: string;
-  isDone: boolean;
-  startDate: Date;
-  endDate: Date;
-  dates: string[];
-  weeklyCompletionCount: number;
-  userId: string;
+  id: string,
+  title: string,
+  description: string,
+  startsAt: string,
+  startedAt: string,
+  minutes: number,
+  tagId: string,
+  difficulty: string,
+  state: string,
+  isSucceeded: boolean,
+  continuationLevel: number,
+  startDate: Date,
+  endDate: Date,
+  dates: string[],
+  weeklyCompletionCount: number,
+  totalCompletionCount: number,
+  userId: string,
 };
 
 export const updateQuestService = async (inputDTO: inputDTO) => {
@@ -37,17 +40,19 @@ export const updateQuestService = async (inputDTO: inputDTO) => {
     inputDTO.minutes,
     inputDTO.tagId,
     inputDTO.difficulty,
-    inputDTO.isDone,
+    inputDTO.startedAt,
+    inputDTO.isSucceeded,
+    inputDTO.continuationLevel,
     inputDTO.startDate,
     inputDTO.endDate,
     inputDTO.dates,
     inputDTO.weeklyCompletionCount,
-    inputDTO.startDate,
-    inputDTO.endDate,
+    inputDTO.totalCompletionCount,
     inputDTO.userId,
   );
 
   return {
+    id: updatedQuest.id,
     title: updatedQuest.title,
     description: updatedQuest.description,
     startsAt: updatedQuest.startsAt,
@@ -55,12 +60,15 @@ export const updateQuestService = async (inputDTO: inputDTO) => {
     minutes: updatedQuest.minutes,
     tagId: updatedQuest.tagId,
     difficulty: updatedQuest.difficulty,
-    isDone: updatedQuest.isDone,
+    state: updatedQuest.state,
+    isSucceeded: updatedQuest.isSucceeded,
+    continuationLevel: updatedQuest.continuationLevel,
     startDate: updatedQuest.startDate,
     endDate: updatedQuest.endDate,
     dates: updatedQuest.dates,
     weeklyFrequency: updatedQuest.weeklyFrequency,
     weeklyCompletionCount: updatedQuest.weeklyCompletionCount,
+    totalCompletionCount: updatedQuest.totalCompletionCount,
     userId: updatedQuest.userId,
   };
 };
