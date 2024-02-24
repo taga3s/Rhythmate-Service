@@ -17,9 +17,12 @@ export type UpdateQuestRequest = {
   minutes: number;
   tag_id: string;
   difficulty: string;
-  is_Done: boolean;
+  state: string;
+  is_succeeded: boolean;
+  continuation_level: number;
   start_date: Date;
   end_date: Date;
   dates: string[];
   weekly_completion_count: number;
+  total_completion_count: number;
 };

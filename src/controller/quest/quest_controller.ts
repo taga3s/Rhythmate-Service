@@ -44,7 +44,8 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
       minutes: outputDTO.minutes,
       tag_id: outputDTO.tagId,
       difficulty: outputDTO.difficulty,
-      is_done: outputDTO.isDone,
+      state: outputDTO.state,
+      is_succeeded: outputDTO.isSucceeded,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
       dates: outputDTO.dates,
@@ -86,11 +87,14 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
     minutes: req.body.minutes,
     tagId: req.body.tag_id,
     difficulty: req.body.difficulty,
-    isDone: req.body.is_Done,
+    state: req.body.state,
+    isSucceeded: req.body.is_succeeded,
+    continuationLevel: req.body.continuation_level,
     startDate: req.body.start_date,
     endDate: req.body.end_date,
     dates: req.body.dates,
     weeklyCompletionCount: req.body.weekly_completion_count,
+    totalCompletionCount: req.body.total_completion_count,
     userId: decoded.userId,
   };
 
@@ -98,6 +102,7 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
     const outputDTO = await updateQuestService(inputDTO);
     const response: UpdateQuestResponse = {
       status: "ok",
+      id: outputDTO.id,
       title: outputDTO.title,
       description: outputDTO.description,
       starts_at: outputDTO.startsAt,
@@ -105,12 +110,15 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
       minutes: outputDTO.minutes,
       tag_id: outputDTO.tagId,
       difficulty: outputDTO.difficulty,
-      is_done: outputDTO.isDone,
+      state: outputDTO.state,
+      is_succeeded: outputDTO.isSucceeded,
+      continuation_level: outputDTO.continuationLevel,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
       dates: outputDTO.dates,
       weekly_frequency: outputDTO.weeklyFrequency,
       weekly_completion_count: outputDTO.weeklyCompletionCount,
+      total_completion_count: outputDTO.totalCompletionCount,
     };
     return res.status(200).json(response);
   } catch (err) {
@@ -139,12 +147,15 @@ export const getQuestController = async (req: Request, res: Response) => {
           minutes: quest.minutes,
           tag_id: quest.tagId,
           difficulty: quest.difficulty,
-          is_done: quest.isDone,
+          state: quest.state,
+          is_succeeded: quest.isSucceeded,
+          continuation_level: quest.continuationLevel,
           start_date: quest.startDate,
           end_date: quest.endDate,
           dates: quest.dates,
           weekly_frequency: quest.weeklyFrequency,
           weekly_completion_count: quest.weeklyCompletionCount,
+          total_completion_count: quest.totalCompletionCount,
         };
       }),
     };
@@ -172,12 +183,15 @@ export const startQuestController = async (req: Request<{ id: string }>, res: Re
       minutes: outputDTO.minutes,
       tag_id: outputDTO.tagId,
       difficulty: outputDTO.difficulty,
-      is_done: outputDTO.isDone,
+      state: outputDTO.state,
+      is_succeeded: outputDTO.isSucceeded,
+      continuation_level: outputDTO.continuationLevel,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
       dates: outputDTO.dates,
       weekly_frequency: outputDTO.weeklyFrequency,
       weekly_completion_count: outputDTO.weeklyCompletionCount,
+      total_completion_count: outputDTO.totalCompletionCount,
     };
     return res.status(200).json(response);
   } catch (err) {
@@ -203,12 +217,15 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
       minutes: outputDTO.minutes,
       tag_id: outputDTO.tagId,
       difficulty: outputDTO.difficulty,
-      is_done: outputDTO.isDone,
+      state: outputDTO.state,
+      is_succeeded: outputDTO.isSucceeded,
+      continuation_level: outputDTO.continuationLevel,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
       dates: outputDTO.dates,
       weekly_frequency: outputDTO.weeklyFrequency,
       weekly_completion_count: outputDTO.weeklyCompletionCount,
+      total_completion_count: outputDTO.totalCompletionCount,
     };
     return res.status(200).json(response);
   } catch (err) {

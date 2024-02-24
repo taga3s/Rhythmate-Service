@@ -27,12 +27,10 @@ const create = async (
     minutes: minutes,
     tagId: tagId !== null ? tagId : "NO_TAG_ASSIGNED",
     difficulty: difficulty,
-    isDone: false,
     startDate: date_now,
     endDate: next_sunday,
     dates: dates,
     weeklyFrequency: dates.length,
-    weeklyCompletionCount: 0,
     user: {
       connect: {
         id: userId,
@@ -53,13 +51,14 @@ const update = async (
   minutes: number,
   tagId: string,
   difficulty: string,
-  isDone: boolean,
+  state: string,
+  isSucceeded: boolean,
+  continuationLevel: number,
   startDate: Date,
   endDate: Date,
   dates: string[],
   weeklyCompletionCount: number,
-  createdAt: Date,
-  updatedAt: Date,
+  totalCompletionCount: number,
   userId: string,
 ): Promise<Quest> => {
   const quest: Prisma.QuestUpdateInput = {
@@ -71,14 +70,16 @@ const update = async (
     minutes: minutes,
     tagId: tagId,
     difficulty: difficulty,
-    isDone: isDone,
+    state: state,
+    isSucceeded: isSucceeded,
+    continuationLevel: continuationLevel,
     startDate: startDate,
     endDate: endDate,
     dates: dates,
     weeklyFrequency: dates.length,
     weeklyCompletionCount: weeklyCompletionCount,
-    createdAt: createdAt,
-    updatedAt: updatedAt,
+    totalCompletionCount: totalCompletionCount,
+    updatedAt: new Date(),
     user: {
       connect: {
         id: userId,
@@ -124,8 +125,11 @@ const startById = async (id: string): Promise<Quest | null> => {
 const finishById = async (id: string): Promise<Quest | null> => {
   const quest: Prisma.QuestUpdateInput = {
     id: id,
-    isDone: true,
+    isSucceeded: true,
+    state: "inactive",
+    continuationLevel: { increment: 1 },
     weeklyCompletionCount: { increment: 1 },
+    totalCompletionCount: { increment: 1 },
   };
 
   const result = await prisma.quest.update({ where: { id: id }, data: quest });

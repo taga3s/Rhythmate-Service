@@ -8,10 +8,6 @@ export const startQuestService = async (inputDTO: inputDTO) => {
   if (!quest) {
     throw new CustomError("指定したidのクエストが存在しません", 400);
   }
-  if (quest.startedAt !== "NOT_STARTED_YET") {
-    throw new CustomError("既に開始されているクエストです", 400);
-  }
-
   const startedQuest = await model.startById(inputDTO.id);
   if (!startedQuest) {
     throw new CustomError("クエストの開始に失敗しました", 500);
@@ -26,12 +22,15 @@ export const startQuestService = async (inputDTO: inputDTO) => {
     minutes: startedQuest.minutes,
     tagId: startedQuest.tagId,
     difficulty: startedQuest.difficulty,
-    isDone: startedQuest.isDone,
+    state: startedQuest.state,
+    isSucceeded: startedQuest.isSucceeded,
+    continuationLevel: startedQuest.continuationLevel,
     startDate: startedQuest.startDate,
     endDate: startedQuest.endDate,
     dates: startedQuest.dates,
     weeklyFrequency: startedQuest.weeklyFrequency,
     weeklyCompletionCount: startedQuest.weeklyCompletionCount,
+    totalCompletionCount: startedQuest.totalCompletionCount,
     userId: startedQuest.userId,
   };
 };

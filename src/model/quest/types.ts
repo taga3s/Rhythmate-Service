@@ -7,12 +7,15 @@ export type Quest = {
   minutes: number;
   tagId: string;
   difficulty: string;
-  isDone: boolean;
+  state: string;
+  isSucceeded: boolean;
+  continuationLevel: number;
   startDate: Date;
   endDate: Date;
   dates: string[];
   weeklyFrequency: number;
   weeklyCompletionCount: number;
+  totalCompletionCount: number;
   createdAt: Date;
   updatedAt: Date;
   userId: string;
