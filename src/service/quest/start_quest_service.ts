@@ -31,6 +31,5 @@ export const startQuestService = async (inputDTO: inputDTO) => {
     weeklyFrequency: startedQuest.weeklyFrequency,
     weeklyCompletionCount: startedQuest.weeklyCompletionCount,
     totalCompletionCount: startedQuest.totalCompletionCount,
-    userId: startedQuest.userId,
   };
 };

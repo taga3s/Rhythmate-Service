@@ -15,7 +15,7 @@ const getCurrentDateTime = () => {
   const seconds = String(now.getSeconds()).padStart(2, '0');
 
   // フォーマットされた文字列を返す
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`; 
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
 
 const create = async (
@@ -130,7 +130,6 @@ const getByUserId = async (userId: string): Promise<Quest[] | null> => {
 
 const startById = async (id: string): Promise<Quest | null> => {
   const quest: Prisma.QuestUpdateInput = {
-    id: id,
     startedAt: getCurrentDateTime(),
   };
   const result = await prisma.quest.update({ where: { id: id }, data: quest });
@@ -139,7 +138,6 @@ const startById = async (id: string): Promise<Quest | null> => {
 
 const finishById = async (id: string): Promise<Quest | null> => {
   const quest: Prisma.QuestUpdateInput = {
-    id: id,
     isSucceeded: true,
     state: "ACTIVE",
     continuationLevel: { increment: 1 },
@@ -150,6 +148,16 @@ const finishById = async (id: string): Promise<Quest | null> => {
   const result = await prisma.quest.update({ where: { id: id }, data: quest });
   return result;
 };
+
+const forceFinishById = async (id: string): Promise<Quest> => {
+  const quest: Prisma.QuestUpdateInput = {
+    isSucceeded: false,
+    state: "ACTIVE"
+  }
+
+  const result = await prisma.quest.update({ where: { id: id }, data: quest })
+  return result
+}
 
 // const handlePrismaError = (err) => {
 //   switch (err.code) {
@@ -176,4 +184,5 @@ export const questModel = {
   deleteById,
   startById,
   finishById,
+  forceFinishById
 };

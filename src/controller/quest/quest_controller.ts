@@ -7,6 +7,7 @@ import {
   GetQuestResponse,
   StartQuestResponse,
   FinishQuestResponse,
+  ForceFinishQuestResponse,
 } from "../quest/response";
 import { verifyToken } from "../../utils/jwt";
 import { createQuestService } from "../../service/quest/create_quest_service";
@@ -18,6 +19,7 @@ import { finishQuestService } from "../../service/quest/finish_quest_service";
 import { CustomError } from "../../pkg/customError";
 import { JwtPayload } from "jsonwebtoken";
 import { Quest } from "../../model/quest/types";
+import { forceFinishQuestService } from "../../service/quest/force_finish_quest_service";
 
 // クエストの作成
 export const createQuestController = async (req: Request<{}, {}, CreateQuestRequest>, res: Response) => {
@@ -208,6 +210,39 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
   try {
     const outputDTO = await finishQuestService(inputDTO);
     const response: FinishQuestResponse = {
+      status: "ok",
+      id: outputDTO.id,
+      title: outputDTO.title,
+      description: outputDTO.description,
+      starts_at: outputDTO.startsAt,
+      started_at: outputDTO.startedAt,
+      minutes: outputDTO.minutes,
+      tag_id: outputDTO.tagId,
+      difficulty: outputDTO.difficulty,
+      state: outputDTO.state,
+      is_succeeded: outputDTO.isSucceeded,
+      continuation_level: outputDTO.continuationLevel,
+      start_date: outputDTO.startDate,
+      end_date: outputDTO.endDate,
+      dates: outputDTO.dates,
+      weekly_frequency: outputDTO.weeklyFrequency,
+      weekly_completion_count: outputDTO.weeklyCompletionCount,
+      total_completion_count: outputDTO.totalCompletionCount,
+    };
+    return res.status(200).json(response);
+  } catch (err) {
+    if (err instanceof CustomError) {
+      return res.status(err.statusCode).json({ status: "error", message: err.message });
+    }
+    return res.status(500).json({ status: "error", message: "Internal server error." });
+  }
+};
+
+export const forceFinishQuestController = async (req: Request<{ id: string }>, res: Response) => {
+  const inputDTO = { id: req.params.id };
+  try {
+    const outputDTO = await forceFinishQuestService(inputDTO);
+    const response: ForceFinishQuestResponse = {
       status: "ok",
       id: outputDTO.id,
       title: outputDTO.title,
