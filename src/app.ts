@@ -24,9 +24,9 @@ app.use("/v1/quests", questRouter);
 app.use("/v1/tags", tagRouter);
 app.use("/v1/weekly-reports", weeklyReportRouter);
 
-cronQuestModel.EveryDay();
-cronQuestModel.EverySunday();
-cronWeeklyReportModel.EverySunday();
+cronQuestModel.EveryDay(); // 1日ごとのクエストの状態のリセット
+cronQuestModel.EverySunday(); // 1週間ごとのクエストの週間達成数のリセット
+cronWeeklyReportModel.EverySunday(); // 1週間ごとの新規週報の作成
 
 const PORT = process.env.PORT;
 

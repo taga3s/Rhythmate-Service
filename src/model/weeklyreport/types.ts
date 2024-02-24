@@ -5,8 +5,8 @@ export type WeeklyReport = {
   completedPercentage: number;
   completedDays: number;
   completedQuestsEachDay: number[];
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   createdAt: Date;
   updatedAt: Date;
   userId: string;

@@ -39,6 +39,7 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
     const outputDTO = await createQuestService(inputDTO);
     const response: CreateQuestResponse = {
       status: "ok",
+      id: outputDTO.id,
       title: outputDTO.title,
       description: outputDTO.description,
       starts_at: outputDTO.startsAt,
@@ -53,6 +54,7 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
       dates: outputDTO.dates,
       weekly_frequency: outputDTO.weeklyFrequency,
     };
+
     return res.status(200).json(response);
   } catch (err) {
     if (err instanceof CustomError) {

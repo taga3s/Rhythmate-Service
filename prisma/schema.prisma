@@ -35,8 +35,8 @@ model Quest {
   state                 String   @default("INACTIVE")
   isSucceeded           Boolean  @default(false)
   continuationLevel     Int      @default(1)
-  startDate             DateTime
-  endDate               DateTime
+  startDate             String
+  endDate               String
   dates                 String[]
   weeklyFrequency       Int
   weeklyCompletionCount Int      @default(0)
@@ -63,8 +63,8 @@ model WeeklyReport {
   completedPercentage     Float
   completedDays           Int
   completedQuestsEachDay  Int[]
-  startDate               DateTime
-  endDate                 DateTime
+  startDate               String
+  endDate                 String
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   userId                  String   

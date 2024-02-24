@@ -11,21 +11,23 @@ const create = async (
   completedQuestsEachDay: number[],
   userId: string,
 ): Promise<WeeklyReport> => {
-  const completedPercentage = (completedQuests / (completedQuests + failedQuests)) * 100;
-  const date_now = new Date();
-  const next_sunday = new Date(
-    date_now.getFullYear(),
-    date_now.getMonth(),
-    date_now.getDate() + (7 - date_now.getDay()),
+  const completedPercentage = failedQuests === 0 ? 0 : (completedQuests / (completedQuests + failedQuests)) * 100;
+  const dateNowObject = new Date()
+  const nextSundayDateObject = new Date(
+    dateNowObject.getFullYear(),
+    dateNowObject.getMonth(),
+    dateNowObject.getDate() + (7 - (dateNowObject.getDay()+6) % 7 + 1),
   );
+  const dateNow = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  const nextSunday = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
   const weeklyReport: Prisma.WeeklyReportCreateInput = {
     completedQuests: completedQuests,
     failedQuests: failedQuests,
     completedPercentage: completedPercentage,
     completedDays: completedDays,
     completedQuestsEachDay: completedQuestsEachDay,
-    startDate: date_now,
-    endDate: next_sunday,
+    startDate: dateNow,
+    endDate: nextSunday,
     user: {
       connect: {
         id: userId,
@@ -42,8 +44,8 @@ const update = async (
   failedQuests: number,
   completedDays: number,
   completedQuestsEachDay: number[],
-  startDate: Date,
-  endDate: Date,
+  startDate: string,
+  endDate: string,
   userId: string,
 ): Promise<WeeklyReport> => {
   const completedPercentage = (completedQuests / (completedQuests + failedQuests)) * 100;
@@ -121,10 +123,15 @@ const getByUserId = async (userId: string): Promise<WeeklyReport[]> => {
 async function EverySunday() : Promise<any>{
   cron.schedule('59 59 23 * * 0', async () => { //'59 59 23 * * 0'
     const users = await prisma.user.findMany();
-    const result = await Promise.all(users.map(async (user) => {
-      await create(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id);
-    }));
-  return result;
+    try {
+      const result = await Promise.all(users.map(async (user) => {
+        await create(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id);
+      }));
+      return result;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
 });
 }
 

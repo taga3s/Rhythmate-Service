@@ -28,12 +28,15 @@ const create = async (
   dates: string[],
   userId: string,
 ): Promise<Quest> => {
-  const date_now = new Date();
-  const next_sunday = new Date(
-    date_now.getFullYear(),
-    date_now.getMonth(),
-    date_now.getDate() + (7 - date_now.getDay()),
+  const dateNowObject = new Date()
+  const nextSundayDateObject = new Date(
+    dateNowObject.getFullYear(),
+    dateNowObject.getMonth(),
+    dateNowObject.getDate() + (7 - (dateNowObject.getDay()+6) % 7 + 1),
   );
+  const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+
   const quest: Prisma.QuestCreateInput = {
     title: title,
     description: description,
@@ -42,8 +45,8 @@ const create = async (
     minutes: minutes,
     tagId: tagId !== null ? tagId : "NO_TAG_ASSIGNED",
     difficulty: difficulty,
-    startDate: date_now,
-    endDate: next_sunday,
+    startDate: dateNowJst,
+    endDate: nextSundayJst,
     dates: dates,
     weeklyFrequency: dates.length,
     user: {
@@ -52,8 +55,9 @@ const create = async (
       },
     },
   };
-
+  
   const result = await prisma.quest.create({ data: quest });
+  console.log(result)
   return result;
 };
 
@@ -69,8 +73,8 @@ const update = async (
   state: string,
   isSucceeded: boolean,
   continuationLevel: number,
-  startDate: Date,
-  endDate: Date,
+  startDate: string,
+  endDate: string,
   dates: string[],
   weeklyCompletionCount: number,
   totalCompletionCount: number,
@@ -159,7 +163,7 @@ const forceFinishById = async (id: string): Promise<Quest> => {
 }
 
 async function EveryDay() : Promise<any>{
-  cron.schedule('*59 59 23 * * *', async () => {
+  cron.schedule('59 59 23 * * *', async () => {
     const result = await prisma.quest.updateMany({
       data: {
         state: "INACTIVE",
