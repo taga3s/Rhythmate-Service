@@ -145,7 +145,6 @@ const finishById = async (id: string): Promise<Quest | null> => {
     weeklyCompletionCount: { increment: 1 },
     totalCompletionCount: { increment: 1 },
   };
-
   const result = await prisma.quest.update({ where: { id: id }, data: quest });
   return result;
 };
@@ -160,7 +159,7 @@ const forceFinishById = async (id: string): Promise<Quest> => {
   return result
 }
 
-export async function cronResetEveryday() : Promise<any>{
+export async function cronEveryday() : Promise<any>{
   cron.schedule('59 59 23 * * *', async () => {
     const resultQuest = await prisma.quest.updateMany({
       data: {
@@ -172,8 +171,13 @@ export async function cronResetEveryday() : Promise<any>{
 });
 }
 
-export async function cronResetEverySunday() : Promise<any>{
+export async function cronEverySunday() : Promise<any>{
   cron.schedule('59 59 23 * * 0', async () => {
+    const resultQuest = await prisma.quest.updateMany({
+      data: {
+        weeklyCompletionCount: 0,
+      }
+    });
     const resultWeeklyReport = await prisma.weeklyReport.updateMany({
       data: {
 
@@ -181,8 +185,6 @@ export async function cronResetEverySunday() : Promise<any>{
   });
 });
 }
-
-
 
 // const handlePrismaError = (err) => {
 //   switch (err.code) {

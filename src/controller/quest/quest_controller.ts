@@ -238,6 +238,7 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
   }
 };
 
+// クエストの強制完了(失敗の場合)
 export const forceFinishQuestController = async (req: Request<{ id: string }>, res: Response) => {
   const inputDTO = { id: req.params.id };
   try {

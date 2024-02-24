@@ -65,6 +65,35 @@ const update = async (
   return result;
 }
 
+const updateByUserId = async (
+  userId: string,
+  completedQuestsIncrements: number,
+  failedQuestsIncrements: number,
+  completedDaysIncrements: number,
+  completedQuestsEachDayIncrements: number,
+  ): Promise<WeeklyReport> => {
+  const weeklyReport = await prisma.weeklyReport.findFirst({
+    where: {
+      userId: userId,
+    },
+  });
+  if (!weeklyReport) {
+    throw new Error("指定したuserIdの週報が存在しません");
+  }
+  const index = ( new Date().getDay() + 6 ) % 7; // 0: 月曜日, 1: 火曜日...
+  weeklyReport.completedQuestsEachDay[index]+=completedQuestsEachDayIncrements; // 今日の日付の要素を更新
+  const result = await prisma.weeklyReport.update({
+    where: { id: weeklyReport.id },
+    data: {
+      completedQuests: {increment: completedQuestsIncrements},
+      failedQuests: {increment: failedQuestsIncrements},
+      completedDays: {increment: completedDaysIncrements},
+      completedQuestsEachDay: weeklyReport.completedQuestsEachDay,
+      },
+    });
+  return result;
+}
+
 const deleteById = async (id: string): Promise<WeeklyReport | null> => {
   const result = await prisma.weeklyReport.delete({ where: { id: id } });
   return result;
@@ -91,6 +120,7 @@ const getByUserId = async (userId: string): Promise<WeeklyReport[]> => {
 export const weeklyReportModel = {
   create,
   update,
+  updateByUserId,
   deleteById,
   getById,
   getByUserId,
