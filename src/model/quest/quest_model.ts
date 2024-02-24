@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Quest } from "./types";
 import { get } from "http";
+import cron from "node-cron";
 
 const prisma = new PrismaClient();
 
@@ -158,6 +159,30 @@ const forceFinishById = async (id: string): Promise<Quest> => {
   const result = await prisma.quest.update({ where: { id: id }, data: quest })
   return result
 }
+
+export async function cronResetEveryday() : Promise<any>{
+  cron.schedule('59 59 23 * * *', async () => {
+    const resultQuest = await prisma.quest.updateMany({
+      data: {
+        state: "INACTIVE",
+        startedAt: "NOT_STARTED_YET",
+        isSucceeded: false,
+      }
+    });
+});
+}
+
+export async function cronResetEverySunday() : Promise<any>{
+  cron.schedule('59 59 23 * * 0', async () => {
+    const resultWeeklyReport = await prisma.weeklyReport.updateMany({
+      data: {
+
+      }
+  });
+});
+}
+
+
 
 // const handlePrismaError = (err) => {
 //   switch (err.code) {
