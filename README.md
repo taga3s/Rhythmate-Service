@@ -14,7 +14,7 @@ Rhythmate のバックエンドです。
 $ npm i
 ```
 
-2. `.env.example`をコピーして`.env`配置する。
+2. `.env.example`をコピーして`.env`を配置する。
 
 ```
 cp .env.example .env
@@ -25,13 +25,13 @@ cp .env.example .env
 `http://localhost:3000`で立ち上がります。
 
 ```
-$ npm run dev:watch
+$ npm run start:watch
 ```
 
 ヘルスチェックのエンドポイントを叩き、起動しているか確認します。
 
 ```
-$ curl http://localhost:3000/health
+$ curl http://localhost:3000/v1/health
 { "health": "ok" }
 ```
 
@@ -50,4 +50,18 @@ $ make run
 ```
 $ make it-db
 $ psql -U rhyth_user -d rhyth_db
+```
+
+### prisma の操作
+
+- マイグレーションを行いたい時
+
+```
+$ npx prisma migrate dev
+```
+
+- prisma studio を立ち上げたい時
+
+```
+$ npx prisma studio
 ```

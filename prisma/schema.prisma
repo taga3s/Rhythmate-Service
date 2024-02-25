@@ -11,10 +11,63 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  name         String
-  email        String
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              String   @id @default(uuid())
+  name            String
+  email           String
+  passwordHash    String
+  exp             Int      @default(0)
+  level           Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  quests          Quest[]
+  tags            Tag[]
+  weeklyReports   WeeklyReport[]
+}
+
+model Quest {
+  id                    String   @id @default(uuid())
+  title                 String
+  description           String
+  startsAt              String
+  startedAt             String
+  minutes               Int
+  tagId                 String
+  difficulty            String
+  state                 String   @default("INACTIVE")
+  isSucceeded           Boolean  @default(false)
+  continuationLevel     Int      @default(1)
+  startDate             String
+  endDate               String
+  dates                 String[]
+  weeklyFrequency       Int
+  weeklyCompletionCount Int      @default(0)
+  totalCompletionCount  Int      @default(0)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  userId                String
+  user                  User     @relation(fields: [userId], references: [id])
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model WeeklyReport {
+  id                      String    @id @default(uuid())
+  completedQuests         Int
+  failedQuests            Int
+  completedPercentage     Float
+  completedDays           Int
+  completedQuestsEachDay  Int[]
+  startDate               String
+  endDate                 String
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  userId                  String   
+  user                    User     @relation(fields: [userId], references: [id])
 }

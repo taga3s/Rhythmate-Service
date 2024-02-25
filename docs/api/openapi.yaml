@@ -1,0 +1,545 @@
+openapi: "3.0.3"
+
+info:
+  title: "rhythmate API"
+  description: "rhythmateのAPIです。"
+  version: "1.0"
+
+servers:
+  - url: "http://localhost:3000/v1"
+    description: "ローカル環境"
+  - url: "http://example.com"
+    description: "本番環境"
+
+tags:
+  - name: "users"
+    description: "ユーザ情報の操作"
+  - name: "quests"
+    description: "クエスト情報の操作"
+  - name: "tags"
+    description: "タグ情報の操作"
+  - name: "weeklyReports"
+    description: "週次レポート情報の操作"
+
+paths:
+  "/users/signup":
+    post:
+      tags: ["users"]
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersSignUpRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersSignUpResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/users/login":
+    post:
+      tags: ["users"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersLoginRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersLoginResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/users/logout":
+    post:
+      tags: ["users"]
+      responses:
+        "204":
+          description: "成功"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/users/:id":
+    get:
+      tags: ["users"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      tags: ["users"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsersPatchRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests":
+    post:
+      tags: ["quests"]
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuestsCreateRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsCreateResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests/:id":
+    patch:
+      tags: ["quests"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuestsPatchRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: ["quests"]
+      deprecated: false
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsDeleteResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests/start/:id":
+    patch:
+      tags: ["quests"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests/finish/:id":
+    patch:
+      tags: ["quests"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests/:userId":
+    get:
+      tags: ["quests"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestsListResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/tags":
+    post:
+      tags: ["tags"]
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TagsCreateRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsCreateResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/tags/:id":
+    patch:
+      tags: ["tags"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TagsCreateRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsCreateResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: ["tags"]
+      deprecated: false
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsDeleteResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/tags/:userId":
+    get:
+      tags: ["tags"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsResponse"
+
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    UsersSignUpRequest:
+      type: object
+      properties:
+        username: { type: string, example: "test" }
+        email: { type: string, example: "example@gmail.com" }
+        password: { type: string, example: "password" }
+      required:
+        - username
+        - email
+        - password
+    UsersSignUpResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+    UsersLoginRequest:
+      type: object
+      properties:
+        email: { type: string, example: "example@gmail.com" }
+        password: { type: string, example: "password" }
+      required:
+        - email
+        - password
+    UsersLoginResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+    UsersPatchRequest:
+      type: object
+      properties:
+        username: { type: string, example: test }
+      required:
+        - username
+    UserResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+        username: { type: string, example: "test" }
+        email: { type: string, example: "example@gmail.com" }
+        level: { type: number, example: 1 }
+    ErrorResponse:
+      type: object
+      properties:
+        status: { type: string, example: "error" }
+        message: { type: string, example: "errorMsg" }
+      required:
+        - message
+    QuestsCreateRequest:
+      type: object
+      properties:
+        title: { type: string, example: "WorkOut" }
+        description: { type: string, example: "Push ups 30reps 3sets." }
+        starts_at: { type: string, example: "9:00" }
+        minutes: { type: number, example: 30 }
+        tag_id: { type: number, example: 1 }
+        difficulty: { type: number, example: 1 }
+        dates: { type: array, example: ["Mon", "Wed", "Fri"] }
+        userId: { type: number, example: 1 }
+      required:
+        - title
+        - description
+        - starts_at
+        - minutes
+        - tag_id
+        - difficulty
+        - dates
+        - userId
+    QuestsCreateResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+    QuestsDeleteResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+    QuestsPatchRequest:
+      type: object
+      properties:
+        title: { type: string, example: "WorkOut" }
+        description: { type: string, example: "Push ups 30reps 3sets." }
+        starts_at: { type: string, example: "9:00" }
+        minutes: { type: number, example: 30 }
+    QuestsResponse:
+      type: object
+      properties:
+        title: { type: string, example: "WorkOut" }
+        description: { type: string, example: "Push ups 30reps 3sets." }
+        starts_at: { type: string, example: "9:00" }
+        started_at: { type: string, example: "9:10" }
+        minutes: { type: number, example: 30 }
+        tag_id: { type: number, example: 1 }
+        difficulty: { type: number, example: 1 }
+        is_done: { type: boolean, example: false }
+        dates: { type: array, example: ["Mon", "Wed", "Fri"] }
+        weekly_frequency: { type: number, example: 3 }
+        weekly_completion_count: { type: number, example: 2 }
+        userId: { type: number, example: 1 }
+    QuestsListResponse:
+      type: object
+      properties:
+        quests: { type: array, example: [ { $ref: "#/components/schemas/QuestsResponse" },
+                                          { $ref: "#/components/schemas/QuestsResponse" },
+                                          { $ref: "#/components/schemas/QuestsResponse" }
+                                        ] }
+    TagsResponse:
+      type: object
+      properties:
+        tags: { type: array, example: [ { id: 1, name: "TechStudy" },
+                                        { id: 2, name: "EnglishStudy" },
+                                        { id: 3, name: "Health" }
+                                      ] }
+    TagsCreateRequest:
+      type: object
+      properties:
+        name: { type: string, example: "TechStudy" }
+      required:
+        - name
+    TagsCreateResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
+    TagsDeleteResponse:
+      type: object
+      properties:
+        status: { type: string, example: "ok" }
