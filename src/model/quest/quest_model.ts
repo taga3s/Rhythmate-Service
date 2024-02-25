@@ -186,8 +186,11 @@ async function EveryDay() : Promise<any>{
 
 async function EverySunday() : Promise<any>{
   cron.schedule('59 59 23 * * 0', async () => {
+    const { dateNowJst, nextSundayJst } = getStartEndJstDate();
     const result = await prisma.quest.updateMany({
       data: {
+        startDate: dateNowJst,
+        endDate: nextSundayJst,
         weeklyCompletionCount: 0,
       }
     });
