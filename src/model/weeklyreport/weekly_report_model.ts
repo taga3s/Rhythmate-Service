@@ -4,6 +4,19 @@ import cron from "node-cron";
 
 const prisma = new PrismaClient();
 
+const getStartEndJstDate = () => {
+  const dateNowObject = new Date();
+  const nextSundayDateObject = new Date(
+    dateNowObject.getFullYear(),
+    dateNowObject.getMonth(),
+    dateNowObject.getDate() + (6 - (dateNowObject.getDay() + 6) % 7)
+  );
+  const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  console.log(dateNowJst, nextSundayJst);
+  return { dateNowJst, nextSundayJst };
+}
+
 const create = async (
   completedQuests: number,
   failedQuests: number,
@@ -12,22 +25,15 @@ const create = async (
   userId: string,
 ): Promise<WeeklyReport> => {
   const completedPercentage = failedQuests === 0 ? 0 : (completedQuests / (completedQuests + failedQuests)) * 100;
-  const dateNowObject = new Date()
-  const nextSundayDateObject = new Date(
-    dateNowObject.getFullYear(),
-    dateNowObject.getMonth(),
-    dateNowObject.getDate() + (7 - (dateNowObject.getDay()+6) % 7 + 1),
-  );
-  const dateNow = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  const nextSunday = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  const { dateNowJst, nextSundayJst } = getStartEndJstDate();
   const weeklyReport: Prisma.WeeklyReportCreateInput = {
     completedQuests: completedQuests,
     failedQuests: failedQuests,
     completedPercentage: completedPercentage,
     completedDays: completedDays,
     completedQuestsEachDay: completedQuestsEachDay,
-    startDate: dateNow,
-    endDate: nextSunday,
+    startDate: dateNowJst,
+    endDate: nextSundayJst,
     user: {
       connect: {
         id: userId,

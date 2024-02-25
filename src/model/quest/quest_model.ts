@@ -18,6 +18,19 @@ const getCurrentDateTime = () => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
 
+const getStartEndJstDate = () => {
+  const dateNowObject = new Date();
+  const nextSundayDateObject = new Date(
+    dateNowObject.getFullYear(),
+    dateNowObject.getMonth(),
+    dateNowObject.getDate() + (6 - (dateNowObject.getDay() + 6) % 7)
+  );
+  const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
+  console.log(dateNowJst, nextSundayJst);
+  return { dateNowJst, nextSundayJst };
+}
+
 const create = async (
   title: string,
   description: string,
@@ -28,15 +41,8 @@ const create = async (
   dates: string[],
   userId: string,
 ): Promise<Quest> => {
-  const dateNowObject = new Date()
-  const nextSundayDateObject = new Date(
-    dateNowObject.getFullYear(),
-    dateNowObject.getMonth(),
-    dateNowObject.getDate() + (7 - (dateNowObject.getDay()+6) % 7 + 1),
-  );
-  const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
 
+  const { dateNowJst, nextSundayJst } = getStartEndJstDate();
   const quest: Prisma.QuestCreateInput = {
     title: title,
     description: description,
@@ -57,7 +63,6 @@ const create = async (
   };
   
   const result = await prisma.quest.create({ data: quest });
-  console.log(result)
   return result;
 };
 
