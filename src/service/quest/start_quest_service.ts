@@ -12,6 +12,9 @@ export const startQuestService = async (inputDTO: inputDTO) => {
   if (!startedQuest) {
     throw new CustomError("クエストの開始に失敗しました", 500);
   }
+  if (startedQuest.startedAt !== "NOT_STARTED_YET") {
+    throw new CustomError("すでに開始しているクエストです", 500);
+  }
 
   return {
     id: startedQuest.id,

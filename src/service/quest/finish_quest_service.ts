@@ -20,6 +20,9 @@ export const finishQuestService = async (inputDTO: inputDTO) => {
   if (!finishedQuest) {
     throw new CustomError("クエストの完了に失敗しました", 500);
   }
+  if (finishedQuest.state === "ACTIVE" && finishedQuest.startedAt !=="NOT_STARTED_YET"){
+    throw new CustomError("すでに終了したクエストです", 400);
+  }
   //完了したクエスト数とその日の完了クエスト数をインクリメント
   const weeklyReport = await weeklyReportModel.updateByUserId(finishedQuest.userId, 1, 0, 0, 1 );
   if (!weeklyReport) {
