@@ -19,7 +19,6 @@ questRouter.post(
   auth,
   validate([
     body("title").isString().isLength({ min: 1 }).withMessage("必須項目です。"),
-    body("description").isString().isLength({ min: 1 }).withMessage("必須項目です。"),
     body("starts_at").isString().withMessage("必須項目です。"),
     body("minutes").isNumeric().withMessage("必須項目です。"),
     body("difficulty").isString().isLength({ min: 1 }).withMessage("必須項目です。"),

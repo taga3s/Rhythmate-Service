@@ -13,7 +13,6 @@ const getStartEndJstDate = () => {
   );
   const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
   const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  console.log(dateNowJst, nextSundayJst);
   return { dateNowJst, nextSundayJst };
 }
 

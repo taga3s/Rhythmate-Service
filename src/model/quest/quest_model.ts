@@ -27,7 +27,6 @@ const getStartEndJstDate = () => {
   );
   const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
   const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  console.log(dateNowJst, nextSundayJst);
   return { dateNowJst, nextSundayJst };
 }
 
@@ -41,7 +40,6 @@ const create = async (
   dates: string[],
   userId: string,
 ): Promise<Quest> => {
-
   const { dateNowJst, nextSundayJst } = getStartEndJstDate();
   const quest: Prisma.QuestCreateInput = {
     title: title,
