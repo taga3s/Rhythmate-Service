@@ -15,6 +15,7 @@ model User {
   name            String
   email           String
   passwordHash    String
+  exp             Int      @default(0)
   level           Int      @default(1)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

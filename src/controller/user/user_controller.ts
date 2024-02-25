@@ -64,6 +64,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
       status: "ok",
       name: outputDTO.name,
       email: outputDTO.email,
+      exp: outputDTO.exp,
       level: outputDTO.level,
     };
     res.status(200).json(response);
@@ -89,6 +90,7 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
       status: "ok",
       name: outputDTO.name,
       email: outputDTO.email,
+      exp: outputDTO.exp,
       level: outputDTO.level,
     };
     return res.status(200).json(response);

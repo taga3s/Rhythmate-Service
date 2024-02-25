@@ -36,6 +36,9 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
   };
 
   try {
+    if (!inputDTO.description) {
+      inputDTO.description = "";
+    }
     const outputDTO = await createQuestService(inputDTO);
     const response: CreateQuestResponse = {
       status: "ok",

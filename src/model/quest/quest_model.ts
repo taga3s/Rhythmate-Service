@@ -27,7 +27,6 @@ const getStartEndJstDate = () => {
   );
   const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
   const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  console.log(dateNowJst, nextSundayJst);
   return { dateNowJst, nextSundayJst };
 }
 
@@ -41,7 +40,6 @@ const create = async (
   dates: string[],
   userId: string,
 ): Promise<Quest> => {
-
   const { dateNowJst, nextSundayJst } = getStartEndJstDate();
   const quest: Prisma.QuestCreateInput = {
     title: title,
@@ -146,24 +144,30 @@ const startById = async (id: string): Promise<Quest | null> => {
 };
 
 const finishById = async (id: string): Promise<Quest | null> => {
-  const quest: Prisma.QuestUpdateInput = {
+  const quest = await getById(id);
+  if (!quest) {
+    return null;
+  }
+  const continuationLevelIncrement = quest.continuationLevel === 7 ? 0 : 1;
+  const updatedQuest: Prisma.QuestUpdateInput = {
     isSucceeded: true,
     state: "ACTIVE",
-    continuationLevel: { increment: 1 },
+    continuationLevel: { increment: continuationLevelIncrement },
     weeklyCompletionCount: { increment: 1 },
     totalCompletionCount: { increment: 1 },
   };
-  const result = await prisma.quest.update({ where: { id: id }, data: quest });
+  const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest });
   return result;
 };
 
 const forceFinishById = async (id: string): Promise<Quest> => {
-  const quest: Prisma.QuestUpdateInput = {
+  const updatedQuest: Prisma.QuestUpdateInput = {
     isSucceeded: false,
-    state: "ACTIVE"
+    state: "ACTIVE",
+    continuationLevel: 0,
   }
 
-  const result = await prisma.quest.update({ where: { id: id }, data: quest })
+  const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest })
   return result
 }
 
@@ -182,8 +186,11 @@ async function EveryDay() : Promise<any>{
 
 async function EverySunday() : Promise<any>{
   cron.schedule('59 59 23 * * 0', async () => {
+    const { dateNowJst, nextSundayJst } = getStartEndJstDate();
     const result = await prisma.quest.updateMany({
       data: {
+        startDate: dateNowJst,
+        endDate: nextSundayJst,
         weeklyCompletionCount: 0,
       }
     });
