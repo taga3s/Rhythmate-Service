@@ -22,10 +22,16 @@ export const finishQuestService = async (inputDTO: inputDTO) => {
   }
   //完了したクエスト数とその日の完了クエスト数をインクリメント
   const weeklyReport = await weeklyReportModel.updateByUserId(finishedQuest.userId, 1, 0, 0, 1 );
+  if (!weeklyReport) {
+    throw new CustomError("週報の更新に失敗しました", 500);
+  }
   //クエストの獲得経験値を計算
   const expIncrement = getQuestExp(finishedQuest.difficulty, finishedQuest.continuationLevel) 
   //ユーザーの経験値とレベルを更新
   const updatedUser = await userModel.updateExp(finishedQuest.userId, expIncrement);
+  if (!updatedUser) {
+    throw new CustomError("ユーザーの経験値の更新に失敗しました", 500);
+  }
   return {
     id: finishedQuest.id,
     title: finishedQuest.title,

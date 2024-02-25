@@ -80,7 +80,7 @@ const updateByUserId = async (
   completedDaysIncrements: number,
   completedQuestsEachDayIncrements: number,
   ): Promise<WeeklyReport> => {
-  const weeklyReport = await prisma.weeklyReport.findFirst({
+  const weeklyReport = await prisma.weeklyReport.findFirst({ //最初の週次レポートではなく、最新を取得する必要あり
     where: {
       userId: userId,
     },
@@ -90,6 +90,7 @@ const updateByUserId = async (
   }
   const index = ( new Date().getDay() + 6 ) % 7; // 0: 月曜日, 1: 火曜日...
   weeklyReport.completedQuestsEachDay[index]+=completedQuestsEachDayIncrements; // 今日の日付の要素を更新
+  console.log(weeklyReport.completedQuestsEachDay);
   const result = await prisma.weeklyReport.update({
     where: { id: weeklyReport.id },
     data: {

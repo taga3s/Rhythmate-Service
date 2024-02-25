@@ -12,6 +12,59 @@ const userData: Prisma.UserCreateInput[] = [
 ]
 
 const questData: Prisma.QuestCreateInput[] = [
+    {
+        id: "a9c8a7cb-32a8-4906-b7b0-673c39aec631", 
+        title: "筋トレ",
+        description: "腕立て伏せを100回する",
+        startsAt: "9:00:00",
+        startedAt: "NOT_STARTED_YET",
+        minutes: 15,
+        tagId: "workout",
+        difficulty: "NORMAL",
+        state: "INACTIVE",
+        isSucceeded: false,
+        continuationLevel: 1,
+        startDate: "2024/2/25 9:00:00",
+        endDate: "2024/2/25 9:00:00",
+        dates: ["MON", "TUE", "THU", "FRI", "SUN"],
+        weeklyFrequency: 5,
+        weeklyCompletionCount: 0,
+        totalCompletionCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        user: {
+            connect: {
+                id: "8fa4f0b8-c51e-4e09-ae52-ec2ecf248ea0" // サインアップ済みのユーザIDを指定
+            },
+        }
+    },
+    {
+      id: "fad4aa19-a797-4ba5-a5ff-e145e1619fcf", 
+      title: "朝ご飯",
+      description: "バナナとプロテインを飲む",
+      startsAt: "8:00:00",
+      startedAt: "NOT_STARTED_YET",
+      minutes: 15,
+      tagId: "health",
+      difficulty: "EASY",
+      state: "INACTIVE",
+      isSucceeded: false,
+      continuationLevel: 1,
+      startDate: "2024/2/25 9:00:00",
+      endDate: "2024/2/25 9:00:00",
+      dates: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+      weeklyFrequency: 5,
+      weeklyCompletionCount: 0,
+      totalCompletionCount: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      user: {
+          connect: {
+              id: "8fa4f0b8-c51e-4e09-ae52-ec2ecf248ea0" // サインアップ済みのユーザIDを指定
+          },
+      }
+  },
+
 ]
 
 const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
@@ -21,7 +74,7 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
       failedQuests: 2,
       completedPercentage: 60.0,
       completedDays: 1,
-      completedQuestsEachDay: [1, 2, 3],
+      completedQuestsEachDay: [1, 2, 3, 4, 5, 6, 7],
       startDate: "2024/2/25 9:00:00",
       endDate: "2024/2/26 0:00:00",
       createdAt: new Date(),
@@ -38,7 +91,7 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
       failedQuests: 2,
       completedPercentage: 60.0,
       completedDays: 1,
-      completedQuestsEachDay: [1, 2, 3],
+      completedQuestsEachDay: [1, 2, 3, 0, 0, 0, 0],
       startDate: "2024/2/23 9:00:00",
       endDate: "2024/2/26 0:00:00",
       createdAt: new Date(),
@@ -55,7 +108,7 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
       failedQuests: 2,
       completedPercentage: 60.0,
       completedDays: 1,
-      completedQuestsEachDay: [1, 2, 3],
+      completedQuestsEachDay: [1, 2, 3, 0, 0, 0, 0],
       startDate: "2024/2/21 9:00:00",
       endDate: "2024/2/26 0:00:00",
       createdAt: new Date(),
@@ -74,6 +127,12 @@ const transfer = async () => {
             data,
         })
         console.log(`Created user with id: ${user.id}`)
+    }
+    for (const data of questData) { // クエストデータを登録
+        const user = await prisma.quest.create({
+            data,
+        })
+        console.log(`Created quest with id: ${user.id}`)
     }
     for (const data of weeklyReportData) { // 週次レポートを登録
         const user = await prisma.weeklyReport.create({

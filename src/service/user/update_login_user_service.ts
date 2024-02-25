@@ -8,6 +8,7 @@ export const updateLoginUserService = async (inputDTO: { userId: string; name: s
   return {
     name: user.name,
     email: user.email,
+    exp: user.exp,
     level: user.level,
   };
 };
