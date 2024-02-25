@@ -7,8 +7,8 @@ export const updateWeeklyReportService = async (inputDTO: {
   failedQuests: number;
   completedDays: number;
   completedQuestsEachDay: number[];
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   userId: string;
 }) => {
   const model = weeklyReportModel;

@@ -10,8 +10,8 @@ export type Quest = {
   state: string;
   isSucceeded: boolean;
   continuationLevel: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   dates: string[];
   weeklyFrequency: number;
   weeklyCompletionCount: number;

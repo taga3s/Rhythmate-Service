@@ -15,7 +15,6 @@ export const createQuestService = async (inputDTO: {
   if (inputDTO.minutes < 0) {
     throw new CustomError("実施時間は正の値を入力してください", 400);
   }
-
   const quest = await model.create(
     inputDTO.title,
     inputDTO.description,
@@ -27,6 +26,7 @@ export const createQuestService = async (inputDTO: {
     inputDTO.userId,
   );
   return {
+    id : quest.id,
     title: quest.title,
     description: quest.description,
     startsAt: quest.startsAt,

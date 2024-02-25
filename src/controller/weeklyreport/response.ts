@@ -6,8 +6,8 @@ export type CreateWeeklyReportResponse = {
   completed_percentage: number;
   completed_days: number;
   completed_quests_each_day: number[];
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   user_id: string;
 };
 
@@ -19,8 +19,8 @@ export type UpdateWeeklyReportResponse = {
   completed_percentage: number;
   completed_days: number;
   completed_quests_each_day: number[];
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   user_id: string;
 };
 
@@ -33,8 +33,8 @@ export type GetWeeklyReportResponse = {
     completed_percentage: number;
     completed_days: number;
     completed_quests_each_day: number[];
-    start_date: Date;
-    end_date: Date;
+    start_date: string;
+    end_date: string;
     user_id: string;
   }[];
 };

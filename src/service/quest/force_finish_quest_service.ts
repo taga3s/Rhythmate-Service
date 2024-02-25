@@ -1,4 +1,5 @@
 import { questModel } from "../../model/quest/quest_model";
+import { weeklyReportModel } from "../../model/weeklyreport/weekly_report_model";
 import { CustomError } from "../../pkg/customError";
 type inputDTO = { id: string };
 
@@ -12,7 +13,8 @@ export const forceFinishQuestService = async (inputDTO: inputDTO) => {
   if (!forceFinishedQuest) {
     throw new CustomError("クエストの完了に失敗しました", 500);
   }
-
+  //失敗したクエスト数をインクリメント
+  const weeklyReport = await weeklyReportModel.updateByUserId(forceFinishedQuest.userId, 0, 1, 0, 0 ); 
   return {
     id: forceFinishedQuest.id,
     title: forceFinishedQuest.title,

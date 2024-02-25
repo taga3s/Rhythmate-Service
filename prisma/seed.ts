@@ -11,6 +11,9 @@ const userData: Prisma.UserCreateInput[] = [
     }
 ]
 
+const questData: Prisma.QuestCreateInput[] = [
+]
+
 const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
     {
       id: "1",
@@ -19,8 +22,8 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
       completedPercentage: 60.0,
       completedDays: 1,
       completedQuestsEachDay: [1, 2, 3],
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: "2024/2/25 9:00:00",
+      endDate: "2024/2/26 0:00:00",
       createdAt: new Date(),
       updatedAt: new Date(),
       user: {
@@ -36,8 +39,8 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
       completedPercentage: 60.0,
       completedDays: 1,
       completedQuestsEachDay: [1, 2, 3],
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: "2024/2/23 9:00:00",
+      endDate: "2024/2/26 0:00:00",
       createdAt: new Date(),
       updatedAt: new Date(),
       user: {
@@ -53,8 +56,8 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
       completedPercentage: 60.0,
       completedDays: 1,
       completedQuestsEachDay: [1, 2, 3],
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: "2024/2/21 9:00:00",
+      endDate: "2024/2/26 0:00:00",
       createdAt: new Date(),
       updatedAt: new Date(),
       user: {
