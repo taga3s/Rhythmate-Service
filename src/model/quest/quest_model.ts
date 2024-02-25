@@ -144,24 +144,30 @@ const startById = async (id: string): Promise<Quest | null> => {
 };
 
 const finishById = async (id: string): Promise<Quest | null> => {
-  const quest: Prisma.QuestUpdateInput = {
+  const quest = await getById(id);
+  if (!quest) {
+    return null;
+  }
+  const continuationLevelIncrement = quest.continuationLevel === 7 ? 0 : 1;
+  const updatedQuest: Prisma.QuestUpdateInput = {
     isSucceeded: true,
     state: "ACTIVE",
-    continuationLevel: { increment: 1 },
+    continuationLevel: { increment: continuationLevelIncrement },
     weeklyCompletionCount: { increment: 1 },
     totalCompletionCount: { increment: 1 },
   };
-  const result = await prisma.quest.update({ where: { id: id }, data: quest });
+  const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest });
   return result;
 };
 
 const forceFinishById = async (id: string): Promise<Quest> => {
-  const quest: Prisma.QuestUpdateInput = {
+  const updatedQuest: Prisma.QuestUpdateInput = {
     isSucceeded: false,
-    state: "ACTIVE"
+    state: "ACTIVE",
+    continuationLevel: 0,
   }
 
-  const result = await prisma.quest.update({ where: { id: id }, data: quest })
+  const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest })
   return result
 }
 
