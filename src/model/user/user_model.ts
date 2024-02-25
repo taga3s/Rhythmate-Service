@@ -3,6 +3,21 @@ import { User } from "./types";
 
 const prisma = new PrismaClient();
 
+const getLevelByExp = (exp: number) => {
+  let level = 1;
+  while (exp >= level * 100) {
+      exp -= level * 100;
+      level++;
+  }
+  return level;
+}
+
+const getUpdatedLevelAndExp = (currentExp: number, expIncrement: number) => {
+  const updatedExp = currentExp + expIncrement;
+  const updatedLevel = getLevelByExp(updatedExp);
+  return {updatedLevel, updatedExp};
+}
+
 const getById = async (id: string): Promise<User | null> => {
   const result = await prisma.user.findFirst({
     where: {
@@ -44,6 +59,26 @@ const update = async (id: string, name: string): Promise<User> => {
   return result;
 };
 
+const updateExp = async (id: string, expIncrement: number): Promise<User> => {
+  const user = await getById(id);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  const currentExp = user.exp;
+  const {updatedLevel, updatedExp} = getUpdatedLevelAndExp(currentExp, expIncrement)
+  const updatedUser: Prisma.UserUpdateInput = {
+    exp: updatedExp,
+    level: updatedLevel,
+  };
+  const result = await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: updatedUser,
+  });
+  return result;
+}
+
 // const handlePrismaError = (err) => {
 //   switch (err.code) {
 //       case 'P2002':
@@ -66,4 +101,5 @@ export const userModel = {
   getByEmail,
   create,
   update,
+  updateExp
 };

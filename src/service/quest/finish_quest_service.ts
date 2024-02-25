@@ -1,8 +1,14 @@
 import { finished } from "stream";
+import { userModel } from "../../model/user/user_model";
 import { questModel } from "../../model/quest/quest_model";
 import { weeklyReportModel } from "../../model/weeklyreport/weekly_report_model";
 import { CustomError } from "../../pkg/customError";
 type inputDTO = { id: string };
+
+const getQuestExp = (difficulty: string, continuationLevel: number) => {
+  const baseExp = difficulty === "EASY" ? 10 : difficulty === "NORMAL" ? 20 : difficulty === "HARD" ? 30 : 0;
+  return baseExp * continuationLevel;
+};
 
 export const finishQuestService = async (inputDTO: inputDTO) => {
   const model = questModel;
@@ -15,7 +21,11 @@ export const finishQuestService = async (inputDTO: inputDTO) => {
     throw new CustomError("クエストの完了に失敗しました", 500);
   }
   //完了したクエスト数とその日の完了クエスト数をインクリメント
-  const weeklyReport = await weeklyReportModel.updateByUserId(finishedQuest.userId, 1, 0, 0, 1 ); 
+  const weeklyReport = await weeklyReportModel.updateByUserId(finishedQuest.userId, 1, 0, 0, 1 );
+  //クエストの獲得経験値を計算
+  const expIncrement = getQuestExp(finishedQuest.difficulty, finishedQuest.continuationLevel) 
+  //ユーザーの経験値とレベルを更新
+  const updatedUser = await userModel.updateExp(finishedQuest.userId, expIncrement);
   return {
     id: finishedQuest.id,
     title: finishedQuest.title,
