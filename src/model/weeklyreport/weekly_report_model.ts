@@ -80,9 +80,12 @@ const updateByUserId = async (
   completedDaysIncrements: number,
   completedQuestsEachDayIncrements: number,
   ): Promise<WeeklyReport> => {
-  const weeklyReport = await prisma.weeklyReport.findFirst({ //最初の週次レポートではなく、最新を取得する必要あり
+  const weeklyReport = await prisma.weeklyReport.findFirst({ // 最新の週報を取得
     where: {
       userId: userId,
+    },
+    orderBy: {
+      endDate: "desc",
     },
   });
   if (!weeklyReport) {
@@ -108,7 +111,7 @@ const deleteById = async (id: string): Promise<WeeklyReport | null> => {
 }
 
 const getById = async (id: string): Promise<WeeklyReport | null> => {
-  const result = await prisma.weeklyReport.findFirst({
+  const result = await prisma.weeklyReport.findUnique({
     where: {
       id: id,
     },
@@ -120,6 +123,9 @@ const getByUserId = async (userId: string): Promise<WeeklyReport[]> => {
   const result = await prisma.weeklyReport.findMany({
     where: {
       userId: userId,
+    },
+    orderBy: {
+      endDate: "desc",
     },
   });
   return result;
