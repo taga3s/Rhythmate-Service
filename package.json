@@ -21,7 +21,6 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.10.2",
-    "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -48,6 +47,6 @@
     "typescript": "^5.3.3"
   },
   "lint-staged": {
-    "*.{ts}": "biome format --write src"
+    "*.ts": "biome format --write src"
   }
 }
