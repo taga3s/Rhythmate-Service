@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { allowCrossDomain } from "./utils/cors";
 import { cronQuestModel } from "./model/quest/quest_model";
 import { cronWeeklyReportModel } from "./model/weeklyreport/weekly_report_model";
+import { formatDateTime, now } from "./pkg/dayjs";
 
 const app = express();
 
@@ -30,4 +31,4 @@ cronWeeklyReportModel.EverySunday(); // 1週間ごとの新規週報の作成
 
 const PORT = process.env.PORT;
 
-app.listen(PORT, () => console.log(`Server is running at localhost:${PORT}`));
+app.listen(PORT, () => console.log(`${[formatDateTime(now())]} Server is running at localhost:${PORT}`));

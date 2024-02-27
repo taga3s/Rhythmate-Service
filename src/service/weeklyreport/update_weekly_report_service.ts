@@ -13,9 +13,9 @@ export const updateWeeklyReportService = async (inputDTO: {
 }) => {
   const model = weeklyReportModel;
 
-  const weeklyReport = await model.getById(inputDTO.id)
+  const weeklyReport = await model.getById(inputDTO.id);
   if (weeklyReport === null) {
-    throw new CustomError('週次レポートが見つかりませんでした', 500);
+    throw new CustomError("週次レポートが見つかりませんでした", 500);
   }
   const updatedWeeklyReport = await model.update(
     inputDTO.completedQuests,
@@ -24,7 +24,7 @@ export const updateWeeklyReportService = async (inputDTO: {
     inputDTO.completedQuestsEachDay,
     inputDTO.startDate,
     inputDTO.endDate,
-    inputDTO.userId
+    inputDTO.userId,
   );
 
   return {
@@ -38,4 +38,4 @@ export const updateWeeklyReportService = async (inputDTO: {
     endDate: updatedWeeklyReport.endDate,
     userId: updatedWeeklyReport.userId,
   };
-}
+};

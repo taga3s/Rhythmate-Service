@@ -17,10 +17,10 @@ export const createWeeklyReportService = async (inputDTO: {
     inputDTO.failedQuests,
     inputDTO.completedDays,
     inputDTO.completedQuestsEachDay,
-    inputDTO.userId
+    inputDTO.userId,
   );
   if (weeklyReport === null) {
-    throw new CustomError('週次レポートの作成に失敗しました', 500);
+    throw new CustomError("週次レポートの作成に失敗しました", 500);
   }
 
   return {
