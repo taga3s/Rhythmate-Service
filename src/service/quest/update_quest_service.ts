@@ -1,23 +1,23 @@
 import { questModel } from "../../model/quest/quest_model";
 import { CustomError } from "../../pkg/customError";
 type inputDTO = {
-  id: string,
-  title: string,
-  description: string,
-  startsAt: string,
-  startedAt: string,
-  minutes: number,
-  tagId: string,
-  difficulty: string,
-  state: string,
-  isSucceeded: boolean,
-  continuationLevel: number,
-  startDate: string,
-  endDate: string,
-  dates: string[],
-  weeklyCompletionCount: number,
-  totalCompletionCount: number,
-  userId: string,
+  id: string;
+  title: string;
+  description: string;
+  startsAt: string;
+  startedAt: string;
+  minutes: number;
+  tagId: string;
+  difficulty: string;
+  state: string;
+  isSucceeded: boolean;
+  continuationLevel: number;
+  startDate: string;
+  endDate: string;
+  dates: string[];
+  weeklyCompletionCount: number;
+  totalCompletionCount: number;
+  userId: string;
 };
 
 export const updateQuestService = async (inputDTO: inputDTO) => {

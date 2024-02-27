@@ -8,10 +8,9 @@ export const getWeeklyReportService = async (inputDTO: {
 
   const weeklyReports = await model.getByUserId(inputDTO.userId);
   if (weeklyReports === null) {
-    throw new CustomError('週次レポートが見つかりませんでした', 500);
+    throw new CustomError("週次レポートが見つかりませんでした", 500);
   }
   return {
-    weeklyReports: weeklyReports
+    weeklyReports: weeklyReports,
   };
 };
-

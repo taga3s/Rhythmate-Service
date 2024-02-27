@@ -14,7 +14,7 @@ export const forceFinishQuestService = async (inputDTO: inputDTO) => {
     throw new CustomError("クエストの完了に失敗しました", 500);
   }
   //失敗したクエスト数をインクリメント
-  const weeklyReport = await weeklyReportModel.updateByUserId(forceFinishedQuest.userId, 0, 1, 0, 0 ); 
+  const weeklyReport = await weeklyReportModel.updateByUserId(forceFinishedQuest.userId, 0, 1, 0, 0);
   return {
     id: forceFinishedQuest.id,
     title: forceFinishedQuest.title,

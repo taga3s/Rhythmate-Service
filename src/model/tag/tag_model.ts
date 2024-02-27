@@ -10,17 +10,13 @@ const create = async (name: string, userId: string): Promise<Tag> => {
       connect: {
         id: userId,
       },
-    }
+    },
   };
   const result = await prisma.tag.create({ data: tag });
   return result;
 };
 
-const update = async (
-  id: string,
-  name: string,
-  updatedAt: Date,
-): Promise<Tag> => {
+const update = async (id: string, name: string, updatedAt: Date): Promise<Tag> => {
   const tag: Prisma.TagUpdateInput = {
     name: name,
     updatedAt: updatedAt,

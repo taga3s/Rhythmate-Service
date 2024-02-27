@@ -26,7 +26,7 @@ export const createQuestService = async (inputDTO: {
     inputDTO.userId,
   );
   return {
-    id : quest.id,
+    id: quest.id,
     title: quest.title,
     description: quest.description,
     startsAt: quest.startsAt,

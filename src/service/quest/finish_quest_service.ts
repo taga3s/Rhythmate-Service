@@ -16,7 +16,7 @@ export const finishQuestService = async (inputDTO: inputDTO) => {
   if (!quest) {
     throw new CustomError("指定したidのクエストが存在しません", 400);
   }
-  if (quest.state === "ACTIVE" && quest.startedAt !=="NOT_STARTED_YET"){
+  if (quest.state === "ACTIVE" && quest.startedAt !== "NOT_STARTED_YET") {
     throw new CustomError("すでに終了したクエストです", 400);
   }
   const finishedQuest = await model.finishById(inputDTO.id);
@@ -24,12 +24,12 @@ export const finishQuestService = async (inputDTO: inputDTO) => {
     throw new CustomError("クエストの完了に失敗しました", 500);
   }
   //完了したクエスト数とその日の完了クエスト数をインクリメント
-  const weeklyReport = await weeklyReportModel.updateByUserId(finishedQuest.userId, 1, 0, 0, 1 );
+  const weeklyReport = await weeklyReportModel.updateByUserId(finishedQuest.userId, 1, 0, 0, 1);
   if (!weeklyReport) {
     throw new CustomError("週報の更新に失敗しました", 500);
   }
   //クエストの獲得経験値を計算
-  const expIncrement = getQuestExp(finishedQuest.difficulty, finishedQuest.continuationLevel) 
+  const expIncrement = getQuestExp(finishedQuest.difficulty, finishedQuest.continuationLevel);
   //ユーザーの経験値とレベルを更新
   const updatedUser = await userModel.updateExp(finishedQuest.userId, expIncrement);
   if (!updatedUser) {

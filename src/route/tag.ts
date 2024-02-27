@@ -14,9 +14,7 @@ const tagRouter = Router();
 tagRouter.post(
   "/",
   auth,
-  validate([
-    body("name").isString().isLength({ min: 1 }).withMessage("必須項目です。"),
-  ]),
+  validate([body("name").isString().isLength({ min: 1 }).withMessage("必須項目です。")]),
   createTagController,
 );
 tagRouter.patch("/:id", auth, updateTagController);

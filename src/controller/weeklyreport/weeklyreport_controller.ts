@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import {
-GetWeeklyReportResponse 
-} from "./response";
+import { GetWeeklyReportResponse } from "./response";
 import { verifyToken } from "../../utils/jwt";
 import { getWeeklyReportService } from "../../service/weeklyreport/get_weekly_report_service";
 import { CustomError } from "../../pkg/customError";
@@ -37,4 +35,4 @@ export const getWeeklyReportController = async (req: Request, res: Response) => 
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
   }
-}
+};

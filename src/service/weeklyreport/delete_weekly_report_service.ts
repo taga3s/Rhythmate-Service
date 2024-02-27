@@ -7,10 +7,10 @@ export const deleteWeeklyReportService = async (inputDTO: {
   const model = weeklyReportModel;
   const weeklyReport = await model.getById(inputDTO.id);
   if (weeklyReport === null) {
-    throw new CustomError('週次レポートが見つかりませんでした', 500);
+    throw new CustomError("週次レポートが見つかりませんでした", 500);
   }
   const result = await model.deleteById(inputDTO.id);
   if (result === null) {
-    throw new CustomError('週次レポートの削除に失敗しました', 500);
+    throw new CustomError("週次レポートの削除に失敗しました", 500);
   }
-}
+};
