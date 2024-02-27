@@ -21,7 +21,7 @@ export const signupController = async (req: Request<{}, {}, SignupRequest>, res:
     if (err instanceof CustomError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" });
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -36,7 +36,7 @@ export const loginController = async (req: Request<{}, {}, LoginRequest>, res: R
     const jwt = generateToken(outputDTO.id, outputDTO.email);
     res.cookie("access_token", jwt, {
       httpOnly: true,
-      maxAge: 1000 * 3600
+      maxAge: 1000 * 3600,
     });
 
     const response: LoginResponse = { status: "ok" };
@@ -46,7 +46,7 @@ export const loginController = async (req: Request<{}, {}, LoginRequest>, res: R
     if (err instanceof CustomError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" });
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -75,7 +75,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
     if (err instanceof CustomError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" });
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -101,6 +101,6 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
     if (err instanceof CustomError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" });
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };

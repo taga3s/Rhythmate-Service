@@ -126,7 +126,6 @@ const startById = async (id: string): Promise<Quest | null> => {
   const quest: Prisma.QuestUpdateInput = {
     startedAt: formatDateTime(now()),
   };
-  console.log(quest.startedAt);
   const result = await prisma.quest.update({ where: { id: id }, data: quest });
   return result;
 };
