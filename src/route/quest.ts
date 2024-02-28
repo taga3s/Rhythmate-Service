@@ -3,7 +3,7 @@ import {
   createQuestController,
   updateQuestController,
   deleteQuestController,
-  getQuestController,
+  listQuestsController,
   startQuestController,
   finishQuestController,
   forceFinishQuestController,
@@ -26,9 +26,9 @@ questRouter.post(
   ]),
   createQuestController,
 );
-questRouter.patch("/:id", auth, updateQuestController);
+questRouter.get("/", auth, listQuestsController);
 questRouter.delete("/:id", auth, deleteQuestController);
-questRouter.get("/", auth, getQuestController);
+questRouter.patch("/:id", auth, updateQuestController);
 questRouter.patch("/start/:id", auth, startQuestController);
 questRouter.patch("/finish/:id", auth, finishQuestController);
 questRouter.patch("/force-finish/:id", auth, forceFinishQuestController);

@@ -3,7 +3,7 @@ import { LoginRequest, SignupRequest, UpdateLoginUserRequest } from "./request";
 import { GetLoginUserResponse, LoginResponse, SignupResponse } from "./response";
 import { signupService } from "../../service/user/signup_service";
 import { loginService } from "../../service/user/login_service";
-import { generateToken, verifyToken } from "../../utils/jwt";
+import { generateToken, getUserIdFromToken, verifyToken } from "../../core/jwt";
 import { CustomError } from "../../pkg/customError";
 import { JwtPayload } from "jsonwebtoken";
 import { getLoginUserService } from "../../service/user/get_login_user_service";
@@ -58,8 +58,8 @@ export const logoutController = async (req: Request, res: Response) => {
 
 // ユーザー取得（条件付き）
 export const getLoginUserController = async (req: Request, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
-  const inputDTO = { userId: decoded.userId };
+  const userId = getUserIdFromToken(req.cookies.userId);
+  const inputDTO = { userId: userId };
 
   try {
     const outputDTO = await getLoginUserService(inputDTO);
@@ -79,11 +79,11 @@ export const getLoginUserController = async (req: Request, res: Response) => {
   }
 };
 
-//　ユーザー情報更新（条件付き）
+// ユーザー情報更新（条件付き）
 export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserRequest>, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
+  const userId = getUserIdFromToken(req.cookies.userId);
   const inputDTO = {
-    userId: decoded.userId,
+    userId: userId,
     ...req.body,
   };
 

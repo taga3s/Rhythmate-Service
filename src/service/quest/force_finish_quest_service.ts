@@ -1,9 +1,10 @@
 import { questModel } from "../../model/quest/quest_model";
-import { weeklyReportModel } from "../../model/weeklyreport/weekly_report_model";
+import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { CustomError } from "../../pkg/customError";
-type inputDTO = { id: string };
 
-export const forceFinishQuestService = async (inputDTO: inputDTO) => {
+type InputDTO = { id: string };
+
+export const forceFinishQuestService = async (inputDTO: InputDTO) => {
   const model = questModel;
   const quest = await model.getById(inputDTO.id);
   if (!quest) {

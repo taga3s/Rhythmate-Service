@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const generateToken = (userId: string, name: string) => {
   const payload = {
@@ -14,4 +14,9 @@ export const generateToken = (userId: string, name: string) => {
 export const verifyToken = (token: string) => {
   const secret = process.env.SECRET ?? "";
   return jwt.verify(token, secret);
+};
+
+export const getUserIdFromToken = (token: string): string => {
+  const { userId } = verifyToken(token) as JwtPayload;
+  return userId;
 };

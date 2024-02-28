@@ -3,10 +3,10 @@ import "dotenv/config";
 import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter } from "./route";
 import { cookie } from "express-validator";
 import cookieParser from "cookie-parser";
-import { allowCrossDomain } from "./utils/cors";
-import { cronQuestModel } from "./model/quest/quest_model";
-import { cronWeeklyReportModel } from "./model/weeklyreport/weekly_report_model";
+import { allowCrossDomain } from "./core/cors";
+import { cronWeeklyReportModel } from "./model/weeklyReport/weekly_report_model";
 import { formatDateTime, now } from "./pkg/dayjs";
+import { cronQuestModel } from "./model/quest/cron_quest_model";
 
 const app = express();
 

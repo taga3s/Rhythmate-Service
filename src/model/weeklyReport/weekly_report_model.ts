@@ -120,7 +120,7 @@ const getById = async (id: string): Promise<WeeklyReport | null> => {
   return result;
 };
 
-const getByUserId = async (userId: string): Promise<WeeklyReport[]> => {
+const listByUserId = async (userId: string): Promise<WeeklyReport[]> => {
   const result = await prisma.weeklyReport.findMany({
     where: {
       userId: userId,
@@ -156,7 +156,7 @@ export const weeklyReportModel = {
   updateByUserId,
   deleteById,
   getById,
-  getByUserId,
+  listByUserId,
 };
 
 export const cronWeeklyReportModel = {
