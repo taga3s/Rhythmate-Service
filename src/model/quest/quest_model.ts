@@ -1,9 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Quest } from "./types";
-import cron from "node-cron";
 import { formatDateTime, now } from "../../pkg/dayjs";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../db/db";
 
 const getStartEndJstDate = () => {
   const dateNowObject = new Date();

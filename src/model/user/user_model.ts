@@ -1,7 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { User } from "./types";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../db/db";
 
 const getLevelByExp = (exp: number) => {
   let level = 1;

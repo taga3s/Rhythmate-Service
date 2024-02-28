@@ -36,7 +36,7 @@ export const loginController = async (req: Request<{}, {}, LoginRequest>, res: R
     const jwt = generateToken(outputDTO.id, outputDTO.email);
     res.cookie("access_token", jwt, {
       httpOnly: true,
-      maxAge: 1000 * 3600,
+      maxAge: 1000 * 360000,
     });
 
     const response: LoginResponse = { status: "ok" };

@@ -19,11 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(allowCrossDomain);
 
 // ルーティング
-app.use("/v1/health", healthRouter);
 app.use("/v1/users", userRouter);
 app.use("/v1/quests", questRouter);
 app.use("/v1/tags", tagRouter);
 app.use("/v1/weekly-reports", weeklyReportRouter);
+// 開発環境のみ
+if (process.env.NODE_ENV === "dev") {
+  app.use("/v1/health", healthRouter);
+}
 
 // cronジョブ
 cronQuestModel.updateEveryDay(); // 1日ごとのクエストの状態のリセット
