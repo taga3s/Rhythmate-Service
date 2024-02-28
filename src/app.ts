@@ -4,7 +4,7 @@ import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter } 
 import { cookie } from "express-validator";
 import cookieParser from "cookie-parser";
 import { allowCrossDomain } from "./core/cors";
-import { cronWeeklyReportModel } from "./model/weeklyReport/weekly_report_model";
+import { cronWeeklyReportModel } from "./model/weeklyReport/cron_weekly_report.model";
 import { formatDateTime, now } from "./pkg/dayjs";
 import { cronQuestModel } from "./model/quest/cron_quest_model";
 
@@ -25,9 +25,10 @@ app.use("/v1/quests", questRouter);
 app.use("/v1/tags", tagRouter);
 app.use("/v1/weekly-reports", weeklyReportRouter);
 
-cronQuestModel.EveryDay(); // 1日ごとのクエストの状態のリセット
-cronQuestModel.EverySunday(); // 1週間ごとのクエストの週間達成数のリセット
-cronWeeklyReportModel.EverySunday(); // 1週間ごとの新規週報の作成
+// cronジョブ
+cronQuestModel.updateEveryDay(); // 1日ごとのクエストの状態のリセット
+cronQuestModel.updateEverySunday(); // 1週間ごとのクエストの週間達成数のリセット
+cronWeeklyReportModel.createEverySunday(); // 1週間ごとの新規週報の作成
 
 const PORT = process.env.PORT;
 

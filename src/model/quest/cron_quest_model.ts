@@ -15,7 +15,7 @@ const getStartEndJstDate = () => {
   return { dateNowJst, nextSundayJst };
 };
 
-async function EveryDay(): Promise<any> {
+async function updateEveryDay(): Promise<any> {
   cron.schedule("59 59 23 * * *", async () => {
     const result = await prisma.quest.updateMany({
       data: {
@@ -28,7 +28,7 @@ async function EveryDay(): Promise<any> {
   });
 }
 
-async function EverySunday(): Promise<any> {
+async function updateEverySunday(): Promise<any> {
   cron.schedule("59 59 23 * * 0", async () => {
     const { dateNowJst, nextSundayJst } = getStartEndJstDate();
     const result = await prisma.quest.updateMany({
@@ -43,6 +43,6 @@ async function EverySunday(): Promise<any> {
 }
 
 export const cronQuestModel = {
-  EveryDay,
-  EverySunday,
+  updateEveryDay,
+  updateEverySunday,
 };

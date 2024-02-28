@@ -1,6 +1,7 @@
 import { userModel } from "../../model/user/user_model";
 import bcrypt from "bcrypt";
 import { CustomError } from "../../pkg/customError";
+import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 
 export const signupService = async (inputDTO: {
   name: string;
@@ -8,9 +9,10 @@ export const signupService = async (inputDTO: {
   password: string;
   password_confirmation: string;
 }) => {
-  const model = userModel;
+  const UserModel = userModel;
+  const WeeklyReportModel = weeklyReportModel;
 
-  const existedUser = await model.getByEmail(inputDTO.email);
+  const existedUser = await UserModel.getByEmail(inputDTO.email);
   if (existedUser !== null) {
     throw new CustomError("そのEmailは既に使用されています。", 400);
   }
@@ -21,7 +23,10 @@ export const signupService = async (inputDTO: {
 
   const passwordHash = await bcrypt.hash(inputDTO.password, 10);
 
-  const user = await model.create(inputDTO.name, inputDTO.email, passwordHash);
+  const user = await UserModel.create(inputDTO.name, inputDTO.email, passwordHash);
+
+  // サインアップ時に週次レポートの初回作成をする
+  await WeeklyReportModel.create(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id);
 
   return {
     name: user.name,
