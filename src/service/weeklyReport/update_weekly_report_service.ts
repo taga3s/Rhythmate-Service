@@ -1,4 +1,4 @@
-import { weeklyReportModel } from "../../model/weeklyreport/weekly_report_model";
+import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { CustomError } from "../../pkg/customError";
 
 export const updateWeeklyReportService = async (inputDTO: {

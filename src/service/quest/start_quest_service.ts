@@ -1,5 +1,6 @@
 import { questModel } from "../../model/quest/quest_model";
 import { CustomError } from "../../pkg/customError";
+
 type inputDTO = { id: string };
 
 export const startQuestService = async (inputDTO: inputDTO) => {
@@ -15,7 +16,6 @@ export const startQuestService = async (inputDTO: inputDTO) => {
   if (!startedQuest) {
     throw new CustomError("クエストの開始に失敗しました", 500);
   }
-
   return {
     id: startedQuest.id,
     title: startedQuest.title,

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CreateTagRequest, UpdateTagRequest } from "./request";
 import { CreateTagResponse, UpdateTagResponse, GetTagResponse, DeleteTagResponse } from "./response";
-import { verifyToken } from "../../utils/jwt";
+import { verifyToken } from "../../core/jwt";
 import { createTagService } from "../../service/tag/create_tag_service";
 import { deleteTagService } from "../../service/tag/delete_tag_service";
 import { getTagService } from "../../service/tag/get_tag_service";

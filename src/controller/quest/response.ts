@@ -41,7 +41,7 @@ export type DeleteQuestResponse = {
   status: string;
 };
 
-export type GetQuestResponse = {
+export type ListQuestsResponse = {
   status: string;
   quests: {
     id: string;

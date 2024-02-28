@@ -113,7 +113,7 @@ const deleteById = async (id: string): Promise<Quest | null> => {
   return result;
 };
 
-const getByUserId = async (userId: string): Promise<Quest[] | null> => {
+const listByUserId = async (userId: string): Promise<Quest[] | null> => {
   const result = await prisma.quest.findMany({
     where: {
       userId: userId,
@@ -130,12 +130,8 @@ const startById = async (id: string): Promise<Quest | null> => {
   return result;
 };
 
-const finishById = async (id: string): Promise<Quest | null> => {
-  const quest = await getById(id);
-  if (!quest) {
-    return null;
-  }
-  const continuationLevelIncrement = quest.continuationLevel === 7 ? 0 : 1;
+const finishById = async (id: string, continuationLevel: number): Promise<Quest | null> => {
+  const continuationLevelIncrement = continuationLevel === 7 ? 0 : 1;
   const updatedQuest: Prisma.QuestUpdateInput = {
     isSucceeded: true,
     state: "ACTIVE",
@@ -158,33 +154,6 @@ const forceFinishById = async (id: string): Promise<Quest> => {
   return result;
 };
 
-async function EveryDay(): Promise<any> {
-  cron.schedule("59 59 23 * * *", async () => {
-    const result = await prisma.quest.updateMany({
-      data: {
-        state: "INACTIVE",
-        startedAt: "NOT_STARTED_YET",
-        isSucceeded: false,
-      },
-    });
-    return result;
-  });
-}
-
-async function EverySunday(): Promise<any> {
-  cron.schedule("59 59 23 * * 0", async () => {
-    const { dateNowJst, nextSundayJst } = getStartEndJstDate();
-    const result = await prisma.quest.updateMany({
-      data: {
-        startDate: dateNowJst,
-        endDate: nextSundayJst,
-        weeklyCompletionCount: 0,
-      },
-    });
-    return result;
-  });
-}
-
 // const handlePrismaError = (err) => {
 //   switch (err.code) {
 //       case 'P2002':
@@ -203,7 +172,7 @@ async function EverySunday(): Promise<any> {
 // };
 
 export const questModel = {
-  getByUserId,
+  listByUserId,
   getById,
   create,
   update,
@@ -211,9 +180,4 @@ export const questModel = {
   startById,
   finishById,
   forceFinishById,
-};
-
-export const cronQuestModel = {
-  EveryDay,
-  EverySunday,
 };

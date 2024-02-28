@@ -1,25 +1,25 @@
-import { finished } from "stream";
 import { userModel } from "../../model/user/user_model";
 import { questModel } from "../../model/quest/quest_model";
-import { weeklyReportModel } from "../../model/weeklyreport/weekly_report_model";
+import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { CustomError } from "../../pkg/customError";
-type inputDTO = { id: string };
 
 const getQuestExp = (difficulty: string, continuationLevel: number) => {
   const baseExp = difficulty === "EASY" ? 10 : difficulty === "NORMAL" ? 20 : difficulty === "HARD" ? 30 : 0;
   return baseExp * continuationLevel;
 };
 
-export const finishQuestService = async (inputDTO: inputDTO) => {
+type InputDTO = { id: string; userId: string };
+
+export const finishQuestService = async (inputDTO: InputDTO) => {
   const model = questModel;
   const quest = await model.getById(inputDTO.id);
   if (!quest) {
     throw new CustomError("指定したidのクエストが存在しません", 400);
   }
-  if (quest.state === "ACTIVE" && quest.startedAt !== "NOT_STARTED_YET") {
+  if (quest.state === "ACTIVE") {
     throw new CustomError("すでに終了したクエストです", 400);
   }
-  const finishedQuest = await model.finishById(inputDTO.id);
+  const finishedQuest = await model.finishById(inputDTO.id, quest.continuationLevel);
   if (!finishedQuest) {
     throw new CustomError("クエストの完了に失敗しました", 500);
   }
