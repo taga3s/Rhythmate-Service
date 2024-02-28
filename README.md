@@ -17,10 +17,10 @@ $ npm i
 2. `.env.example`をコピーして`.env`を配置する。
 
 ```
-cp .env.example .env
+$ cp .env.example .env
 ```
 
-### express サーバーを立ち上げる。
+### express サーバーを立ち上げる
 
 `http://localhost:3000`で立ち上がります。
 
@@ -28,14 +28,14 @@ cp .env.example .env
 $ npm run start:watch
 ```
 
-ヘルスチェックのエンドポイントを叩き、起動しているか確認します。
+ヘルスチェックのエンドポイントを叩き、サーバー及び DB が起動しているか確認します。
 
 ```
 $ curl http://localhost:3000/v1/health
-{ "health": "ok" }
+{"status":"ok","message":"Successfully connected to db"}
 ```
 
-### postgresql を起動する。
+### postgresql を起動する
 
 docker がインストールされていることを前提とします。
 
@@ -45,7 +45,13 @@ docker がインストールされていることを前提とします。
 $ make run
 ```
 
-2. コンテナに接続し、ログインする。
+もしくは
+
+```
+$ docker compose up -d
+```
+
+2. コンテナに接続し、ログインする
 
 ```
 $ make it-db
@@ -57,11 +63,11 @@ $ psql -U rhyth_user -d rhyth_db
 - マイグレーションを行いたい時
 
 ```
-$ npx prisma migrate dev
+$ npm run migrate
 ```
 
 - prisma studio を立ち上げたい時
 
 ```
-$ npx prisma studio
+$ npm run studio
 ```
