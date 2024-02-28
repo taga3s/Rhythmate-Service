@@ -12,8 +12,8 @@ export const signupService = async (inputDTO: {
   const UserModel = userModel;
   const WeeklyReportModel = weeklyReportModel;
 
-  const existedUser = await UserModel.getByEmail(inputDTO.email);
-  if (existedUser !== null) {
+  const existingUser = await UserModel.getByEmail(inputDTO.email);
+  if (existingUser !== null) {
     throw new CustomError("そのEmailは既に使用されています。", 400);
   }
 

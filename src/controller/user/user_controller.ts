@@ -58,7 +58,7 @@ export const logoutController = async (req: Request, res: Response) => {
 
 // ユーザー取得（条件付き）
 export const getLoginUserController = async (req: Request, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.userId);
+  const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = { userId: userId };
 
   try {
@@ -81,7 +81,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
 
 // ユーザー情報更新（条件付き）
 export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserRequest>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.userId);
+  const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = {
     userId: userId,
     ...req.body,
