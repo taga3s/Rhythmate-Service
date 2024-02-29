@@ -1,5 +1,5 @@
 import { tagModel } from "../../model/tag/tag_model";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 
 export const updateTagService = async (inputDTO: {
   id: string;
@@ -8,7 +8,7 @@ export const updateTagService = async (inputDTO: {
   const model = tagModel;
   const tag = await model.getById(inputDTO.id);
   if (tag === null) {
-    throw new CustomError("タグが見つかりません", 404);
+    throw new HttpError("タグが見つかりません", 404);
   }
   const result = await model.update(inputDTO.id, inputDTO.name, new Date());
   return {

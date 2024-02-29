@@ -10,7 +10,7 @@ import {
   ListQuestsResponse,
 } from "../quest/response";
 import { getUserIdFromToken } from "../../core/jwt";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 import { Quest } from "../../model/quest/types";
 import { forceFinishQuestService } from "../../service/quest/force_finish_quest_service";
 import {
@@ -57,7 +57,7 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -97,7 +97,7 @@ export const listQuestsController = async (req: Request, res: Response) => {
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -113,7 +113,7 @@ export const deleteQuestController = async (req: Request<{ id: string }>, res: R
     const response: DeleteQuestResponse = { status: "ok" };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -167,7 +167,7 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -202,7 +202,7 @@ export const startQuestController = async (req: Request<{ id: string }>, res: Re
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -238,7 +238,7 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -274,7 +274,7 @@ export const forceFinishQuestController = async (req: Request<{ id: string }>, r
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });

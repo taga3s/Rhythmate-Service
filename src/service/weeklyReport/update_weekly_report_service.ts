@@ -1,5 +1,5 @@
 import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 
 export const updateWeeklyReportService = async (inputDTO: {
   id: string;
@@ -15,7 +15,7 @@ export const updateWeeklyReportService = async (inputDTO: {
 
   const weeklyReport = await model.getById(inputDTO.id);
   if (weeklyReport === null) {
-    throw new CustomError("週次レポートが見つかりませんでした", 500);
+    throw new HttpError("週次レポートが見つかりませんでした", 500);
   }
   const updatedWeeklyReport = await model.update(
     inputDTO.completedQuests,

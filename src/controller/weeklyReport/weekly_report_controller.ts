@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ListWeeklyReportResponse } from "./response";
 import { getUserIdFromToken } from "../../core/jwt";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 import { WeeklyReport } from "../../model/weeklyReport/types";
 import { listWeeklyReportsService } from "../../service/weeklyReport/list_weekly_reports_service";
 
@@ -29,7 +29,7 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });

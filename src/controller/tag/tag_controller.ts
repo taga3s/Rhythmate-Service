@@ -6,7 +6,7 @@ import { createTagService } from "../../service/tag/create_tag_service";
 import { deleteTagService } from "../../service/tag/delete_tag_service";
 import { getTagService } from "../../service/tag/get_tag_service";
 import { updateTagService } from "../../service/tag/update_tag_service";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 import { JwtPayload } from "jsonwebtoken";
 import { Tag } from "../../model/tag/types";
 
@@ -28,7 +28,7 @@ export const createTagController = async (req: Request<{}, {}, CreateTagRequest>
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -43,7 +43,7 @@ export const deleteTagController = async (req: Request<{ id: string }>, res: Res
     const response: DeleteTagResponse = { status: "ok" };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -68,7 +68,7 @@ export const updateTagController = async (req: Request<{ id: string }, {}, Updat
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
@@ -94,7 +94,7 @@ export const getTagController = async (req: Request, res: Response) => {
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
