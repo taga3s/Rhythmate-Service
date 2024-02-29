@@ -1,6 +1,6 @@
 import { questModel } from "../../model/quest/quest_model";
 import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 
 type InputDTO = { id: string };
 
@@ -8,11 +8,11 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
   const model = questModel;
   const quest = await model.getById(inputDTO.id);
   if (!quest) {
-    throw new CustomError("指定したidのクエストが存在しません", 400);
+    throw new HttpError("指定したidのクエストが存在しません", 400);
   }
   const forceFinishedQuest = await model.forceFinishById(inputDTO.id);
   if (!forceFinishedQuest) {
-    throw new CustomError("クエストの完了に失敗しました", 500);
+    throw new HttpError("クエストの完了に失敗しました", 500);
   }
   //失敗したクエスト数をインクリメント
   const weeklyReport = await weeklyReportModel.updateByUserId(forceFinishedQuest.userId, 0, 1, 0, 0);

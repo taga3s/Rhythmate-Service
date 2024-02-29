@@ -1,5 +1,5 @@
 import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 
 export const createWeeklyReportService = async (inputDTO: {
   completedQuests: number;
@@ -20,7 +20,7 @@ export const createWeeklyReportService = async (inputDTO: {
     inputDTO.userId,
   );
   if (weeklyReport === null) {
-    throw new CustomError("週次レポートの作成に失敗しました", 500);
+    throw new HttpError("週次レポートの作成に失敗しました", 500);
   }
 
   return {

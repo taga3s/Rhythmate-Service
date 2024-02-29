@@ -1,8 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
 import cron from "node-cron";
 import { weeklyReportModel } from "./weekly_report_model";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../db/db";
 
 async function createEverySunday(): Promise<any> {
   cron.schedule("59 59 23 * * 0", async () => {

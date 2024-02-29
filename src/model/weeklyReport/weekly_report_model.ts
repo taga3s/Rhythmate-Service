@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { WeeklyReport } from "./types";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../db/db";
 
 const getStartEndJstDate = () => {
   const dateNowObject = new Date();

@@ -1,6 +1,6 @@
 import { userModel } from "../../model/user/user_model";
 import bcrypt from "bcrypt";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 
 export const signupService = async (inputDTO: {
@@ -14,11 +14,11 @@ export const signupService = async (inputDTO: {
 
   const existingUser = await UserModel.getByEmail(inputDTO.email);
   if (existingUser !== null) {
-    throw new CustomError("そのEmailは既に使用されています。", 400);
+    throw new HttpError("そのEmailは既に使用されています。", 400);
   }
 
   if (inputDTO.password !== inputDTO.password_confirmation) {
-    throw new CustomError("パスワードが再確認用のパスワードと異なっています。", 400);
+    throw new HttpError("パスワードが再確認用のパスワードと異なっています。", 400);
   }
 
   const passwordHash = await bcrypt.hash(inputDTO.password, 10);

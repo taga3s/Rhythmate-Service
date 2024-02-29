@@ -1,7 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Tag } from "./types";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../db/db";
 
 const create = async (name: string, userId: string): Promise<Tag> => {
   const tag: Prisma.TagCreateInput = {

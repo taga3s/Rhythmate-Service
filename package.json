@@ -7,7 +7,7 @@
     "start": "node dist/app.js",
     "start:watch": "tsc-watch --onSuccess \"node dist/app.js\"",
     "build": "tsc",
-    "codegen": "npx prisma generate",
+    "migrate": "npx prisma migrate dev",
     "studio": "npx prisma studio",
     "lint": "biome lint --apply-unsafe src",
     "format": "biome format --write src",

@@ -1,19 +1,19 @@
 import { userModel } from "../../model/user/user_model";
 import bcrypt from "bcrypt";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 
 export const loginService = async (inputDTO: { email: string; password: string }) => {
   const model = userModel;
 
   const user = await model.getByEmail(inputDTO.email);
   if (!user) {
-    throw new CustomError("メールアドレスかパスワードが間違っています。", 400);
+    throw new HttpError("メールアドレスかパスワードが間違っています。", 400);
   }
 
   const compared = await bcrypt.compare(inputDTO.password, user.passwordHash);
 
   if (!compared) {
-    throw new CustomError("メールアドレスかパスワードが間違っています。", 400);
+    throw new HttpError("メールアドレスかパスワードが間違っています。", 400);
   }
 
   return {
