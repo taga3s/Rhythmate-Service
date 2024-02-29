@@ -1,21 +1,7 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { User } from "./types";
 import { prisma } from "../../db/db";
-
-const getLevelByExp = (exp: number) => {
-  let level = 1;
-  while (exp >= level * 100) {
-    exp -= level * 100;
-    level++;
-  }
-  return level;
-};
-
-const getUpdatedLevelAndExp = (currentExp: number, expIncrement: number) => {
-  const updatedExp = currentExp + expIncrement;
-  const updatedLevel = getLevelByExp(updatedExp);
-  return { updatedLevel, updatedExp };
-};
+import { getUpdatedLevelAndExp } from "../funcs/exp";
 
 const getById = async (id: string): Promise<User | null> => {
   const result = await prisma.user.findFirst({
