@@ -44,12 +44,7 @@ const update = async (id: string, name: string): Promise<User> => {
   return result;
 };
 
-const updateExp = async (id: string, expIncrement: number): Promise<User> => {
-  const user = await getById(id);
-  if (!user) {
-    throw new Error("User not found");
-  }
-  const currentExp = user.exp;
+const updateExp = async (id: string, currentExp: number, expIncrement: number): Promise<User> => {
   const { updatedLevel, updatedExp } = getUpdatedLevelAndExp(currentExp, expIncrement);
   const updatedUser: Prisma.UserUpdateInput = {
     exp: updatedExp,
@@ -63,23 +58,6 @@ const updateExp = async (id: string, expIncrement: number): Promise<User> => {
   });
   return result;
 };
-
-// const handlePrismaError = (err) => {
-//   switch (err.code) {
-//       case 'P2002':
-//           // handling duplicate key errors
-//           return new HttpError(`Duplicate field value: ${err.meta.target}`, 400);
-//       case 'P2014':
-//           // handling invalid id errors
-//           return new HttpError(`Invalid ID: ${err.meta.target}`, 400);
-//       case 'P2003':
-//           // handling invalid data errors
-//           return new HttpError(`Invalid input data: ${err.meta.target}`, 400);
-//       default:
-//           // handling all other errors
-//           return new HttpError(`Something went wrong: ${err.message}`, 500);
-//   }
-// };
 
 export const userModel = {
   getById,
