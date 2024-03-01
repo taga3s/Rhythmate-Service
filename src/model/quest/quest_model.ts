@@ -141,23 +141,6 @@ const forceFinishById = async (id: string): Promise<Quest> => {
   return result;
 };
 
-// const handlePrismaError = (err) => {
-//   switch (err.code) {
-//       case 'P2002':
-//           // handling duplicate key errors
-//           return new HttpError(`Duplicate field value: ${err.meta.target}`, 400);
-//       case 'P2014':
-//           // handling invalid id errors
-//           return new HttpError(`Invalid ID: ${err.meta.target}`, 400);
-//       case 'P2003':
-//           // handling invalid data errors
-//           return new HttpError(`Invalid input data: ${err.meta.target}`, 400);
-//       default:
-//           // handling all other errors
-//           return new HttpError(`Something went wrong: ${err.message}`, 500);
-//   }
-// };
-
 export const questModel = {
   listByUserId,
   getById,
