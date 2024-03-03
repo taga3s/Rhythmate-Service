@@ -1,19 +1,8 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Quest } from "./types";
 import { formatDateTime, now } from "../../pkg/dayjs";
 import { prisma } from "../../db/db";
-
-const getStartEndJstDate = () => {
-  const dateNowObject = new Date();
-  const nextSundayDateObject = new Date(
-    dateNowObject.getFullYear(),
-    dateNowObject.getMonth(),
-    dateNowObject.getDate() + (6 - ((dateNowObject.getDay() + 6) % 7)),
-  );
-  const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  return { dateNowJst, nextSundayJst };
-};
+import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 
 const create = async (
   title: string,
@@ -25,14 +14,14 @@ const create = async (
   dates: string[],
   userId: string,
 ): Promise<Quest> => {
-  const { dateNowJst, nextSundayJst } = getStartEndJstDate();
+  const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();
   const quest: Prisma.QuestCreateInput = {
     title: title,
     description: description,
     startsAt: startsAt,
     startedAt: "NOT_STARTED_YET",
     minutes: minutes,
-    tagId: tagId !== null ? tagId : "NO_TAG_ASSIGNED",
+    tagId: tagId ?? "NO_TAG_ASSIGNED",
     difficulty: difficulty,
     startDate: dateNowJst,
     endDate: nextSundayJst,
@@ -151,23 +140,6 @@ const forceFinishById = async (id: string): Promise<Quest> => {
   const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest });
   return result;
 };
-
-// const handlePrismaError = (err) => {
-//   switch (err.code) {
-//       case 'P2002':
-//           // handling duplicate key errors
-//           return new HttpError(`Duplicate field value: ${err.meta.target}`, 400);
-//       case 'P2014':
-//           // handling invalid id errors
-//           return new HttpError(`Invalid ID: ${err.meta.target}`, 400);
-//       case 'P2003':
-//           // handling invalid data errors
-//           return new HttpError(`Invalid input data: ${err.meta.target}`, 400);
-//       default:
-//           // handling all other errors
-//           return new HttpError(`Something went wrong: ${err.message}`, 500);
-//   }
-// };
 
 export const questModel = {
   listByUserId,

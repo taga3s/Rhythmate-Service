@@ -1,18 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { WeeklyReport } from "./types";
 import { prisma } from "../../db/db";
-
-const getStartEndJstDate = () => {
-  const dateNowObject = new Date();
-  const nextSundayDateObject = new Date(
-    dateNowObject.getFullYear(),
-    dateNowObject.getMonth(),
-    dateNowObject.getDate() + (6 - ((dateNowObject.getDay() + 6) % 7)),
-  );
-  const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  return { dateNowJst, nextSundayJst };
-};
+import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 
 const create = async (
   completedQuests: number,
@@ -22,7 +11,7 @@ const create = async (
   userId: string,
 ): Promise<WeeklyReport> => {
   const completedPercentage = failedQuests === 0 ? 0 : (completedQuests / (completedQuests + failedQuests)) * 100;
-  const { dateNowJst, nextSundayJst } = getStartEndJstDate();
+  const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();
   const weeklyReport: Prisma.WeeklyReportCreateInput = {
     completedQuests: completedQuests,
     failedQuests: failedQuests,
