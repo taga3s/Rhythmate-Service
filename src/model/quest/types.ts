@@ -20,5 +20,3 @@ export type Quest = {
   updatedAt: Date;
   userId: string;
 };
-
-// export interface UserModel { }

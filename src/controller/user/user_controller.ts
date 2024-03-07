@@ -3,8 +3,8 @@ import { LoginRequest, SignupRequest, UpdateLoginUserRequest } from "./request";
 import { GetLoginUserResponse, LoginResponse, SignupResponse } from "./response";
 import { signupService } from "../../service/user/signup_service";
 import { loginService } from "../../service/user/login_service";
-import { generateToken, verifyToken } from "../../utils/jwt";
-import { CustomError } from "../../pkg/customError";
+import { generateToken, getUserIdFromToken, verifyToken } from "../../core/jwt";
+import { HttpError } from "../../pkg/httpError";
 import { JwtPayload } from "jsonwebtoken";
 import { getLoginUserService } from "../../service/user/get_login_user_service";
 import { updateLoginUserService } from "../../service/user/update_login_user_service";
@@ -18,10 +18,10 @@ export const signupController = async (req: Request<{}, {}, SignupRequest>, res:
     const response: SignupResponse = { status: "ok" };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" });
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -36,17 +36,17 @@ export const loginController = async (req: Request<{}, {}, LoginRequest>, res: R
     const jwt = generateToken(outputDTO.id, outputDTO.email);
     res.cookie("access_token", jwt, {
       httpOnly: true,
-      maxAge: 1000 * 3600
+      maxAge: 1000 * 360000,
     });
 
     const response: LoginResponse = { status: "ok" };
 
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" });
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -58,8 +58,8 @@ export const logoutController = async (req: Request, res: Response) => {
 
 // ユーザー取得（条件付き）
 export const getLoginUserController = async (req: Request, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
-  const inputDTO = { userId: decoded.userId };
+  const userId = getUserIdFromToken(req.cookies.access_token);
+  const inputDTO = { userId: userId };
 
   try {
     const outputDTO = await getLoginUserService(inputDTO);
@@ -72,18 +72,18 @@ export const getLoginUserController = async (req: Request, res: Response) => {
     };
     res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" });
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
-//　ユーザー情報更新（条件付き）
+// ユーザー情報更新（条件付き）
 export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserRequest>, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
+  const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = {
-    userId: decoded.userId,
+    userId: userId,
     ...req.body,
   };
 
@@ -98,9 +98,9 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
-    return res.status(500).json({ status: "error", message: "サーバーエラー" });
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };

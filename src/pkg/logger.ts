@@ -1,32 +1,23 @@
-//TODO: loggerを整備する
+import winston from "winston";
 
-// import { createLogger, format, transports } from 'winston'
+const { colorize, timestamp, errors } = winston.format;
 
-// const { colorize, simple, timestamp, errors, printf } = format
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    timestamp({
+      format: "YYYY-MM-DD HH:mm:ss",
+    }),
+    errors({ stack: true }),
+    colorize(),
+  ),
+  defaultMeta: { service: "rhythmate-service" },
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.simple(),
+    }),
+    new winston.transports.File({ filename: "./log/error.log", level: "error" }),
+  ],
+});
 
-// export const logger = createLogger({
-//   format: format.combine(
-//     format.timestamp({
-//       format: 'YYYY-MM-DD HH:mm:ss'
-//     }),
-//     errors({ stack: true }),
-//     printf(
-//       ({ level, message, timestamp, stack }) => `[${timestamp}] [${level}] ${stack || message}`,
-//     ),
-//     colorize(),
-//     simple(),
-//     timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-//   ),
-//   transports: [
-//     new transports.File({
-//       dirname: 'log',
-//       filename: ''
-//       maxsize: 5120000,
-//       maxFiles: 5,
-//       filename: ''
-//     }),
-//     new transports.Console({
-//       level: 'debug',
-//     }),
-//   ],
-// })
+export { logger };

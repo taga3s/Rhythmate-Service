@@ -1,34 +1,34 @@
 import { questModel } from "../../model/quest/quest_model";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
 type inputDTO = {
-  id: string,
-  title: string,
-  description: string,
-  startsAt: string,
-  startedAt: string,
-  minutes: number,
-  tagId: string,
-  difficulty: string,
-  state: string,
-  isSucceeded: boolean,
-  continuationLevel: number,
-  startDate: string,
-  endDate: string,
-  dates: string[],
-  weeklyCompletionCount: number,
-  totalCompletionCount: number,
-  userId: string,
+  id: string;
+  title: string;
+  description: string;
+  startsAt: string;
+  startedAt: string;
+  minutes: number;
+  tagId: string;
+  difficulty: string;
+  state: string;
+  isSucceeded: boolean;
+  continuationLevel: number;
+  startDate: string;
+  endDate: string;
+  dates: string[];
+  weeklyCompletionCount: number;
+  totalCompletionCount: number;
+  userId: string;
 };
 
 export const updateQuestService = async (inputDTO: inputDTO) => {
   const model = questModel;
 
   if (inputDTO.minutes < 0) {
-    throw new CustomError("実施時間は正の値を入力してください", 400);
+    throw new HttpError("実施時間は正の値を入力してください", 400);
   }
   const quest = await model.getById(inputDTO.id);
   if (!quest) {
-    throw new CustomError("指定したidのクエストが存在しません", 400);
+    throw new HttpError("指定したidのクエストが存在しません", 400);
   }
 
   const updatedQuest = await model.update(

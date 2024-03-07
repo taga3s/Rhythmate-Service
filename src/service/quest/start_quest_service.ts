@@ -1,21 +1,21 @@
 import { questModel } from "../../model/quest/quest_model";
-import { CustomError } from "../../pkg/customError";
+import { HttpError } from "../../pkg/httpError";
+
 type inputDTO = { id: string };
 
 export const startQuestService = async (inputDTO: inputDTO) => {
   const model = questModel;
   const quest = await model.getById(inputDTO.id);
   if (!quest) {
-    throw new CustomError("指定したidのクエストが存在しません", 400);
+    throw new HttpError("指定したidのクエストが存在しません", 400);
   }
   if (quest.startedAt !== "NOT_STARTED_YET") {
-    throw new CustomError("すでに開始しているクエストです", 500);
+    throw new HttpError("すでに開始しているクエストです", 500);
   }
   const startedQuest = await model.startById(inputDTO.id);
   if (!startedQuest) {
-    throw new CustomError("クエストの開始に失敗しました", 500);
+    throw new HttpError("クエストの開始に失敗しました", 500);
   }
-
   return {
     id: startedQuest.id,
     title: startedQuest.title,

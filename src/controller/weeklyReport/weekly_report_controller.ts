@@ -1,20 +1,17 @@
 import { Request, Response } from "express";
-import {
-GetWeeklyReportResponse 
-} from "./response";
-import { verifyToken } from "../../utils/jwt";
-import { getWeeklyReportService } from "../../service/weeklyreport/get_weekly_report_service";
-import { CustomError } from "../../pkg/customError";
-import { JwtPayload } from "jsonwebtoken";
-import { WeeklyReport } from "../../model/weeklyreport/types";
+import { ListWeeklyReportResponse } from "./response";
+import { getUserIdFromToken } from "../../core/jwt";
+import { HttpError } from "../../pkg/httpError";
+import { WeeklyReport } from "../../model/weeklyReport/types";
+import { listWeeklyReportsService } from "../../service/weeklyReport/list_weekly_reports_service";
 
 // ユーザの所持するすべての週次レポートを取得
-export const getWeeklyReportController = async (req: Request, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
+export const listWeeklyReportController = async (req: Request, res: Response) => {
+  const userId = getUserIdFromToken(req.cookies.access_token);
 
   try {
-    const outputDTO = await getWeeklyReportService(decoded.userId);
-    const response: GetWeeklyReportResponse = {
+    const outputDTO = await listWeeklyReportsService({ userId: userId });
+    const response: ListWeeklyReportResponse = {
       status: "ok",
       weeklyReports: outputDTO.weeklyReports?.map((weeklyReport: WeeklyReport) => {
         return {
@@ -32,9 +29,9 @@ export const getWeeklyReportController = async (req: Request, res: Response) => 
     };
     return res.status(200).json(response);
   } catch (err) {
-    if (err instanceof CustomError) {
+    if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
   }
-}
+};

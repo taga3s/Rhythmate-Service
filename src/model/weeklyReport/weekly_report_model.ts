@@ -1,20 +1,7 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { WeeklyReport } from "./types";
-import cron from "node-cron";
-
-const prisma = new PrismaClient();
-
-const getStartEndJstDate = () => {
-  const dateNowObject = new Date();
-  const nextSundayDateObject = new Date(
-    dateNowObject.getFullYear(),
-    dateNowObject.getMonth(),
-    dateNowObject.getDate() + (6 - (dateNowObject.getDay() + 6) % 7)
-  );
-  const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  return { dateNowJst, nextSundayJst };
-}
+import { prisma } from "../../db/db";
+import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 
 const create = async (
   completedQuests: number,
@@ -24,7 +11,7 @@ const create = async (
   userId: string,
 ): Promise<WeeklyReport> => {
   const completedPercentage = failedQuests === 0 ? 0 : (completedQuests / (completedQuests + failedQuests)) * 100;
-  const { dateNowJst, nextSundayJst } = getStartEndJstDate();
+  const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();
   const weeklyReport: Prisma.WeeklyReportCreateInput = {
     completedQuests: completedQuests,
     failedQuests: failedQuests,
@@ -42,7 +29,7 @@ const create = async (
 
   const result = await prisma.weeklyReport.create({ data: weeklyReport });
   return result;
-}
+};
 
 const update = async (
   completedQuests: number,
@@ -71,7 +58,7 @@ const update = async (
 
   const result = await prisma.weeklyReport.update({ where: { id: userId }, data: weeklyReport });
   return result;
-}
+};
 
 const updateByUserId = async (
   userId: string,
@@ -79,8 +66,9 @@ const updateByUserId = async (
   failedQuestsIncrements: number,
   completedDaysIncrements: number,
   completedQuestsEachDayIncrements: number,
-  ): Promise<WeeklyReport> => {
-  const weeklyReport = await prisma.weeklyReport.findFirst({ // 最新の週報を取得
+): Promise<WeeklyReport> => {
+  const weeklyReport = await prisma.weeklyReport.findFirst({
+    // 最新の週報を取得
     where: {
       userId: userId,
     },
@@ -91,24 +79,24 @@ const updateByUserId = async (
   if (!weeklyReport) {
     throw new Error("指定したuserIdの週報が存在しません");
   }
-  const index = ( new Date().getDay() + 6 ) % 7; // 0: 月曜日, 1: 火曜日...
-  weeklyReport.completedQuestsEachDay[index]+=completedQuestsEachDayIncrements; // 今日の日付の要素を更新
+  const index = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
+  weeklyReport.completedQuestsEachDay[index] += completedQuestsEachDayIncrements; // 今日の日付の要素を更新
   const result = await prisma.weeklyReport.update({
     where: { id: weeklyReport.id },
     data: {
-      completedQuests: {increment: completedQuestsIncrements},
-      failedQuests: {increment: failedQuestsIncrements},
-      completedDays: {increment: completedDaysIncrements},
+      completedQuests: { increment: completedQuestsIncrements },
+      failedQuests: { increment: failedQuestsIncrements },
+      completedDays: { increment: completedDaysIncrements },
       completedQuestsEachDay: weeklyReport.completedQuestsEachDay,
-      },
-    });
+    },
+  });
   return result;
-}
+};
 
 const deleteById = async (id: string): Promise<WeeklyReport | null> => {
   const result = await prisma.weeklyReport.delete({ where: { id: id } });
   return result;
-}
+};
 
 const getById = async (id: string): Promise<WeeklyReport | null> => {
   const result = await prisma.weeklyReport.findUnique({
@@ -119,7 +107,7 @@ const getById = async (id: string): Promise<WeeklyReport | null> => {
   return result;
 };
 
-const getByUserId = async (userId: string): Promise<WeeklyReport[]> => {
+const listByUserId = async (userId: string): Promise<WeeklyReport[]> => {
   const result = await prisma.weeklyReport.findMany({
     where: {
       userId: userId,
@@ -129,22 +117,7 @@ const getByUserId = async (userId: string): Promise<WeeklyReport[]> => {
     },
   });
   return result;
-}
-
-async function EverySunday() : Promise<any>{
-  cron.schedule('59 59 23 * * 0', async () => { //'59 59 23 * * 0'
-    const users = await prisma.user.findMany();
-    try {
-      const result = await Promise.all(users.map(async (user) => {
-        await create(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id);
-      }));
-      return result;
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
-});
-}
+};
 
 export const weeklyReportModel = {
   create,
@@ -152,9 +125,5 @@ export const weeklyReportModel = {
   updateByUserId,
   deleteById,
   getById,
-  getByUserId,
-};
-
-export const cronWeeklyReportModel = {
-  EverySunday,
+  listByUserId,
 };

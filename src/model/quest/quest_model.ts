@@ -1,34 +1,8 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Quest } from "./types";
-import cron from "node-cron";
-
-const prisma = new PrismaClient();
-
-const getCurrentDateTime = () => {
-  const now = new Date();
-  // 年、月、日、時、分、秒を取得
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため、+1する
-  const day = String(now.getDate()).padStart(2, '0');
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-
-  // フォーマットされた文字列を返す
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-};
-
-const getStartEndJstDate = () => {
-  const dateNowObject = new Date();
-  const nextSundayDateObject = new Date(
-    dateNowObject.getFullYear(),
-    dateNowObject.getMonth(),
-    dateNowObject.getDate() + (6 - (dateNowObject.getDay() + 6) % 7)
-  );
-  const dateNowJst = dateNowObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  const nextSundayJst = nextSundayDateObject.toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" });
-  return { dateNowJst, nextSundayJst };
-}
+import { formatDateTime, now } from "../../pkg/dayjs";
+import { prisma } from "../../db/db";
+import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 
 const create = async (
   title: string,
@@ -36,18 +10,20 @@ const create = async (
   startsAt: string,
   minutes: number,
   tagId: string,
+  state: string,
   difficulty: string,
   dates: string[],
   userId: string,
 ): Promise<Quest> => {
-  const { dateNowJst, nextSundayJst } = getStartEndJstDate();
+  const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();
   const quest: Prisma.QuestCreateInput = {
     title: title,
     description: description,
     startsAt: startsAt,
     startedAt: "NOT_STARTED_YET",
     minutes: minutes,
-    tagId: tagId !== null ? tagId : "NO_TAG_ASSIGNED",
+    tagId: tagId ?? "NO_TAG_ASSIGNED",
+    state: state,
     difficulty: difficulty,
     startDate: dateNowJst,
     endDate: nextSundayJst,
@@ -59,7 +35,7 @@ const create = async (
       },
     },
   };
-  
+
   const result = await prisma.quest.create({ data: quest });
   return result;
 };
@@ -126,7 +102,7 @@ const deleteById = async (id: string): Promise<Quest | null> => {
   return result;
 };
 
-const getByUserId = async (userId: string): Promise<Quest[] | null> => {
+const listByUserId = async (userId: string): Promise<Quest[] | null> => {
   const result = await prisma.quest.findMany({
     where: {
       userId: userId,
@@ -137,18 +113,14 @@ const getByUserId = async (userId: string): Promise<Quest[] | null> => {
 
 const startById = async (id: string): Promise<Quest | null> => {
   const quest: Prisma.QuestUpdateInput = {
-    startedAt: getCurrentDateTime(),
+    startedAt: formatDateTime(now()),
   };
   const result = await prisma.quest.update({ where: { id: id }, data: quest });
   return result;
 };
 
-const finishById = async (id: string): Promise<Quest | null> => {
-  const quest = await getById(id);
-  if (!quest) {
-    return null;
-  }
-  const continuationLevelIncrement = quest.continuationLevel === 7 ? 0 : 1;
+const finishById = async (id: string, continuationLevel: number): Promise<Quest | null> => {
+  const continuationLevelIncrement = continuationLevel === 7 ? 0 : 1;
   const updatedQuest: Prisma.QuestUpdateInput = {
     isSucceeded: true,
     state: "ACTIVE",
@@ -165,68 +137,19 @@ const forceFinishById = async (id: string): Promise<Quest> => {
     isSucceeded: false,
     state: "ACTIVE",
     continuationLevel: 0,
-  }
+  };
 
-  const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest })
-  return result
-}
-
-async function EveryDay() : Promise<any>{
-  cron.schedule('59 59 23 * * *', async () => {
-    const result = await prisma.quest.updateMany({
-      data: {
-        state: "INACTIVE",
-        startedAt: "NOT_STARTED_YET",
-        isSucceeded: false,
-      }
-    });
+  const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest });
   return result;
-});
-}
-
-async function EverySunday() : Promise<any>{
-  cron.schedule('59 59 23 * * 0', async () => {
-    const { dateNowJst, nextSundayJst } = getStartEndJstDate();
-    const result = await prisma.quest.updateMany({
-      data: {
-        startDate: dateNowJst,
-        endDate: nextSundayJst,
-        weeklyCompletionCount: 0,
-      }
-    });
-    return result;
-});
-}
-
-// const handlePrismaError = (err) => {
-//   switch (err.code) {
-//       case 'P2002':
-//           // handling duplicate key errors
-//           return new CustomError(`Duplicate field value: ${err.meta.target}`, 400);
-//       case 'P2014':
-//           // handling invalid id errors
-//           return new CustomError(`Invalid ID: ${err.meta.target}`, 400);
-//       case 'P2003':
-//           // handling invalid data errors
-//           return new CustomError(`Invalid input data: ${err.meta.target}`, 400);
-//       default:
-//           // handling all other errors
-//           return new CustomError(`Something went wrong: ${err.message}`, 500);
-//   }
-// };
+};
 
 export const questModel = {
-  getByUserId,
+  listByUserId,
   getById,
   create,
   update,
   deleteById,
   startById,
   finishById,
-  forceFinishById
-};
-
-export const cronQuestModel = {
-  EveryDay,
-  EverySunday
+  forceFinishById,
 };

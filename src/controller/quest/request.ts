@@ -9,7 +9,6 @@ export type CreateQuestRequest = {
 };
 
 export type UpdateQuestRequest = {
-  // id: string
   title: string;
   description: string;
   starts_at: string;

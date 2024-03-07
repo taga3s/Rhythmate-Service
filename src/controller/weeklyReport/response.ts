@@ -24,7 +24,7 @@ export type UpdateWeeklyReportResponse = {
   user_id: string;
 };
 
-export type GetWeeklyReportResponse = {
+export type ListWeeklyReportResponse = {
   status: string;
   weeklyReports: {
     id: string;
