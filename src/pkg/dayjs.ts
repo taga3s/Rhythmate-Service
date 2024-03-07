@@ -19,6 +19,10 @@ export const formatDateTimeWithSubtractMinutes = (dateTimeString: string, minute
   return dayjs(dateTimeString).subtract(minutes, "m").format("YYYY-MM-DD HH:mm:ss");
 };
 
+export const formatDateTimeOnlyDate = (dateTimeString: string) => {
+  return dayjs(dateTimeString).format("YYYY-MM-DD");
+};
+
 export const formatDateTimeOnlyTime = (dateTimeString: string) => {
   return dayjs(dateTimeString).format("HH:mm");
 };
@@ -29,4 +33,8 @@ export const formatDateInJapanese = (dateTimeString: string) => {
 
 export const getDayOfWeek = () => {
   return dayjs().format("ddd");
+};
+
+export const isBefore = (dateTimeString: string) => {
+  return dayjs().isBefore(dayjs(dateTimeString));
 };

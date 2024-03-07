@@ -1,4 +1,5 @@
 import { questModel } from "../../model/quest/quest_model";
+import { formatDateTimeOnlyDate, formatDateTimeWithAddMinutes, isBefore, now } from "../../pkg/dayjs";
 import { HttpError } from "../../pkg/httpError";
 
 export const createQuestService = async (inputDTO: {
@@ -15,12 +16,18 @@ export const createQuestService = async (inputDTO: {
   if (inputDTO.minutes < 0) {
     throw new HttpError("実施時間は正の値を入力してください", 400);
   }
+
+  // `クエスト作成時 < 開始時刻＋15分`の場合はINACTIVEにする
+  const targetDateTime = formatDateTimeWithAddMinutes(`${formatDateTimeOnlyDate(now())} ${inputDTO.startsAt}`, 15);
+  const state = isBefore(targetDateTime) ? "INACTIVE" : "ACTIVE";
+
   const quest = await model.create(
     inputDTO.title,
     inputDTO.description,
     inputDTO.startsAt,
     inputDTO.minutes,
     inputDTO.tagId,
+    state,
     inputDTO.difficulty,
     inputDTO.dates,
     inputDTO.userId,
