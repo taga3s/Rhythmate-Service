@@ -1,16 +1,16 @@
-import { questModel } from "../../model/quest/quest_model";
+import { QuestModel } from "../../model/quest/quest_model";
 import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 
 type InputDTO = { id: string };
 
 export const forceFinishQuestService = async (inputDTO: InputDTO) => {
-  const model = questModel;
-  const quest = await model.getById(inputDTO.id);
+  const questModel = new QuestModel();
+  const quest = await questModel.getById(inputDTO.id);
   if (!quest) {
     throw new HttpError("指定したidのクエストが存在しません", 400);
   }
-  const forceFinishedQuest = await model.forceFinishById(inputDTO.id);
+  const forceFinishedQuest = await questModel.forceFinishById(inputDTO.id);
   if (!forceFinishedQuest) {
     throw new HttpError("クエストの完了に失敗しました", 500);
   }

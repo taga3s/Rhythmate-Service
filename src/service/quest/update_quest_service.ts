@@ -1,4 +1,4 @@
-import { questModel } from "../../model/quest/quest_model";
+import { QuestModel } from "../../model/quest/quest_model";
 import { HttpError } from "../../pkg/httpError";
 type inputDTO = {
   id: string;
@@ -21,17 +21,17 @@ type inputDTO = {
 };
 
 export const updateQuestService = async (inputDTO: inputDTO) => {
-  const model = questModel;
+  const questModel = new QuestModel();
 
   if (inputDTO.minutes < 0) {
     throw new HttpError("実施時間は正の値を入力してください", 400);
   }
-  const quest = await model.getById(inputDTO.id);
+  const quest = await questModel.getById(inputDTO.id);
   if (!quest) {
     throw new HttpError("指定したidのクエストが存在しません", 400);
   }
 
-  const updatedQuest = await model.update(
+  const updatedQuest = await questModel.update(
     inputDTO.id,
     inputDTO.title,
     inputDTO.description,
