@@ -1,11 +1,10 @@
-import { tagModel } from "../../model/tag/tag_model";
-import { HttpError } from "../../pkg/httpError";
+import { TagModel } from "../../model/tag/tag_model";
 
 export const createTagService = async (inputDTO: {
   name: string;
   userId: string;
 }) => {
-  const model = tagModel;
+  const model = new TagModel();
   const tag = await model.create(inputDTO.name, inputDTO.userId);
   return {
     id: tag.id,

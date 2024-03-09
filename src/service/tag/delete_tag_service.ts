@@ -1,10 +1,8 @@
-import { tagModel } from "../../model/tag/tag_model";
+import { TagModel } from "../../model/tag/tag_model";
 import { HttpError } from "../../pkg/httpError";
 
-export const deleteTagService = async (inputDTO: {
-  id: string;
-}) => {
-  const model = tagModel;
+export const deleteTagService = async (inputDTO: { id: string }) => {
+  const model = new TagModel();
   const tag = await model.getById(inputDTO.id);
   if (tag === null) {
     throw new HttpError("タグが見つかりません", 404);

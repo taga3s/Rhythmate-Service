@@ -1,4 +1,4 @@
-import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
+import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 
 export const updateWeeklyReportService = async (inputDTO: {
@@ -11,7 +11,7 @@ export const updateWeeklyReportService = async (inputDTO: {
   endDate: string;
   userId: string;
 }) => {
-  const model = weeklyReportModel;
+  const model = WeeklyReportModel;
 
   const weeklyReport = await model.getById(inputDTO.id);
   if (weeklyReport === null) {
