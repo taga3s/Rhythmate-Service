@@ -1,6 +1,6 @@
-import { UserModel } from "../../model/user/user_model";
 import { QuestModel } from "../../model/quest/quest_model";
-import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
+import { UserModel } from "../../model/user/user_model";
+import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 
 const getQuestExp = (difficulty: string, continuationLevel: number) => {
@@ -13,6 +13,7 @@ type InputDTO = { id: string; userId: string };
 export const finishQuestService = async (inputDTO: InputDTO) => {
   const questModel = new QuestModel();
   const userModel = new UserModel();
+  const weeklyReportModel = new WeeklyReportModel();
   const quest = await questModel.getById(inputDTO.id);
   if (!quest) {
     throw new HttpError("指定したidのクエストが存在しません", 400);

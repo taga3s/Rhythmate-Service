@@ -11,7 +11,7 @@ export const updateWeeklyReportService = async (inputDTO: {
   endDate: string;
   userId: string;
 }) => {
-  const model = WeeklyReportModel;
+  const model = new WeeklyReportModel();
 
   const weeklyReport = await model.getById(inputDTO.id);
   if (weeklyReport === null) {

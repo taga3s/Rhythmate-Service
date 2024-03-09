@@ -1,7 +1,7 @@
-import { UserModel } from "../../model/user/user_model";
 import bcrypt from "bcrypt";
+import { UserModel } from "../../model/user/user_model";
+import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
-import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 
 export const signupService = async (inputDTO: {
   name: string;
@@ -10,7 +10,7 @@ export const signupService = async (inputDTO: {
   password_confirmation: string;
 }) => {
   const userModel = new UserModel();
-  const WeeklyReportModel = weeklyReportModel;
+  const weeklyReportModel = new WeeklyReportModel();
 
   const existingUser = await userModel.getByEmail(inputDTO.email);
   if (existingUser !== null) {
@@ -26,7 +26,7 @@ export const signupService = async (inputDTO: {
   const user = await userModel.create(inputDTO.name, inputDTO.email, passwordHash);
 
   // サインアップ時に週次レポートの初回作成をする
-  await WeeklyReportModel.create(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id);
+  await weeklyReportModel.create(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id);
 
   return {
     name: user.name,

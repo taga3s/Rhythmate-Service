@@ -1,10 +1,11 @@
 import { QuestModel } from "../../model/quest/quest_model";
-import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
+import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 
 type InputDTO = { id: string };
 
 export const forceFinishQuestService = async (inputDTO: InputDTO) => {
+  const weeklyReportModel = new WeeklyReportModel();
   const questModel = new QuestModel();
   const quest = await questModel.getById(inputDTO.id);
   if (!quest) {
