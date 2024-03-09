@@ -14,7 +14,7 @@ type inputDTO = {
   continuationLevel: number;
   startDate: string;
   endDate: string;
-  dates: string[];
+  days: string[];
   weeklyCompletionCount: number;
   totalCompletionCount: number;
   userId: string;
@@ -45,7 +45,7 @@ export const updateQuestService = async (inputDTO: inputDTO) => {
     inputDTO.continuationLevel,
     inputDTO.startDate,
     inputDTO.endDate,
-    inputDTO.dates,
+    inputDTO.days,
     inputDTO.weeklyCompletionCount,
     inputDTO.totalCompletionCount,
     inputDTO.userId,
@@ -65,7 +65,7 @@ export const updateQuestService = async (inputDTO: inputDTO) => {
     continuationLevel: updatedQuest.continuationLevel,
     startDate: updatedQuest.startDate,
     endDate: updatedQuest.endDate,
-    dates: updatedQuest.dates,
+    days: updatedQuest.days,
     weeklyFrequency: updatedQuest.weeklyFrequency,
     weeklyCompletionCount: updatedQuest.weeklyCompletionCount,
     totalCompletionCount: updatedQuest.totalCompletionCount,

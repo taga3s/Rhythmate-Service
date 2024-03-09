@@ -5,7 +5,7 @@ export type CreateQuestRequest = {
   minutes: number;
   tag_id: string;
   difficulty: string;
-  dates: string[];
+  days: string[];
 };
 
 export type UpdateQuestRequest = {
@@ -21,7 +21,7 @@ export type UpdateQuestRequest = {
   continuation_level: number;
   start_date: string;
   end_date: string;
-  dates: string[];
+  days: string[];
   weekly_completion_count: number;
   total_completion_count: number;
 };

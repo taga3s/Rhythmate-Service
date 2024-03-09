@@ -22,7 +22,7 @@ erDiagram
         boolean is_done "完了/未完了"
         timestamptz start_date "開始日"
         timestamptz end_date "終了日"
-        array dates "曜日の配列"
+        array days "曜日の配列"
         int weekly_frequency "一週間の頻度"
         int weekly_completion_count "一週間でこなした数"
         timestamptz created_at

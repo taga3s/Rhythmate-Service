@@ -9,7 +9,7 @@ export const createQuestService = async (inputDTO: {
   minutes: number;
   tagId: string;
   difficulty: string;
-  dates: string[];
+  days: string[];
   userId: string;
 }) => {
   const model = new QuestModel();
@@ -29,7 +29,7 @@ export const createQuestService = async (inputDTO: {
     inputDTO.tagId,
     state,
     inputDTO.difficulty,
-    inputDTO.dates,
+    inputDTO.days,
     inputDTO.userId,
   );
   return {
@@ -45,7 +45,7 @@ export const createQuestService = async (inputDTO: {
     isSucceeded: quest.isSucceeded,
     startDate: quest.startDate,
     endDate: quest.endDate,
-    dates: quest.dates,
+    days: quest.days,
     weeklyFrequency: quest.weeklyFrequency,
   };
 };
