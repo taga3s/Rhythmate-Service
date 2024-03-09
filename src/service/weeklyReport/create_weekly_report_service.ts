@@ -1,4 +1,4 @@
-import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
+import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 
 export const createWeeklyReportService = async (inputDTO: {
@@ -10,7 +10,7 @@ export const createWeeklyReportService = async (inputDTO: {
   endDate: Date;
   userId: string;
 }) => {
-  const model = weeklyReportModel;
+  const model = new WeeklyReportModel();
 
   const weeklyReport = await model.create(
     inputDTO.completedQuests,

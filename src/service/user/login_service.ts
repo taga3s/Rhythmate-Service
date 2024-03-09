@@ -1,11 +1,11 @@
-import { userModel } from "../../model/user/user_model";
+import { UserModel } from "../../model/user/user_model";
 import bcrypt from "bcrypt";
 import { HttpError } from "../../pkg/httpError";
 
 export const loginService = async (inputDTO: { email: string; password: string }) => {
-  const model = userModel;
+  const userModel = new UserModel();
 
-  const user = await model.getByEmail(inputDTO.email);
+  const user = await userModel.getByEmail(inputDTO.email);
   if (!user) {
     throw new HttpError("メールアドレスかパスワードが間違っています。", 400);
   }

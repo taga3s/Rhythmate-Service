@@ -1,9 +1,9 @@
-import { userModel } from "../../model/user/user_model";
+import { UserModel } from "../../model/user/user_model";
 
 export const updateLoginUserService = async (inputDTO: { userId: string; name: string }) => {
-  const model = userModel;
+  const userModel = new UserModel();
 
-  const user = await model.update(inputDTO.userId, inputDTO.name);
+  const user = await userModel.update(inputDTO.userId, inputDTO.name);
 
   return {
     name: user.name,

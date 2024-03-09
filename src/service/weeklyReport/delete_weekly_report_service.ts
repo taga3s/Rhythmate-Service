@@ -1,10 +1,8 @@
-import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
+import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 
-export const deleteWeeklyReportService = async (inputDTO: {
-  id: string;
-}) => {
-  const model = weeklyReportModel;
+export const deleteWeeklyReportService = async (inputDTO: { id: string }) => {
+  const model = new WeeklyReportModel();
   const weeklyReport = await model.getById(inputDTO.id);
   if (weeklyReport === null) {
     throw new HttpError("週次レポートが見つかりませんでした", 500);

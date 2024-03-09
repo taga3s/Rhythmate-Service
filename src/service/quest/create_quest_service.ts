@@ -1,4 +1,4 @@
-import { questModel } from "../../model/quest/quest_model";
+import { QuestModel } from "../../model/quest/quest_model";
 import { formatDateTimeOnlyDate, formatDateTimeWithAddMinutes, isBefore, now } from "../../pkg/dayjs";
 import { HttpError } from "../../pkg/httpError";
 
@@ -12,7 +12,7 @@ export const createQuestService = async (inputDTO: {
   dates: string[];
   userId: string;
 }) => {
-  const model = questModel;
+  const model = new QuestModel();
   if (inputDTO.minutes < 0) {
     throw new HttpError("実施時間は正の値を入力してください", 400);
   }

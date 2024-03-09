@@ -1,8 +1,8 @@
-import { questModel } from "../../model/quest/quest_model";
+import { QuestModel } from "../../model/quest/quest_model";
 import { HttpError } from "../../pkg/httpError";
 
 export const deleteQuestService = async (inputDTO: { id: string }) => {
-  const model = questModel;
+  const model = new QuestModel();
   const quest = await model.getById(inputDTO.id);
   if (!quest) {
     throw new HttpError("指定したidのクエストが存在しません", 400);
