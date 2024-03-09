@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
-import { Quest } from "./types";
-import { formatDateTime, now } from "../../pkg/dayjs";
 import { prisma } from "../../db/db";
+import { formatDateTime, now } from "../../pkg/dayjs";
 import { getStartAndEndJstDateTime } from "../funcs/dateTime";
+import { Quest } from "./types";
 
 export class QuestModel {
   public async getById(id: string): Promise<Quest | null> {
@@ -31,7 +31,7 @@ export class QuestModel {
     tagId: string,
     state: string,
     difficulty: string,
-    dates: string[],
+    days: string[],
     userId: string,
   ): Promise<Quest> {
     const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();
@@ -46,8 +46,8 @@ export class QuestModel {
       difficulty: difficulty,
       startDate: dateNowJst,
       endDate: nextSundayJst,
-      dates: dates,
-      weeklyFrequency: dates.length,
+      days: days,
+      weeklyFrequency: days.length,
       user: {
         connect: {
           id: userId,
@@ -77,7 +77,7 @@ export class QuestModel {
     continuationLevel: number,
     startDate: string,
     endDate: string,
-    dates: string[],
+    days: string[],
     weeklyCompletionCount: number,
     totalCompletionCount: number,
     userId: string,
@@ -96,8 +96,8 @@ export class QuestModel {
       continuationLevel: continuationLevel,
       startDate: startDate,
       endDate: endDate,
-      dates: dates,
-      weeklyFrequency: dates.length,
+      days: days,
+      weeklyFrequency: days.length,
       weeklyCompletionCount: weeklyCompletionCount,
       totalCompletionCount: totalCompletionCount,
       updatedAt: new Date(),
@@ -107,7 +107,10 @@ export class QuestModel {
         },
       },
     };
-    const result = await prisma.quest.update({ where: { id: id }, data: quest });
+    const result = await prisma.quest.update({
+      where: { id: id },
+      data: quest,
+    });
     return result;
   }
 
@@ -115,7 +118,10 @@ export class QuestModel {
     const quest: Prisma.QuestUpdateInput = {
       startedAt: formatDateTime(now()),
     };
-    const result = await prisma.quest.update({ where: { id: id }, data: quest });
+    const result = await prisma.quest.update({
+      where: { id: id },
+      data: quest,
+    });
     return result;
   }
 
@@ -128,7 +134,10 @@ export class QuestModel {
       weeklyCompletionCount: { increment: 1 },
       totalCompletionCount: { increment: 1 },
     };
-    const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest });
+    const result = await prisma.quest.update({
+      where: { id: id },
+      data: updatedQuest,
+    });
     return result;
   }
 
@@ -138,7 +147,10 @@ export class QuestModel {
       state: "ACTIVE",
       continuationLevel: 0,
     };
-    const result = await prisma.quest.update({ where: { id: id }, data: updatedQuest });
+    const result = await prisma.quest.update({
+      where: { id: id },
+      data: updatedQuest,
+    });
     return result;
   }
 }

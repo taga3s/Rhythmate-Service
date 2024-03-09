@@ -30,7 +30,7 @@ export const startQuestService = async (inputDTO: inputDTO) => {
     continuationLevel: startedQuest.continuationLevel,
     startDate: startedQuest.startDate,
     endDate: startedQuest.endDate,
-    dates: startedQuest.dates,
+    days: startedQuest.days,
     weeklyFrequency: startedQuest.weeklyFrequency,
     weeklyCompletionCount: startedQuest.weeklyCompletionCount,
     totalCompletionCount: startedQuest.totalCompletionCount,
