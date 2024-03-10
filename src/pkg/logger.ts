@@ -3,7 +3,7 @@ import winston from "winston";
 const { colorize, timestamp, errors } = winston.format;
 
 const logger = winston.createLogger({
-  level: "info",
+  level: "debug",
   format: winston.format.combine(
     timestamp({
       format: "YYYY-MM-DD HH:mm:ss",
@@ -16,7 +16,6 @@ const logger = winston.createLogger({
     new winston.transports.Console({
       format: winston.format.simple(),
     }),
-    new winston.transports.File({ filename: "./log/error.log", level: "error" }),
   ],
 });
 

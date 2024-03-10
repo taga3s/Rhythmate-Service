@@ -1,12 +1,12 @@
-import express from "express";
-import "dotenv/config";
-import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter } from "./route";
-import { cookie } from "express-validator";
 import cookieParser from "cookie-parser";
+import "dotenv/config";
+import express from "express";
+import { cookie } from "express-validator";
 import { allowCrossDomain } from "./core/cors";
-import { cronWeeklyReportModel } from "./model/weeklyReport/cron_weekly_report.model";
 import { cronQuestModel } from "./model/quest/cron_quest_model";
+import { cronWeeklyReportModel } from "./model/weeklyReport/cron_weekly_report.model";
 import { logger } from "./pkg/logger";
+import { healthRouter, questRouter, tagRouter, userRouter, weeklyReportRouter } from "./route";
 
 const app = express();
 
@@ -35,4 +35,14 @@ cronWeeklyReportModel.createEverySunday(); // 1週間ごとの新規週報の作
 
 const PORT = process.env.PORT;
 
-app.listen(PORT, () => logger.info(`Server is running at http://localhost:${PORT}`));
+// app.listen(PORT, () =>
+//   logger.info(`Server is running at http://localhost:${PORT}`)
+// );
+
+app.listen(PORT, (err): void => {
+  if (err) {
+    logger.error(`Server is something wrong, please try again`);
+  } else {
+    logger.info(`Server is running at http://localhost:${PORT}`);
+  }
+});
