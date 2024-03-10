@@ -1,21 +1,46 @@
 import { Request, Response } from "express";
 import { CreateTagRequest, UpdateTagRequest } from "./request";
-import { CreateTagResponse, UpdateTagResponse, GetTagResponse, DeleteTagResponse } from "./response";
-import { verifyToken } from "../../core/jwt";
+import { CreateTagResponse, UpdateTagResponse, DeleteTagResponse, ListTagsResponse } from "./response";
+import { getUserIdFromToken, verifyToken } from "../../core/jwt";
 import { createTagService } from "../../service/tag/create_tag_service";
 import { deleteTagService } from "../../service/tag/delete_tag_service";
-import { getTagService } from "../../service/tag/get_tag_service";
+import { listTagsService } from "../../service/tag/list_tags_service";
 import { updateTagService } from "../../service/tag/update_tag_service";
 import { HttpError } from "../../pkg/httpError";
-import { JwtPayload } from "jsonwebtoken";
 import { Tag } from "../../model/tag/types";
+
+// ユーザーの所持するすべてのタグを取得
+export const listTagsController = async (req: Request, res: Response) => {
+  const userId = getUserIdFromToken(req.cookies.access_token);
+  const inputDTO = { userId: userId };
+  try {
+    const outputDTO = await listTagsService(inputDTO);
+    const response: ListTagsResponse = {
+      status: "ok",
+      tags: outputDTO.tags?.map((tag: Tag) => {
+        return {
+          id: tag.id,
+          name: tag.name,
+          created_at: tag.createdAt,
+          updated_at: tag.updatedAt,
+        };
+      }),
+    };
+    return res.status(200).json(response);
+  } catch (err) {
+    if (err instanceof HttpError) {
+      return res.status(err.statusCode).json({ status: "error", message: err.message });
+    }
+    return res.status(500).json({ status: "error", message: "Internal server error." });
+  }
+};
 
 // タグの作成
 export const createTagController = async (req: Request<{}, {}, CreateTagRequest>, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
+  const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = {
-    userId: decoded.userId,
     name: req.body.name,
+    userId: userId,
   };
   try {
     const outputDTO = await createTagService(inputDTO);
@@ -65,32 +90,6 @@ export const updateTagController = async (req: Request<{ id: string }, {}, Updat
       name: outputDTO.name,
       created_at: outputDTO.createdAt,
       updated_at: outputDTO.updatedAt,
-    };
-    return res.status(200).json(response);
-  } catch (err) {
-    if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
-    }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
-  }
-};
-
-// ユーザーの所持するすべてのタグを取得
-export const getTagController = async (req: Request, res: Response) => {
-  const decoded = verifyToken(req.cookies.access_token) as JwtPayload;
-  const inputDTO = { userId: decoded.userId };
-  try {
-    const outputDTO = await getTagService(inputDTO);
-    const response: GetTagResponse = {
-      status: "ok",
-      tags: outputDTO.tags?.map((tag: Tag) => {
-        return {
-          id: tag.id,
-          name: tag.name,
-          created_at: tag.createdAt,
-          updated_at: tag.updatedAt,
-        };
-      }),
     };
     return res.status(200).json(response);
   } catch (err) {

@@ -3,7 +3,7 @@ import {
   createTagController,
   updateTagController,
   deleteTagController,
-  getTagController,
+  listTagsController,
 } from "../controller/tag/tag_controller";
 import { body } from "express-validator";
 import { validate } from "../pkg/validate";
@@ -11,6 +11,7 @@ import { auth } from "./middlewares/auth";
 
 const tagRouter = Router();
 
+tagRouter.get("/", auth, listTagsController);
 tagRouter.post(
   "/",
   auth,
@@ -19,5 +20,4 @@ tagRouter.post(
 );
 tagRouter.patch("/:id", auth, updateTagController);
 tagRouter.delete("/:id", auth, deleteTagController);
-tagRouter.get("/", auth, getTagController);
 export { tagRouter };
