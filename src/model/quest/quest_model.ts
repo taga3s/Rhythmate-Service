@@ -145,7 +145,7 @@ export class QuestModel {
     const updatedQuest: Prisma.QuestUpdateInput = {
       isSucceeded: false,
       state: "ACTIVE",
-      continuationLevel: 0,
+      continuationLevel: 1,
     };
     const result = await prisma.quest.update({
       where: { id: id },
