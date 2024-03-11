@@ -6,7 +6,6 @@ import { WeeklyReport } from "../../model/weeklyReport/types";
 import { listWeeklyReportsService } from "../../service/weeklyReport/list_weekly_reports_service";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import "dotenv/config";
-import { kMaxLength } from "buffer";
 
 const runGemini = async (weeklyReports: WeeklyReport[]) => {
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY as string);
@@ -74,6 +73,7 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
   }
 };
 
+// 週次レポートを要約
 export const summarizeWeeklyReportController = async (req: Request, res: Response) => {
   const userId = getUserIdFromToken(req.cookies.access_token);
 
