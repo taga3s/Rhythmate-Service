@@ -63,15 +63,8 @@ export class WeeklyReportModel {
     });
     return result;
   }
-
-  public async updateByUserId(
-    userId: string,
-    completedQuestsIncrements: number,
-    failedQuestsIncrements: number,
-    completedDaysIncrements: number,
-    completedQuestsEachDayIncrements: number,
-  ): Promise<WeeklyReport> {
-    const weeklyReport = await prisma.weeklyReport.findFirst({
+  public async getByUserId(userId: string): Promise<WeeklyReport | null> {
+    const result = await prisma.weeklyReport.findFirst({
       // 最新の週報を取得
       where: {
         userId: userId,
@@ -80,18 +73,23 @@ export class WeeklyReportModel {
         endDate: "desc",
       },
     });
-    if (!weeklyReport) {
-      throw new Error("指定したuserIdの週報が存在しません");
-    }
-    const index = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
-    weeklyReport.completedQuestsEachDay[index] += completedQuestsEachDayIncrements; // 今日の日付の要素を更新
+    return result;
+  }
+
+  public async updateById(
+    id: string,
+    completedQuestsIncrements: number,
+    failedQuestsIncrements: number,
+    completedDaysIncrements: number,
+    completedQuestsEachDay: number[],
+  ): Promise<WeeklyReport> {
     const result = await prisma.weeklyReport.update({
-      where: { id: weeklyReport.id },
+      where: { id: id },
       data: {
         completedQuests: { increment: completedQuestsIncrements },
         failedQuests: { increment: failedQuestsIncrements },
         completedDays: { increment: completedDaysIncrements },
-        completedQuestsEachDay: weeklyReport.completedQuestsEachDay,
+        completedQuestsEachDay: completedQuestsEachDay,
       },
     });
     return result;

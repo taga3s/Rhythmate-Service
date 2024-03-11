@@ -15,8 +15,19 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
   if (!forceFinishedQuest) {
     throw new HttpError("クエストの完了に失敗しました", 500);
   }
+  const targetWeeklyReport = await weeklyReportModel.getByUserId(forceFinishedQuest.userId);
+  if (!targetWeeklyReport) {
+    throw new HttpError("指定したuserIdの週報が存在しません", 400);
+  }
+
   //失敗したクエスト数をインクリメント
-  const weeklyReport = await weeklyReportModel.updateByUserId(forceFinishedQuest.userId, 0, 1, 0, 0);
+  const weeklyReport = await weeklyReportModel.updateById(
+    forceFinishedQuest.id,
+    0,
+    1,
+    0,
+    targetWeeklyReport.completedQuestsEachDay,
+  );
   return {
     id: forceFinishedQuest.id,
     title: forceFinishedQuest.title,
