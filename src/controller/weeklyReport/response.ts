@@ -42,3 +42,8 @@ export type ListWeeklyReportResponse = {
 export type DeleteWeeklyReportResponse = {
   status: string;
 };
+
+export type SummarizeWeeklyReportResponse = {
+  status: string;
+  summary: string;
+};
