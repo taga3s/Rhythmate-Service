@@ -120,4 +120,18 @@ export class WeeklyReportModel {
     });
     return result;
   }
+
+  public async saveSummary(userId: string, summary: string): Promise<WeeklyReport> {
+    const weeklyReportsList = await this.listByUserId(userId);
+    const lastWeekReport = weeklyReportsList[1];
+    const result = await prisma.weeklyReport.update({
+      where: {
+        id: lastWeekReport.id,
+      },
+      data: {
+        summary: summary,
+      },
+    });
+    return result;
+  }
 }
