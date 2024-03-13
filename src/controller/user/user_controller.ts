@@ -35,8 +35,11 @@ export const loginController = async (req: Request<{}, {}, LoginRequest>, res: R
     // jwtを生成し、クッキーにセットする。
     const jwt = generateToken(outputDTO.id, outputDTO.email);
     res.cookie("access_token", jwt, {
+      expires: new Date(Date.now() + 12 * 3600000),
+      path: "/",
       httpOnly: true,
-      maxAge: 1000 * 360000,
+      secure: true,
+      sameSite: "none",
     });
 
     const response: LoginResponse = { status: "ok" };
