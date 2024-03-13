@@ -3,7 +3,7 @@ import { prisma } from "../../db/db";
 import { logger } from "../../pkg/logger";
 import { WeeklyReportModel } from "./weekly_report_model";
 
-async function createEverySunday(): Promise<any> {
+async function createEverySunday(): Promise<void> {
   const weeklyReportModel = new WeeklyReportModel();
 
   cron.schedule("59 59 23 * * 0", async () => {
@@ -18,7 +18,7 @@ async function createEverySunday(): Promise<any> {
       );
       return result;
     } catch (error) {
-      console.error(error);
+      logger.error(error);
       return error;
     }
   });
