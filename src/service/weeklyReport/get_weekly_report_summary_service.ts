@@ -7,7 +7,6 @@ import "dotenv/config";
 const runGemini = async (weeklyReports: WeeklyReport[]) => {
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY as string);
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  const latestIndex = weeklyReports.length - 1;
   const prompt = `
     # 目的
     あなたはルーティン化達成アドバイザーです。
@@ -16,18 +15,18 @@ const runGemini = async (weeklyReports: WeeklyReport[]) => {
 
     # 週次レポート
     ## 先週の結果
-    - 完了したルーティン数: ${weeklyReports[latestIndex - 1].completedQuests}
-    - 失敗したルーティン数: ${weeklyReports[latestIndex - 1].failedQuests}
-    - 完了率: ${weeklyReports[latestIndex - 1].completedPercentage}%
-    - 完了日数: ${weeklyReports[latestIndex - 1].completedDays}
-    - 各日の完了ルーティン数: ${weeklyReports[latestIndex - 1].completedQuestsEachDay}
+    - 完了したルーティン数: ${weeklyReports[2].completedQuests}
+    - 失敗したルーティン数: ${weeklyReports[2].failedQuests}
+    - 完了率: ${weeklyReports[2].completedPercentage}%
+    - 完了日数: ${weeklyReports[2].completedDays}
+    - 各日の完了ルーティン数: ${weeklyReports[2].completedQuestsEachDay}
 
     ## 今週の結果
-    - 完了したルーティン数: ${weeklyReports[latestIndex].completedQuests}
-    - 失敗したルーティン数: ${weeklyReports[latestIndex].failedQuests}
-    - 完了率: ${weeklyReports[latestIndex].completedPercentage}%
-    - 完了日数: ${weeklyReports[latestIndex].completedDays}
-    - 各日の完了ルーティン数: ${weeklyReports[latestIndex].completedQuestsEachDay}
+    - 完了したルーティン数: ${weeklyReports[1].completedQuests}
+    - 失敗したルーティン数: ${weeklyReports[1].failedQuests}
+    - 完了率: ${weeklyReports[1].completedPercentage}%
+    - 完了日数: ${weeklyReports[1].completedDays}
+    - 各日の完了ルーティン数: ${weeklyReports[1].completedQuestsEachDay}
   `;
   const result = await model.generateContent(prompt);
   const response = result.response;
