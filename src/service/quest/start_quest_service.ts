@@ -1,18 +1,18 @@
-import { questModel } from "../../model/quest/quest_model";
+import { QuestModel } from "../../model/quest/quest_model";
 import { HttpError } from "../../pkg/httpError";
 
 type inputDTO = { id: string };
 
 export const startQuestService = async (inputDTO: inputDTO) => {
-  const model = questModel;
-  const quest = await model.getById(inputDTO.id);
+  const questModel = new QuestModel();
+  const quest = await questModel.getById(inputDTO.id);
   if (!quest) {
     throw new HttpError("指定したidのクエストが存在しません", 400);
   }
   if (quest.startedAt !== "NOT_STARTED_YET") {
     throw new HttpError("すでに開始しているクエストです", 500);
   }
-  const startedQuest = await model.startById(inputDTO.id);
+  const startedQuest = await questModel.startById(inputDTO.id);
   if (!startedQuest) {
     throw new HttpError("クエストの開始に失敗しました", 500);
   }
@@ -30,7 +30,7 @@ export const startQuestService = async (inputDTO: inputDTO) => {
     continuationLevel: startedQuest.continuationLevel,
     startDate: startedQuest.startDate,
     endDate: startedQuest.endDate,
-    dates: startedQuest.dates,
+    days: startedQuest.days,
     weeklyFrequency: startedQuest.weeklyFrequency,
     weeklyCompletionCount: startedQuest.weeklyCompletionCount,
     totalCompletionCount: startedQuest.totalCompletionCount,

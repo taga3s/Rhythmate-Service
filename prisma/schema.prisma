@@ -38,7 +38,7 @@ model Quest {
   continuationLevel     Int      @default(1)
   startDate             String
   endDate               String
-  dates                 String[]
+  days                  String[]
   weeklyFrequency       Int
   weeklyCompletionCount Int      @default(0)
   totalCompletionCount  Int      @default(0)

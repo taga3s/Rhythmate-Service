@@ -1,4 +1,4 @@
-import { questModel } from "../../model/quest/quest_model";
+import { QuestModel } from "../../model/quest/quest_model";
 import { HttpError } from "../../pkg/httpError";
 type inputDTO = {
   id: string;
@@ -14,24 +14,24 @@ type inputDTO = {
   continuationLevel: number;
   startDate: string;
   endDate: string;
-  dates: string[];
+  days: string[];
   weeklyCompletionCount: number;
   totalCompletionCount: number;
   userId: string;
 };
 
 export const updateQuestService = async (inputDTO: inputDTO) => {
-  const model = questModel;
+  const questModel = new QuestModel();
 
   if (inputDTO.minutes < 0) {
     throw new HttpError("実施時間は正の値を入力してください", 400);
   }
-  const quest = await model.getById(inputDTO.id);
+  const quest = await questModel.getById(inputDTO.id);
   if (!quest) {
     throw new HttpError("指定したidのクエストが存在しません", 400);
   }
 
-  const updatedQuest = await model.update(
+  const updatedQuest = await questModel.update(
     inputDTO.id,
     inputDTO.title,
     inputDTO.description,
@@ -45,7 +45,7 @@ export const updateQuestService = async (inputDTO: inputDTO) => {
     inputDTO.continuationLevel,
     inputDTO.startDate,
     inputDTO.endDate,
-    inputDTO.dates,
+    inputDTO.days,
     inputDTO.weeklyCompletionCount,
     inputDTO.totalCompletionCount,
     inputDTO.userId,
@@ -65,7 +65,7 @@ export const updateQuestService = async (inputDTO: inputDTO) => {
     continuationLevel: updatedQuest.continuationLevel,
     startDate: updatedQuest.startDate,
     endDate: updatedQuest.endDate,
-    dates: updatedQuest.dates,
+    days: updatedQuest.days,
     weeklyFrequency: updatedQuest.weeklyFrequency,
     weeklyCompletionCount: updatedQuest.weeklyCompletionCount,
     totalCompletionCount: updatedQuest.totalCompletionCount,

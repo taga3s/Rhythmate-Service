@@ -1,18 +1,7 @@
 import { Request, Response } from "express";
-import { CreateQuestRequest, UpdateQuestRequest } from "../quest/request";
-import {
-  CreateQuestResponse,
-  DeleteQuestResponse,
-  UpdateQuestResponse,
-  StartQuestResponse,
-  FinishQuestResponse,
-  ForceFinishQuestResponse,
-  ListQuestsResponse,
-} from "../quest/response";
 import { getUserIdFromToken } from "../../core/jwt";
-import { HttpError } from "../../pkg/httpError";
 import { Quest } from "../../model/quest/types";
-import { forceFinishQuestService } from "../../service/quest/force_finish_quest_service";
+import { HttpError } from "../../pkg/httpError";
 import {
   createQuestService,
   deleteQuestService,
@@ -21,6 +10,17 @@ import {
   startQuestService,
   updateQuestService,
 } from "../../service/quest";
+import { forceFinishQuestService } from "../../service/quest/force_finish_quest_service";
+import { CreateQuestRequest, UpdateQuestRequest } from "../quest/request";
+import {
+  CreateQuestResponse,
+  DeleteQuestResponse,
+  FinishQuestResponse,
+  ForceFinishQuestResponse,
+  ListQuestsResponse,
+  StartQuestResponse,
+  UpdateQuestResponse,
+} from "../quest/response";
 
 // クエストの作成
 export const createQuestController = async (req: Request<{}, {}, CreateQuestRequest>, res: Response) => {
@@ -32,7 +32,7 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
     minutes: req.body.minutes,
     tagId: req.body.tag_id,
     difficulty: req.body.difficulty,
-    dates: req.body.dates,
+    days: req.body.days,
     userId: userId,
   };
 
@@ -52,7 +52,7 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
       is_succeeded: outputDTO.isSucceeded,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
-      dates: outputDTO.dates,
+      days: outputDTO.days,
       weekly_frequency: outputDTO.weeklyFrequency,
     };
     return res.status(200).json(response);
@@ -88,7 +88,7 @@ export const listQuestsController = async (req: Request, res: Response) => {
           continuation_level: quest.continuationLevel,
           start_date: quest.startDate,
           end_date: quest.endDate,
-          dates: quest.dates,
+          days: quest.days,
           weekly_frequency: quest.weeklyFrequency,
           weekly_completion_count: quest.weeklyCompletionCount,
           total_completion_count: quest.totalCompletionCount,
@@ -137,7 +137,7 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
     continuationLevel: req.body.continuation_level,
     startDate: req.body.start_date,
     endDate: req.body.end_date,
-    dates: req.body.dates,
+    days: req.body.days,
     weeklyCompletionCount: req.body.weekly_completion_count,
     totalCompletionCount: req.body.total_completion_count,
     userId: userId,
@@ -160,7 +160,7 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
       continuation_level: outputDTO.continuationLevel,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
-      dates: outputDTO.dates,
+      days: outputDTO.days,
       weekly_frequency: outputDTO.weeklyFrequency,
       weekly_completion_count: outputDTO.weeklyCompletionCount,
       total_completion_count: outputDTO.totalCompletionCount,
@@ -195,7 +195,7 @@ export const startQuestController = async (req: Request<{ id: string }>, res: Re
       continuation_level: outputDTO.continuationLevel,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
-      dates: outputDTO.dates,
+      days: outputDTO.days,
       weekly_frequency: outputDTO.weeklyFrequency,
       weekly_completion_count: outputDTO.weeklyCompletionCount,
       total_completion_count: outputDTO.totalCompletionCount,
@@ -231,7 +231,7 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
       continuation_level: outputDTO.continuationLevel,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
-      dates: outputDTO.dates,
+      days: outputDTO.days,
       weekly_frequency: outputDTO.weeklyFrequency,
       weekly_completion_count: outputDTO.weeklyCompletionCount,
       total_completion_count: outputDTO.totalCompletionCount,
@@ -267,7 +267,7 @@ export const forceFinishQuestController = async (req: Request<{ id: string }>, r
       continuation_level: outputDTO.continuationLevel,
       start_date: outputDTO.startDate,
       end_date: outputDTO.endDate,
-      dates: outputDTO.dates,
+      days: outputDTO.days,
       weekly_frequency: outputDTO.weeklyFrequency,
       weekly_completion_count: outputDTO.weeklyCompletionCount,
       total_completion_count: outputDTO.totalCompletionCount,

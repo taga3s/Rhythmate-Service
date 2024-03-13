@@ -474,7 +474,7 @@ components:
         minutes: { type: number, example: 30 }
         tag_id: { type: number, example: 1 }
         difficulty: { type: number, example: 1 }
-        dates: { type: array, example: ["Mon", "Wed", "Fri"] }
+        days: { type: array, example: ["Mon", "Wed", "Fri"] }
         userId: { type: number, example: 1 }
       required:
         - title
@@ -483,7 +483,7 @@ components:
         - minutes
         - tag_id
         - difficulty
-        - dates
+        - days
         - userId
     QuestsCreateResponse:
       type: object
@@ -511,24 +511,36 @@ components:
         tag_id: { type: number, example: 1 }
         difficulty: { type: number, example: 1 }
         is_done: { type: boolean, example: false }
-        dates: { type: array, example: ["Mon", "Wed", "Fri"] }
+        days: { type: array, example: ["Mon", "Wed", "Fri"] }
         weekly_frequency: { type: number, example: 3 }
         weekly_completion_count: { type: number, example: 2 }
         userId: { type: number, example: 1 }
     QuestsListResponse:
       type: object
       properties:
-        quests: { type: array, example: [ { $ref: "#/components/schemas/QuestsResponse" },
-                                          { $ref: "#/components/schemas/QuestsResponse" },
-                                          { $ref: "#/components/schemas/QuestsResponse" }
-                                        ] }
+        quests:
+          {
+            type: array,
+            example:
+              [
+                { $ref: "#/components/schemas/QuestsResponse" },
+                { $ref: "#/components/schemas/QuestsResponse" },
+                { $ref: "#/components/schemas/QuestsResponse" },
+              ],
+          }
     TagsResponse:
       type: object
       properties:
-        tags: { type: array, example: [ { id: 1, name: "TechStudy" },
-                                        { id: 2, name: "EnglishStudy" },
-                                        { id: 3, name: "Health" }
-                                      ] }
+        tags:
+          {
+            type: array,
+            example:
+              [
+                { id: 1, name: "TechStudy" },
+                { id: 2, name: "EnglishStudy" },
+                { id: 3, name: "Health" },
+              ],
+          }
     TagsCreateRequest:
       type: object
       properties:

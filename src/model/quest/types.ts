@@ -12,7 +12,7 @@ export type Quest = {
   continuationLevel: number;
   startDate: string;
   endDate: string;
-  dates: string[];
+  days: string[];
   weeklyFrequency: number;
   weeklyCompletionCount: number;
   totalCompletionCount: number;

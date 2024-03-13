@@ -27,7 +27,7 @@ CREATE TABLE "Quest" (
     "continuationLevel" INTEGER NOT NULL DEFAULT 1,
     "startDate" TEXT NOT NULL,
     "endDate" TEXT NOT NULL,
-    "dates" TEXT[],
+    "days" TEXT[],
     "weeklyFrequency" INTEGER NOT NULL,
     "weeklyCompletionCount" INTEGER NOT NULL DEFAULT 0,
     "totalCompletionCount" INTEGER NOT NULL DEFAULT 0,

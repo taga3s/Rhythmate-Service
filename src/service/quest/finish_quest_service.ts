@@ -1,6 +1,6 @@
-import { userModel } from "../../model/user/user_model";
-import { questModel } from "../../model/quest/quest_model";
-import { weeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
+import { QuestModel } from "../../model/quest/quest_model";
+import { UserModel } from "../../model/user/user_model";
+import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 
 const getQuestExp = (difficulty: string, continuationLevel: number) => {
@@ -11,9 +11,10 @@ const getQuestExp = (difficulty: string, continuationLevel: number) => {
 type InputDTO = { id: string; userId: string };
 
 export const finishQuestService = async (inputDTO: InputDTO) => {
-  const QuestModel = questModel;
-  const UserModel = userModel;
-  const quest = await QuestModel.getById(inputDTO.id);
+  const questModel = new QuestModel();
+  const userModel = new UserModel();
+  const weeklyReportModel = new WeeklyReportModel();
+  const quest = await questModel.getById(inputDTO.id);
   if (!quest) {
     throw new HttpError("指定したidのクエストが存在しません", 400);
   }
@@ -21,24 +22,37 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     throw new HttpError("すでに終了したクエストです", 400);
   }
 
-  const finishedQuest = await QuestModel.finishById(inputDTO.id, quest.continuationLevel);
+  const finishedQuest = await questModel.finishById(inputDTO.id, quest.continuationLevel);
   if (!finishedQuest) {
     throw new HttpError("クエストの完了に失敗しました", 500);
   }
+  const targetWeeklyReport = await weeklyReportModel.getByUserId(finishedQuest.userId);
+  if (!targetWeeklyReport) {
+    throw new HttpError("指定したuserIdの週報が存在しません", 400);
+  }
+
+  const index = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
+  targetWeeklyReport.completedQuestsEachDay[index] += 1;
 
   //完了したクエスト数とその日の完了クエスト数をインクリメント
-  const weeklyReport = await weeklyReportModel.updateByUserId(finishedQuest.userId, 1, 0, 0, 1);
+  const weeklyReport = await weeklyReportModel.updateById(
+    targetWeeklyReport.id,
+    1,
+    0,
+    0,
+    targetWeeklyReport.completedQuestsEachDay,
+  );
   if (!weeklyReport) {
     throw new HttpError("週報の更新に失敗しました", 500);
   }
 
   //ユーザーの経験値とレベルを更新
-  const user = await UserModel.getById(finishedQuest.userId);
+  const user = await userModel.getById(finishedQuest.userId);
   if (!user) {
     throw new HttpError("ユーザーが見つかりません", 400);
   }
   const expIncrement = getQuestExp(finishedQuest.difficulty, finishedQuest.continuationLevel);
-  const updatedUser = await UserModel.updateExp(finishedQuest.userId, user.exp, expIncrement);
+  const updatedUser = await userModel.updateExp(finishedQuest.userId, user.exp, expIncrement);
   if (!updatedUser) {
     throw new HttpError("ユーザーの経験値の更新に失敗しました", 500);
   }
@@ -56,7 +70,7 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     continuationLevel: finishedQuest.continuationLevel,
     startDate: finishedQuest.startDate,
     endDate: finishedQuest.endDate,
-    dates: finishedQuest.dates,
+    days: finishedQuest.days,
     weeklyFrequency: finishedQuest.weeklyFrequency,
     weeklyCompletionCount: finishedQuest.weeklyCompletionCount,
     totalCompletionCount: finishedQuest.totalCompletionCount,
