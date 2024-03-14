@@ -3,9 +3,8 @@ import { LoginRequest, SignupRequest, UpdateLoginUserRequest } from "./request";
 import { GetLoginUserResponse, LoginResponse, SignupResponse } from "./response";
 import { signupService } from "../../service/user/signup_service";
 import { loginService } from "../../service/user/login_service";
-import { generateToken, getUserIdFromToken, verifyToken } from "../../core/jwt";
+import { generateToken, getUserIdFromToken } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
-import { JwtPayload } from "jsonwebtoken";
 import { getLoginUserService } from "../../service/user/get_login_user_service";
 import { updateLoginUserService } from "../../service/user/update_login_user_service";
 
@@ -35,8 +34,11 @@ export const loginController = async (req: Request<{}, {}, LoginRequest>, res: R
     // jwtを生成し、クッキーにセットする。
     const jwt = generateToken(outputDTO.id, outputDTO.email);
     res.cookie("access_token", jwt, {
+      expires: new Date(Date.now() + 12 * 3600000),
+      path: "/",
       httpOnly: true,
-      maxAge: 1000 * 360000,
+      secure: true,
+      sameSite: "none",
     });
 
     const response: LoginResponse = { status: "ok" };

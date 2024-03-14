@@ -3,7 +3,7 @@ import { prisma } from "../../db/db";
 import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 import { logger } from "../../pkg/logger";
 
-async function updateEveryDay(): Promise<any> {
+async function updateEveryDay(): Promise<void> {
   cron.schedule("59 59 23 * * *", async () => {
     logger.info("Running cron job for updating quests every day.");
     const result = await prisma.quest.updateMany({
@@ -17,7 +17,7 @@ async function updateEveryDay(): Promise<any> {
   });
 }
 
-async function updateEverySunday(): Promise<any> {
+async function updateEverySunday(): Promise<void> {
   cron.schedule("59 59 23 * * 0", async () => {
     logger.info("Running cron job for updating quests every Sunday.");
     const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();

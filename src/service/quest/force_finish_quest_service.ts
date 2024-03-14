@@ -22,7 +22,7 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
 
   //失敗したクエスト数をインクリメント
   const weeklyReport = await weeklyReportModel.updateById(
-    forceFinishedQuest.id,
+    targetWeeklyReport.id,
     0,
     1,
     0,

@@ -1,22 +1,20 @@
 import winston from "winston";
 
-const { colorize, timestamp, errors } = winston.format;
+const { colorize, timestamp, combine, simple } = winston.format;
 
 const logger = winston.createLogger({
   level: "info",
-  format: winston.format.combine(
+  format: combine(
     timestamp({
       format: "YYYY-MM-DD HH:mm:ss",
     }),
-    errors({ stack: true }),
     colorize(),
   ),
   defaultMeta: { service: "rhythmate-service" },
   transports: [
     new winston.transports.Console({
-      format: winston.format.simple(),
+      format: simple(),
     }),
-    new winston.transports.File({ filename: "./log/error.log", level: "error" }),
   ],
 });
 
