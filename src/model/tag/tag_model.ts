@@ -34,7 +34,7 @@ export class TagModel {
     return result;
   }
 
-  public async getByUserId(userId: string): Promise<Tag[]> {
+  public async listByUserId(userId: string): Promise<Tag[]> {
     const result = await prisma.tag.findMany({
       where: {
         userId: userId,
