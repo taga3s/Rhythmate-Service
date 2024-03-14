@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ListWeeklyReportResponse, SummarizeWeeklyReportResponse } from "./response";
+import { ListWeeklyReportResponse, getWeeklyReportSummaryResponse } from "./response";
 import { getUserIdFromToken } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { WeeklyReport } from "../../model/weeklyReport/types";
@@ -44,7 +44,7 @@ export const getWeeklyReportSummaryController = async (req: Request, res: Respon
   try {
     const summary = await getWeeklyReportSummaryService({ userId: userId });
 
-    const response: SummarizeWeeklyReportResponse = {
+    const response: getWeeklyReportSummaryResponse = {
       status: "ok",
       summary: summary,
     };

@@ -43,7 +43,7 @@ export type DeleteWeeklyReportResponse = {
   status: string;
 };
 
-export type SummarizeWeeklyReportResponse = {
+export type getWeeklyReportSummaryResponse = {
   status: string;
   summary: string;
 };
