@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
-import { ListWeeklyReportResponse, getWeeklyReportSummaryResponse } from "./response";
+import { ListWeeklyReportResponse, GetWeeklyReportSummaryResponse } from "./response";
 import { getUserIdFromToken } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { WeeklyReport } from "../../model/weeklyReport/types";
 import { listWeeklyReportsService } from "../../service/weeklyReport/list_weekly_reports_service";
 import { getWeeklyReportSummaryService } from "../../service/weeklyReport";
+import { GetWeeklyReportSummaryRequest } from "./request";
 
 // ユーザの所持するすべての週次レポートを取得
 export const listWeeklyReportController = async (req: Request, res: Response) => {
@@ -37,14 +38,17 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
   }
 };
 
-// 週次レポートを要約
-export const getWeeklyReportSummaryController = async (req: Request, res: Response) => {
+// 週次レポートの要約を取得
+export const getWeeklyReportSummaryController = async (
+  req: Request<{}, {}, GetWeeklyReportSummaryRequest>,
+  res: Response,
+) => {
   const userId = getUserIdFromToken(req.cookies.access_token);
-
+  const weeklyReportIndex = req.body.weeklyReportIndex;
   try {
-    const summary = await getWeeklyReportSummaryService({ userId: userId });
+    const summary = await getWeeklyReportSummaryService({ userId: userId, weeklyReportIndex: weeklyReportIndex });
 
-    const response: getWeeklyReportSummaryResponse = {
+    const response: GetWeeklyReportSummaryResponse = {
       status: "ok",
       summary: summary,
     };
