@@ -78,14 +78,15 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async updateById(
+  public async updateByIdWithTx(
     id: string,
     completedQuestsIncrements: number,
     failedQuestsIncrements: number,
     completedDaysIncrements: number,
     completedQuestsEachDay: number[],
+    tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
-    const result = await prisma.weeklyReport.update({
+    const result = await tx.weeklyReport.update({
       where: { id: id },
       data: {
         completedQuests: { increment: completedQuestsIncrements },
