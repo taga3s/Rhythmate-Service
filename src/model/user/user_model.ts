@@ -1,7 +1,9 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { User } from "./types";
 import { prisma } from "../../db/db";
 import { getUpdatedLevelAndExp } from "../funcs/exp";
+import { DefaultArgs } from "@prisma/client/runtime/library";
+import { PrismaClientWithTx } from "../../db/types";
 
 export class UserModel {
   public async getById(id: string): Promise<User | null> {
@@ -22,21 +24,29 @@ export class UserModel {
     return result;
   }
 
-  public async create(name: string, email: string, passwordHash: string): Promise<User> {
+  public async createWithTx(
+    name: string,
+    email: string,
+    passwordHash: string,
+    tx: Omit<
+      PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
+      "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
+    >,
+  ): Promise<User> {
     const user: Prisma.UserCreateInput = {
       name: name,
       email: email,
       passwordHash: passwordHash,
     };
-    const result = await prisma.user.create({ data: user });
+    const result = await tx.user.create({ data: user });
     return result;
   }
 
-  public async update(id: string, name: string): Promise<User> {
+  public async updateWithTx(id: string, name: string, tx: PrismaClientWithTx): Promise<User> {
     const user: Prisma.UserUpdateInput = {
       name: name,
     };
-    const result = await prisma.user.update({
+    const result = await tx.user.update({
       where: {
         id: id,
       },
