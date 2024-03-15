@@ -57,7 +57,6 @@ CREATE TABLE "WeeklyReport" (
     "completedPercentage" DOUBLE PRECISION NOT NULL,
     "completedDays" INTEGER NOT NULL,
     "completedQuestsEachDay" INTEGER[],
-    "summary" TEXT NOT NULL DEFAULT '',
     "startDate" TEXT NOT NULL,
     "endDate" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
