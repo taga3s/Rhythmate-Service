@@ -1,8 +1,7 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { User } from "./types";
 import { prisma } from "../../db/db";
 import { getUpdatedLevelAndExp } from "../funcs/exp";
-import { DefaultArgs } from "@prisma/client/runtime/library";
 import { PrismaClientWithTx } from "../../db/types";
 
 export class UserModel {
@@ -24,15 +23,7 @@ export class UserModel {
     return result;
   }
 
-  public async createWithTx(
-    name: string,
-    email: string,
-    passwordHash: string,
-    tx: Omit<
-      PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
-      "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
-    >,
-  ): Promise<User> {
+  public async createWithTx(name: string, email: string, passwordHash: string, tx: PrismaClientWithTx): Promise<User> {
     const user: Prisma.UserCreateInput = {
       name: name,
       email: email,
@@ -55,13 +46,18 @@ export class UserModel {
     return result;
   }
 
-  public async updateExp(id: string, currentExp: number, expIncrement: number): Promise<User> {
+  public async updateExpWithTx(
+    id: string,
+    currentExp: number,
+    expIncrement: number,
+    tx: PrismaClientWithTx,
+  ): Promise<User> {
     const { updatedLevel, updatedExp } = getUpdatedLevelAndExp(currentExp, expIncrement);
     const updatedUser: Prisma.UserUpdateInput = {
       exp: updatedExp,
       level: updatedLevel,
     };
-    const result = await prisma.user.update({
+    const result = await tx.user.update({
       where: {
         id: id,
       },
