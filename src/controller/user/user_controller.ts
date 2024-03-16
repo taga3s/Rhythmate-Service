@@ -1,12 +1,38 @@
 import { Request, Response } from "express";
-import { LoginRequest, SignupRequest, UpdateLoginUserRequest } from "./request";
-import { GetLoginUserResponse, LoginResponse, SignupResponse } from "./response";
+import { AuthRequest, LoginRequest, SignupRequest, UpdateLoginUserRequest } from "./request";
+import { AuthResponse, GetLoginUserResponse, LoginResponse, SignupResponse } from "./response";
 import { signupService } from "../../service/user/signup_service";
 import { loginService } from "../../service/user/login_service";
 import { generateToken, getUserIdFromToken } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { getLoginUserService } from "../../service/user/get_login_user_service";
 import { updateLoginUserService } from "../../service/user/update_login_user_service";
+import { authService } from "../../service/user/auth_service";
+
+// 認証
+export const authController = async (req: Request<{}, {}, AuthRequest>, res: Response) => {
+  const inputDTO = req.body;
+
+  try {
+    const outputDTO = await authService(inputDTO);
+    // jwtを生成し、クッキーにセットする。
+    const jwt = generateToken(outputDTO.id, outputDTO.email);
+    res.cookie("access_token", jwt, {
+      expires: new Date(Date.now() + 12 * 3600000),
+      path: "/",
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+    const response: AuthResponse = { status: "ok" };
+    return res.status(200).json(response);
+  } catch (err) {
+    if (err instanceof HttpError) {
+      return res.status(err.statusCode).json({ status: "error", message: err.message });
+    }
+    return res.status(500).json({ status: "error", message: "Internal server error." });
+  }
+};
 
 // サインアップ
 export const signupController = async (req: Request<{}, {}, SignupRequest>, res: Response) => {

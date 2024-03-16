@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  authController,
   getLoginUserController,
   loginController,
   logoutController,
@@ -12,6 +13,11 @@ import { auth } from "./middlewares/auth";
 
 const userRouter = Router();
 
+userRouter.post(
+  "/auth",
+  validate([body("id_token").isString().isLength({ min: 1 }).withMessage("必須項目です。")]),
+  authController,
+);
 userRouter.post(
   "/signup",
   validate([

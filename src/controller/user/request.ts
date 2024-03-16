@@ -1,3 +1,7 @@
+export type AuthRequest = {
+  id_token: string;
+};
+
 export type SignupRequest = {
   name: string;
   email: string;
