@@ -33,7 +33,7 @@ export const authService = async (inputDTO: InputDTO) => {
       };
     }
 
-    const newUser = await userModel.createWithTx(name, email, "", tx);
+    const newUser = await userModel.createWithTx(name, email, tx);
     const newWeeklyReport = await weeklyReportModel.createWithTx(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], newUser.id, tx);
 
     return {

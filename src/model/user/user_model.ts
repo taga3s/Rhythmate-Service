@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
-import { User } from "./types";
 import { prisma } from "../../db/db";
-import { getUpdatedLevelAndExp } from "../funcs/exp";
 import { PrismaClientWithTx } from "../../db/types";
+import { getUpdatedLevelAndExp } from "../funcs/exp";
+import { User } from "./types";
 
 export class UserModel {
   public async getById(id: string): Promise<User | null> {
@@ -23,11 +23,10 @@ export class UserModel {
     return result;
   }
 
-  public async createWithTx(name: string, email: string, passwordHash: string, tx: PrismaClientWithTx): Promise<User> {
+  public async createWithTx(name: string, email: string, tx: PrismaClientWithTx): Promise<User> {
     const user: Prisma.UserCreateInput = {
       name: name,
       email: email,
-      passwordHash: passwordHash,
     };
     const result = await tx.user.create({ data: user });
     return result;
