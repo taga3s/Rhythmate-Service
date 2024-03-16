@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
+import { PrismaClientWithTx } from "../../db/types";
 import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 import { WeeklyReport } from "./types";
-import { PrismaClientWithTx } from "../../db/types";
 
 export class WeeklyReportModel {
   public async createWithTx(
@@ -34,7 +34,7 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async update(
+  public async updateWithTx(
     completedQuests: number,
     failedQuests: number,
     completedDays: number,
@@ -42,6 +42,7 @@ export class WeeklyReportModel {
     startDate: string,
     endDate: string,
     userId: string,
+    tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
     const completedPercentage = (completedQuests / (completedQuests + failedQuests)) * 100;
     const weeklyReport: Prisma.WeeklyReportUpdateInput = {
@@ -59,7 +60,7 @@ export class WeeklyReportModel {
       },
     };
 
-    const result = await prisma.weeklyReport.update({
+    const result = await tx.weeklyReport.update({
       where: { id: userId },
       data: weeklyReport,
     });
@@ -98,8 +99,8 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async deleteById(id: string): Promise<WeeklyReport | null> {
-    const result = await prisma.weeklyReport.delete({ where: { id: id } });
+  public async deleteByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<WeeklyReport | null> {
+    const result = await tx.weeklyReport.delete({ where: { id: id } });
     return result;
   }
 
