@@ -44,20 +44,17 @@ export const getWeeklyReportSummaryService = async (inputDTO: {
     throw new HttpError("週次レポートが見つかりませんでした", 400);
   }
 
+  const thisWeekReport = weeklyReports[inputDTO.weeklyReportIndex]; // 今週の週次レポート
   const lastWeekReport = weeklyReports[inputDTO.weeklyReportIndex + 1]; // 先週の週次レポート
-  const theWeekBeforeLastReport = weeklyReports[inputDTO.weeklyReportIndex + 2]; // 先々週の週次レポート
-  if (!lastWeekReport || !theWeekBeforeLastReport) {
-    throw new HttpError("先週または先々週の週次レポートが見つかりませんでした", 400);
-  }
 
   // summaryが空文字でない場合はそれを返す
-  if (lastWeekReport.summary !== "") {
-    return lastWeekReport.summary;
+  if (thisWeekReport.summary !== "") {
+    return thisWeekReport.summary;
   }
   // summaryが空文字の場合は要約を生成し、DBに保存する
   else {
-    const summary = await runGemini([lastWeekReport, theWeekBeforeLastReport]);
-    await model.saveSummary(lastWeekReport.id, summary);
+    const summary = await runGemini([thisWeekReport, lastWeekReport]);
+    await model.saveSummary(thisWeekReport.id, summary);
     return summary;
   }
 };
