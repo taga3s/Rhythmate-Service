@@ -7,7 +7,7 @@ const userData: Prisma.UserCreateInput[] = [
     id: "8fa4f0b8-c51e-4e09-ae52-ec2ecf248ea0",
     name: "175cm69kg",
     email: "test@gmail.com",
-    passwordHash: "password-hash",
+    passwordHash: "$2b$10$aG9AMyjxEon4pg61JWXO3uJ3XtwHrBT5g6amwuZw1.gPzv7zxyxqq",
   },
 ];
 
@@ -91,8 +91,8 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
     completedPercentage: 60.0,
     completedDays: 1,
     completedQuestsEachDay: [1, 2, 3, 0, 0, 0, 0],
-    startDate: "2024/2/23 9:00:00",
-    endDate: "2024/2/26 0:00:00",
+    startDate: "2024/2/26 9:00:00",
+    endDate: "2024/3/1 0:00:00",
     createdAt: new Date(),
     updatedAt: new Date(),
     user: {
@@ -108,8 +108,8 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
     completedPercentage: 60.0,
     completedDays: 1,
     completedQuestsEachDay: [1, 2, 3, 0, 0, 0, 0],
-    startDate: "2024/2/21 9:00:00",
-    endDate: "2024/2/26 0:00:00",
+    startDate: "2024/3/2 9:00:00",
+    endDate: "2024/3/9 0:00:00",
     createdAt: new Date(),
     updatedAt: new Date(),
     user: {

@@ -1,9 +1,9 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
+import { PrismaClientWithTx } from "../../db/types";
 import { formatDateTime, now } from "../../pkg/dayjs";
 import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 import { Quest } from "./types";
-import { PrismaClientWithTx } from "../../db/types";
 
 export class QuestModel {
   public async getById(id: string): Promise<Quest | null> {
