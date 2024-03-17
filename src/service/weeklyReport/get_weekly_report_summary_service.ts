@@ -51,6 +51,12 @@ export const getWeeklyReportSummaryService = async (inputDTO: {
   if (thisWeekReport.summary !== "") {
     return thisWeekReport.summary;
   }
+  // 最初の週の場合
+  else if (lastWeekReport === undefined) {
+    const firstSummary = "最初の１週間お疲れさまでした！来週以降アドバイスが生成されます！";
+    await model.saveSummary(thisWeekReport.id, firstSummary);
+    return firstSummary;
+  }
   // summaryが空文字の場合は要約を生成し、DBに保存する
   else {
     const summary = await runGemini([thisWeekReport, lastWeekReport]);
