@@ -118,6 +118,40 @@ const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
       },
     },
   },
+  {
+    id: "4",
+    completedQuests: 39,
+    failedQuests: 2,
+    completedPercentage: 60.0,
+    completedDays: 1,
+    completedQuestsEachDay: [1, 2, 3, 0, 0, 0, 0],
+    startDate: "2024/3/2 9:00:00",
+    endDate: "2024/3/9 0:00:00",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    user: {
+      connect: {
+        id: "8fa4f0b8-c51e-4e09-ae52-ec2ecf248ea0",
+      },
+    },
+  },
+  {
+    id: "5",
+    completedQuests: 39,
+    failedQuests: 2,
+    completedPercentage: 60.0,
+    completedDays: 1,
+    completedQuestsEachDay: [1, 2, 3, 0, 0, 0, 0],
+    startDate: "2024/3/2 9:00:00",
+    endDate: "2024/3/9 0:00:00",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    user: {
+      connect: {
+        id: "8fa4f0b8-c51e-4e09-ae52-ec2ecf248ea0",
+      },
+    },
+  },
 ];
 const transfer = async () => {
   for (const data of userData) {

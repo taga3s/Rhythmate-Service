@@ -5,7 +5,6 @@ import { HttpError } from "../../pkg/httpError";
 import { WeeklyReport } from "../../model/weeklyReport/types";
 import { listWeeklyReportsService } from "../../service/weeklyReport/list_weekly_reports_service";
 import { getWeeklyReportSummaryService } from "../../service/weeklyReport";
-import { GetWeeklyReportSummaryRequest } from "./request";
 
 // ユーザの所持するすべての週次レポートを取得
 export const listWeeklyReportController = async (req: Request, res: Response) => {
@@ -39,12 +38,9 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
 };
 
 // 週次レポートの要約を取得
-export const getWeeklyReportSummaryController = async (
-  req: Request<{}, {}, GetWeeklyReportSummaryRequest>,
-  res: Response,
-) => {
+export const getWeeklyReportSummaryController = async (req: Request<{ index: string }>, res: Response) => {
   const userId = getUserIdFromToken(req.cookies.access_token);
-  const weeklyReportIndex = req.body.weeklyReportIndex;
+  const weeklyReportIndex = Number(req.params.index);
   try {
     const summary = await getWeeklyReportSummaryService({ userId: userId, weeklyReportIndex: weeklyReportIndex });
 
