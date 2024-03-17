@@ -7,7 +7,6 @@ const userData: Prisma.UserCreateInput[] = [
     id: "8fa4f0b8-c51e-4e09-ae52-ec2ecf248ea0",
     name: "175cm69kg",
     email: "test@gmail.com",
-    passwordHash: "$2b$10$aG9AMyjxEon4pg61JWXO3uJ3XtwHrBT5g6amwuZw1.gPzv7zxyxqq",
   },
 ];
 
