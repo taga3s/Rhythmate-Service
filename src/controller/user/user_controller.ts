@@ -1,37 +1,18 @@
 import { Request, Response } from "express";
-import { LoginRequest, SignupRequest, UpdateLoginUserRequest } from "./request";
-import { GetLoginUserResponse, LoginResponse, SignupResponse } from "./response";
-import { signupService } from "../../service/user/signup_service";
-import { loginService } from "../../service/user/login_service";
-import { generateToken, getUserIdFromToken, verifyToken } from "../../core/jwt";
+import { generateToken, getUserIdFromToken } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
-import { JwtPayload } from "jsonwebtoken";
+import { authService } from "../../service/user/auth_service";
 import { getLoginUserService } from "../../service/user/get_login_user_service";
 import { updateLoginUserService } from "../../service/user/update_login_user_service";
+import { AuthRequest, UpdateLoginUserRequest } from "./request";
+import { AuthResponse, GetLoginUserResponse } from "./response";
 
-// サインアップ
-export const signupController = async (req: Request<{}, {}, SignupRequest>, res: Response) => {
+// 認証
+export const authController = async (req: Request<{}, {}, AuthRequest>, res: Response) => {
   const inputDTO = req.body;
 
   try {
-    const outputDTO = await signupService(inputDTO);
-    const response: SignupResponse = { status: "ok" };
-    return res.status(200).json(response);
-  } catch (err) {
-    if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
-    }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
-  }
-};
-
-// ログイン
-export const loginController = async (req: Request<{}, {}, LoginRequest>, res: Response) => {
-  const inputDTO = req.body;
-
-  try {
-    const outputDTO = await loginService(inputDTO);
-
+    const outputDTO = await authService(inputDTO);
     // jwtを生成し、クッキーにセットする。
     const jwt = generateToken(outputDTO.id, outputDTO.email);
     res.cookie("access_token", jwt, {
@@ -41,9 +22,7 @@ export const loginController = async (req: Request<{}, {}, LoginRequest>, res: R
       secure: true,
       sameSite: "none",
     });
-
-    const response: LoginResponse = { status: "ok" };
-
+    const response: AuthResponse = { status: "ok" };
     return res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {

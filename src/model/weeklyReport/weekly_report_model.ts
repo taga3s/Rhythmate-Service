@@ -1,15 +1,17 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
+import { PrismaClientWithTx } from "../../db/types";
 import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 import { WeeklyReport } from "./types";
 
 export class WeeklyReportModel {
-  public async create(
+  public async createWithTx(
     completedQuests: number,
     failedQuests: number,
     completedDays: number,
     completedQuestsEachDay: number[],
     userId: string,
+    tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
     const completedPercentage = failedQuests === 0 ? 0 : (completedQuests / (completedQuests + failedQuests)) * 100;
     const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();
@@ -28,11 +30,11 @@ export class WeeklyReportModel {
       },
     };
 
-    const result = await prisma.weeklyReport.create({ data: weeklyReport });
+    const result = await tx.weeklyReport.create({ data: weeklyReport });
     return result;
   }
 
-  public async update(
+  public async updateWithTx(
     completedQuests: number,
     failedQuests: number,
     completedDays: number,
@@ -40,6 +42,7 @@ export class WeeklyReportModel {
     startDate: string,
     endDate: string,
     userId: string,
+    tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
     const completedPercentage = (completedQuests / (completedQuests + failedQuests)) * 100;
     const weeklyReport: Prisma.WeeklyReportUpdateInput = {
@@ -57,7 +60,7 @@ export class WeeklyReportModel {
       },
     };
 
-    const result = await prisma.weeklyReport.update({
+    const result = await tx.weeklyReport.update({
       where: { id: userId },
       data: weeklyReport,
     });
@@ -76,14 +79,15 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async updateById(
+  public async updateByIdWithTx(
     id: string,
     completedQuestsIncrements: number,
     failedQuestsIncrements: number,
     completedDaysIncrements: number,
     completedQuestsEachDay: number[],
+    tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
-    const result = await prisma.weeklyReport.update({
+    const result = await tx.weeklyReport.update({
       where: { id: id },
       data: {
         completedQuests: { increment: completedQuestsIncrements },
@@ -95,8 +99,8 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async deleteById(id: string): Promise<WeeklyReport | null> {
-    const result = await prisma.weeklyReport.delete({ where: { id: id } });
+  public async deleteByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<WeeklyReport | null> {
+    const result = await tx.weeklyReport.delete({ where: { id: id } });
     return result;
   }
 
@@ -116,6 +120,18 @@ export class WeeklyReportModel {
       },
       orderBy: {
         endDate: "desc",
+      },
+    });
+    return result;
+  }
+
+  public async saveSummary(id: string, summary: string): Promise<WeeklyReport> {
+    const result = await prisma.weeklyReport.update({
+      where: {
+        id: id,
+      },
+      data: {
+        summary: summary,
       },
     });
     return result;

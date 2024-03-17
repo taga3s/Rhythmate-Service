@@ -14,7 +14,7 @@ export type UpdateTagResponse = {
   updated_at: Date;
 };
 
-export type GetTagResponse = {
+export type ListTagsResponse = {
   status: string;
   tags: {
     id: string;

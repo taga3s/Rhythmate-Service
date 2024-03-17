@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
+import { PrismaClientWithTx } from "../../db/types";
 import { formatDateTime, now } from "../../pkg/dayjs";
 import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 import { Quest } from "./types";
@@ -23,7 +24,7 @@ export class QuestModel {
     return result;
   }
 
-  public async create(
+  public async createWithTx(
     title: string,
     description: string,
     startsAt: string,
@@ -33,6 +34,7 @@ export class QuestModel {
     difficulty: string,
     days: string[],
     userId: string,
+    tx: PrismaClientWithTx,
   ): Promise<Quest> {
     const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();
     const quest: Prisma.QuestCreateInput = {
@@ -54,16 +56,16 @@ export class QuestModel {
         },
       },
     };
-    const result = await prisma.quest.create({ data: quest });
+    const result = await tx.quest.create({ data: quest });
     return result;
   }
 
-  public async deleteById(id: string): Promise<Quest | null> {
-    const result = await prisma.quest.delete({ where: { id: id } });
+  public async deleteByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<Quest | null> {
+    const result = await tx.quest.delete({ where: { id: id } });
     return result;
   }
 
-  public async update(
+  public async updateWithTx(
     id: string,
     title: string,
     description: string,
@@ -81,6 +83,7 @@ export class QuestModel {
     weeklyCompletionCount: number,
     totalCompletionCount: number,
     userId: string,
+    tx: PrismaClientWithTx,
   ): Promise<Quest> {
     const quest: Prisma.QuestUpdateInput = {
       id: id,
@@ -107,25 +110,25 @@ export class QuestModel {
         },
       },
     };
-    const result = await prisma.quest.update({
+    const result = await tx.quest.update({
       where: { id: id },
       data: quest,
     });
     return result;
   }
 
-  public async startById(id: string): Promise<Quest | null> {
+  public async startByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<Quest | null> {
     const quest: Prisma.QuestUpdateInput = {
       startedAt: formatDateTime(now()),
     };
-    const result = await prisma.quest.update({
+    const result = await tx.quest.update({
       where: { id: id },
       data: quest,
     });
     return result;
   }
 
-  public async finishById(id: string, continuationLevel: number): Promise<Quest | null> {
+  public async finishByIdWithTx(id: string, continuationLevel: number, tx: PrismaClientWithTx): Promise<Quest | null> {
     const continuationLevelIncrement = continuationLevel === 7 ? 0 : 1;
     const updatedQuest: Prisma.QuestUpdateInput = {
       isSucceeded: true,
@@ -134,20 +137,20 @@ export class QuestModel {
       weeklyCompletionCount: { increment: 1 },
       totalCompletionCount: { increment: 1 },
     };
-    const result = await prisma.quest.update({
+    const result = await tx.quest.update({
       where: { id: id },
       data: updatedQuest,
     });
     return result;
   }
 
-  public async forceFinishById(id: string): Promise<Quest> {
+  public async forceFinishByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<Quest> {
     const updatedQuest: Prisma.QuestUpdateInput = {
       isSucceeded: false,
       state: "ACTIVE",
       continuationLevel: 1,
     };
-    const result = await prisma.quest.update({
+    const result = await tx.quest.update({
       where: { id: id },
       data: updatedQuest,
     });

@@ -1,9 +1,10 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
+import { PrismaClientWithTx } from "../../db/types";
 import { Tag } from "./types";
 
 export class TagModel {
-  public async create(name: string, userId: string): Promise<Tag> {
+  public async createWithTx(name: string, userId: string, tx: PrismaClientWithTx): Promise<Tag> {
     const tag: Prisma.TagCreateInput = {
       name: name,
       user: {
@@ -12,16 +13,16 @@ export class TagModel {
         },
       },
     };
-    const result = await prisma.tag.create({ data: tag });
+    const result = await tx.tag.create({ data: tag });
     return result;
   }
 
-  public async update(id: string, name: string, updatedAt: Date): Promise<Tag> {
+  public async updateWithTx(id: string, name: string, updatedAt: Date, tx: PrismaClientWithTx): Promise<Tag> {
     const tag: Prisma.TagUpdateInput = {
       name: name,
       updatedAt: updatedAt,
     };
-    const result = await prisma.tag.update({ where: { id: id }, data: tag });
+    const result = await tx.tag.update({ where: { id: id }, data: tag });
     return result;
   }
 
@@ -34,7 +35,7 @@ export class TagModel {
     return result;
   }
 
-  public async getByUserId(userId: string): Promise<Tag[]> {
+  public async listByUserId(userId: string): Promise<Tag[]> {
     const result = await prisma.tag.findMany({
       where: {
         userId: userId,
@@ -43,8 +44,8 @@ export class TagModel {
     return result;
   }
 
-  public async deleteById(id: string): Promise<Tag | null> {
-    const result = await prisma.tag.delete({ where: { id: id } });
+  public async deleteByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<Tag | null> {
+    const result = await tx.tag.delete({ where: { id: id } });
     return result;
   }
 }
