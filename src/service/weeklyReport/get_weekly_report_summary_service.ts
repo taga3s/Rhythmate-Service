@@ -39,6 +39,7 @@ export const getWeeklyReportSummaryService = async (inputDTO: {
   weeklyReportIndex: number;
 }) => {
   const model = new WeeklyReportModel();
+
   const weeklyReports = await model.listByUserId(inputDTO.userId);
   if (!weeklyReports) {
     throw new HttpError("週次レポートが見つかりませんでした", 400);

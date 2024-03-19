@@ -1,4 +1,4 @@
-import { admin } from "../../config/firebase";
+import { admin } from "../../firebase/config";
 import { prisma } from "../../db/db";
 import { UserModel } from "../../model/user/user_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
@@ -20,7 +20,6 @@ export const authService = async (inputDTO: InputDTO) => {
     const verifiedUser = await admin.auth().getUser(decodeValue.uid);
     const name = verifiedUser.displayName;
     const email = verifiedUser.email;
-
     if (!name || !email) {
       throw new HttpError("認証に失敗しました。", 401);
     }

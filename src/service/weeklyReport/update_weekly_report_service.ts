@@ -14,10 +14,12 @@ export const updateWeeklyReportService = async (inputDTO: {
 }) => {
   return prisma.$transaction(async (tx) => {
     const model = new WeeklyReportModel();
+
     const weeklyReport = await model.getById(inputDTO.id);
     if (weeklyReport === null) {
       throw new HttpError("週次レポートが見つかりませんでした", 500);
     }
+
     const updatedWeeklyReport = await model.updateWithTx(
       inputDTO.completedQuests,
       inputDTO.failedQuests,
