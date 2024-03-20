@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
 import { PrismaClientWithTx } from "../../db/types";
-import { formatDateTime, now } from "../../pkg/dayjs";
+import { now } from "../../pkg/dayjs";
 import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 import { Quest } from "./types";
 
@@ -103,7 +103,6 @@ export class QuestModel {
       weeklyFrequency: days.length,
       weeklyCompletionCount: weeklyCompletionCount,
       totalCompletionCount: totalCompletionCount,
-      updatedAt: new Date(),
       user: {
         connect: {
           id: userId,
@@ -119,7 +118,7 @@ export class QuestModel {
 
   public async startByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<Quest | null> {
     const quest: Prisma.QuestUpdateInput = {
-      startedAt: formatDateTime(now()),
+      startedAt: now(),
     };
     const result = await tx.quest.update({
       where: { id: id },
