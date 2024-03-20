@@ -4,7 +4,9 @@ import { getStartAndEndJstDateTime } from "../funcs/dateTime";
 import { logger } from "../../pkg/logger";
 
 const updateEveryDay = () => {
-  cron.schedule("59 59 23 * * *", async () => {
+  const scheduledTime = process.env.CRON_TZ === "UTC" ? "59 59 14 * * *" : "59 59 23 * * *";
+
+  cron.schedule(scheduledTime, async () => {
     await prisma.$transaction(async (tx) => {
       logger.info("Running cron job for updating quests every day.");
       const result = await tx.quest.updateMany({
@@ -19,7 +21,9 @@ const updateEveryDay = () => {
 };
 
 const updateEverySunday = () => {
-  cron.schedule("59 59 23 * * 0", async () => {
+  const scheduledTime = process.env.CRON_TZ === "UTC" ? "59 59 14 * * 0" : "59 59 23 * * 0";
+
+  cron.schedule(scheduledTime, async () => {
     await prisma.$transaction(async (tx) => {
       logger.info("Running cron job for updating quests every Sunday.");
       const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();

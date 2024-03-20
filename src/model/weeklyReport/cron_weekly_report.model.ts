@@ -5,8 +5,9 @@ import { WeeklyReportModel } from "./weekly_report_model";
 
 const createEverySunday = () => {
   const weeklyReportModel = new WeeklyReportModel();
+  const scheduledTime = process.env.CRON_TZ === "UTC" ? "59 59 14 * * 0" : "59 59 23 * * 0";
 
-  cron.schedule("59 59 23 * * 0", async () => {
+  cron.schedule(scheduledTime, async () => {
     logger.info("Running cron job for creating weekly reports every Sunday.");
     //'59 59 23 * * 0'
     const users = await prisma.user.findMany();
