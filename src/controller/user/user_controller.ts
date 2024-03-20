@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { generateToken, getUserIdFromToken } from "../../core/jwt";
+import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { authService } from "../../service/user/auth_service";
 import { getLoginUserService } from "../../service/user/get_login_user_service";
@@ -13,7 +13,7 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
 
   try {
     const outputDTO = await authService(inputDTO);
-    // jwtを生成し、クッキーにセットする。
+    // jwtを生成し、クッキーにセットする
     const jwt = generateToken(outputDTO.id, outputDTO.email);
     res.cookie("access_token", jwt, {
       expires: new Date(Date.now() + 12 * 3600000),
@@ -30,6 +30,12 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
   }
+};
+
+// 認可状態確認
+export const authenticationController = async (req: Request, res: Response) => {
+  const isAuthenticated = getUserIsAuthenticated(req.cookies.access_token);
+  res.status(200).json({ status: "ok", isAuthenticated: isAuthenticated });
 };
 
 // ログアウト

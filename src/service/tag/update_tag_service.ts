@@ -8,11 +8,14 @@ export const updateTagService = async (inputDTO: {
 }) => {
   return prisma.$transaction(async (tx) => {
     const model = new TagModel();
+
     const tag = await model.getById(inputDTO.id);
     if (tag === null) {
       throw new HttpError("タグが見つかりません", 404);
     }
-    const result = await model.updateWithTx(inputDTO.id, inputDTO.name, new Date(), tx);
+
+    const result = await model.updateWithTx(inputDTO.id, inputDTO.name, tx);
+
     return {
       id: result.id,
       name: result.name,

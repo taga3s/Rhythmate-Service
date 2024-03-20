@@ -17,6 +17,15 @@ export const verifyToken = (token: string) => {
   return jwt.verify(token, secret);
 };
 
+export const getUserIsAuthenticated = (token: string): boolean => {
+  try {
+    verifyToken(token);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
 export const getUserIdFromToken = (token: string): string => {
   const { userId } = verifyToken(token) as JwtPayload;
   return userId;

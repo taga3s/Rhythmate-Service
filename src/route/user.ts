@@ -2,6 +2,7 @@ import { Router } from "express";
 import { body } from "express-validator";
 import {
   authController,
+  authenticationController,
   getLoginUserController,
   logoutController,
   updateUserController,
@@ -16,6 +17,7 @@ userRouter.post(
   validate([body("id_token").isString().isLength({ min: 1 }).withMessage("必須項目です。")]),
   authController,
 );
+userRouter.get("/is-authenticated", authenticationController);
 userRouter.post("/logout", auth, logoutController);
 userRouter.get("/me", auth, getLoginUserController);
 userRouter.patch(
