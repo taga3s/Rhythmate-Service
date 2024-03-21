@@ -4,9 +4,9 @@ import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter } 
 import { cookie } from "express-validator";
 import cookieParser from "cookie-parser";
 import { allowCrossDomain } from "./core/cors";
-import { cronWeeklyReportModel } from "./model/weeklyReport/cron_weekly_report.model";
-import { cronQuestModel } from "./model/quest/cron_quest_model";
 import { logger } from "./pkg/logger";
+import { cronQuestModel } from "./cron-job/quest";
+import { cronWeeklyReportModel } from "./cron-job/weeklyReport";
 
 const app = express();
 
