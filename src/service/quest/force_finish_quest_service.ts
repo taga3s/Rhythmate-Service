@@ -14,6 +14,9 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
     if (!quest) {
       throw new HttpError("指定したidのクエストが存在しません", 400);
     }
+    if (quest.state === "ACTIVE") {
+      throw new HttpError("すでに終了したクエストです", 400);
+    }
 
     const forceFinishedQuest = await questModel.forceFinishByIdWithTx(inputDTO.id, tx);
     if (!forceFinishedQuest) {
@@ -25,12 +28,16 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("指定したuserIdの週報が存在しません", 400);
     }
 
-    //失敗したクエスト数をインクリメント
+    // 週次レポートの更新
+    const completedQuestsIncrements = 0;
+    const failedQuestsIncrements = 1;
+    const completedDaysIncrements = 0;
+
     const weeklyReport = await weeklyReportModel.updateByIdWithTx(
       targetWeeklyReport.id,
-      0,
-      1,
-      0,
+      completedQuestsIncrements,
+      failedQuestsIncrements,
+      completedDaysIncrements,
       targetWeeklyReport.completedQuestsEachDay,
       tx,
     );
