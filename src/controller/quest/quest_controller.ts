@@ -33,6 +33,7 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
     tagId: req.body.tag_id,
     difficulty: req.body.difficulty,
     days: req.body.days,
+    state: req.body.state,
     userId: userId,
   };
 
