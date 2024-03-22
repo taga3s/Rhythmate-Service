@@ -6,6 +6,7 @@ export type CreateQuestRequest = {
   tag_id: string;
   difficulty: string;
   days: string[];
+  state: "INACTIVE" | "ACTIVE";
 };
 
 export type UpdateQuestRequest = {
