@@ -4,7 +4,7 @@ import { logger } from "../pkg/logger";
 import { getStartAndEndJstDateTime } from "../model/funcs/dateTime";
 
 const updateEveryDay = () => {
-  const scheduledTime = process.env.CRON_TZ === "UTC" ? "59 59 14 * * *" : "59 59 23 * * *";
+  const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 30 0 * * *" : "59 59 23 * * *";
 
   cron.schedule(scheduledTime, async () => {
     await prisma.$transaction(async (tx) => {
