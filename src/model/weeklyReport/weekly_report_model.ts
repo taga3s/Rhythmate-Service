@@ -119,7 +119,7 @@ export class WeeklyReportModel {
         userId: userId,
       },
       orderBy: {
-        endDate: "desc",
+        createdAt: "desc",
       },
     });
     return result;
