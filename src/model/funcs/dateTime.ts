@@ -1,8 +1,8 @@
-import { formatDateTimeOnlyDate, getNextSunday, now } from "../../pkg/dayjs";
+import { getNextSunday, now } from "../../pkg/dayjs";
 
 const getStartAndEndUtcDateTime = () => {
-  const dateNowUtc = formatDateTimeOnlyDate(now());
-  const nextSundayUtc = getNextSunday(dateNowUtc);
+  const dateNowUtc = now();
+  const nextSundayUtc = getNextSunday(dateNowUtc).format();
   return { dateNowUtc, nextSundayUtc };
 };
 
