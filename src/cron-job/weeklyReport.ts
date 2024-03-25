@@ -5,7 +5,7 @@ import { WeeklyReportModel } from "../model/weeklyReport/weekly_report_model";
 
 const createEverySunday = () => {
   const weeklyReportModel = new WeeklyReportModel();
-  const scheduledTime = process.env.CRON_TZ === "UTC" ? "59 59 14 * * 0" : "59 59 23 * * 0";
+  const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * 0" : "0 0 0 * * 1";
 
   cron.schedule(scheduledTime, async () => {
     logger.info("Running cron job for creating weekly reports every Sunday.");

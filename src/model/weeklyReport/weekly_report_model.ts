@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
 import { PrismaClientWithTx } from "../../db/types";
-import { getStartAndEndJstDateTime } from "../funcs/dateTime";
+import { getStartAndEndUtcDateTime } from "../funcs/dateTime";
 import { WeeklyReport } from "./types";
 
 export class WeeklyReportModel {
@@ -14,15 +14,15 @@ export class WeeklyReportModel {
     tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
     const completedPercentage = failedQuests === 0 ? 0 : (completedQuests / (completedQuests + failedQuests)) * 100;
-    const { dateNowJst, nextSundayJst } = getStartAndEndJstDateTime();
+    const { dateNowUtc, nextSundayUtc } = getStartAndEndUtcDateTime();
     const weeklyReport: Prisma.WeeklyReportCreateInput = {
       completedQuests: completedQuests,
       failedQuests: failedQuests,
       completedPercentage: completedPercentage,
       completedDays: completedDays,
       completedQuestsEachDay: completedQuestsEachDay,
-      startDate: dateNowJst,
-      endDate: nextSundayJst,
+      startDate: dateNowUtc,
+      endDate: nextSundayUtc,
       user: {
         connect: {
           id: userId,
