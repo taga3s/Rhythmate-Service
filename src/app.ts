@@ -7,6 +7,7 @@ import { allowCrossDomain } from "./core/cors";
 import { logger } from "./pkg/logger";
 import { cronQuestModel } from "./cron-job/quest";
 import { cronWeeklyReportModel } from "./cron-job/weeklyReport";
+import { requestLogger } from "./route/middlewares/requestsLogger";
 
 const app = express();
 
@@ -14,6 +15,9 @@ app.use(cookie());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Logger
+app.use(requestLogger);
 
 // cors
 app.use(allowCrossDomain);
