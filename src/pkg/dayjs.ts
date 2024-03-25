@@ -35,6 +35,15 @@ export const getDayOfWeek = () => {
   return dayjs().format("ddd");
 };
 
+export const getDayOfWeekNumber = () => {
+  return dayjs().day();
+};
+
+export const getNextSunday = (dateTimeString: string) => {
+  const dayOfTheWeekNumber = dayjs(dateTimeString).day();
+  return dayjs(dateTimeString).add(6 - ((dayOfTheWeekNumber + 6) % 7), "d");
+};
+
 export const isBefore = (dateTimeString: string) => {
   return dayjs().isBefore(dayjs(dateTimeString));
 };

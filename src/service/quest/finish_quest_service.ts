@@ -35,14 +35,18 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("指定したuserIdの週報が存在しません", 400);
     }
 
+    // 週次レポートの更新
+    const completedQuestsIncrements = 1;
+    const failedQuestsIncrements = 0;
+    const completedDaysIncrements = 0;
     const index = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
     targetWeeklyReport.completedQuestsEachDay[index] += 1;
-    //完了したクエスト数とその日の完了クエスト数をインクリメント
+
     const weeklyReport = await weeklyReportModel.updateByIdWithTx(
       targetWeeklyReport.id,
-      1,
-      0,
-      0,
+      completedQuestsIncrements,
+      failedQuestsIncrements,
+      completedDaysIncrements,
       targetWeeklyReport.completedQuestsEachDay,
       tx,
     );
