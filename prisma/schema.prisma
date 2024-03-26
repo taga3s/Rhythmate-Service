@@ -14,6 +14,7 @@ model User {
   id              String   @id @default(uuid())
   name            String
   email           String
+  profileImageUrl String?
   exp             Int      @default(0)
   level           Int      @default(1)
   createdAt       DateTime @default(now())
@@ -21,6 +22,7 @@ model User {
   quests          Quest[]
   tags            Tag[]
   weeklyReports   WeeklyReport[]
+  Badges          Badge[]
 }
 
 model Quest {
@@ -35,8 +37,6 @@ model Quest {
   state                 String   @default("INACTIVE")
   isSucceeded           Boolean  @default(false)
   continuationLevel     Int      @default(1)
-  startDate             String
-  endDate               String
   days                  String[]
   weeklyFrequency       Int
   weeklyCompletionCount Int      @default(0)
@@ -70,4 +70,22 @@ model WeeklyReport {
   updatedAt               DateTime @updatedAt
   userId                  String   
   user                    User     @relation(fields: [userId], references: [id])
+}
+
+model Badge {
+  id         String   @id @default(uuid())
+  badgeId    String
+  obtainedAt String
+  isPinned   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  userId     String
+  User       User     @relation(fields: [userId], references: [id])
+}
+
+model BadgeList {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  imageDir    String
 }
