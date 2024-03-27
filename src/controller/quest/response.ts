@@ -10,8 +10,8 @@ export type CreateQuestResponse = {
   difficulty: string;
   state: string;
   is_succeeded: boolean;
-  start_date: string;
-  end_date: string;
+  // start_date: string;
+  // end_date: string;
   days: string[];
   weekly_frequency: number;
 };
@@ -29,8 +29,8 @@ export type UpdateQuestResponse = {
   state: string;
   is_succeeded: boolean;
   continuation_level: number;
-  start_date: string;
-  end_date: string;
+  // start_date: string;
+  // end_date: string;
   days: string[];
   weekly_frequency: number;
   weekly_completion_count: number;
@@ -55,8 +55,8 @@ export type ListQuestsResponse = {
     state: string;
     is_succeeded: boolean;
     continuation_level: number;
-    start_date: string;
-    end_date: string;
+    // start_date: string;
+    // end_date: string;
     days: string[];
     weekly_frequency: number;
     weekly_completion_count: number;
@@ -77,8 +77,8 @@ export type StartQuestResponse = {
   state: string;
   is_succeeded: boolean;
   continuation_level: number;
-  start_date: string;
-  end_date: string;
+  // start_date: string;
+  // end_date: string;
   days: string[];
   weekly_frequency: number;
   weekly_completion_count: number;
@@ -98,8 +98,8 @@ export type FinishQuestResponse = {
   state: string;
   is_succeeded: boolean;
   continuation_level: number;
-  start_date: string;
-  end_date: string;
+  // start_date: string;
+  // end_date: string;
   days: string[];
   weekly_frequency: number;
   weekly_completion_count: number;
@@ -119,8 +119,8 @@ export type ForceFinishQuestResponse = {
   state: string;
   is_succeeded: boolean;
   continuation_level: number;
-  start_date: string;
-  end_date: string;
+  // start_date: string;
+  // end_date: string;
   days: string[];
   weekly_frequency: number;
   weekly_completion_count: number;
