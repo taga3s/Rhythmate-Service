@@ -36,7 +36,7 @@ export class QuestModel {
     userId: string,
     tx: PrismaClientWithTx,
   ): Promise<Quest> {
-    const { dateNowUtc, nextSundayUtc } = getStartAndEndUtcDateTime();
+    // const { dateNowUtc, nextSundayUtc } = getStartAndEndUtcDateTime();
     const quest: Prisma.QuestCreateInput = {
       title: title,
       description: description,

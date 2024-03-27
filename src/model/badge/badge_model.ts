@@ -20,6 +20,15 @@ export class BadgeModel {
     return result;
   }
 
+  public async getById(id: string): Promise<Badge | null> {
+    const result = await prisma.badge.findFirst({
+      where: {
+        id: id,
+      },
+    });
+    return result;
+  }
+
   public async listByUserId(userId: string): Promise<Badge[] | null> {
     const result = await prisma.badge.findMany({
       where: {
@@ -32,6 +41,17 @@ export class BadgeModel {
   public async pinByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<Badge | null> {
     const badge: Prisma.BadgeUpdateInput = {
       isPinned: true,
+    };
+    const result = await tx.badge.update({
+      where: { id: id },
+      data: badge,
+    });
+    return result;
+  }
+
+  public async unpinByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<Badge | null> {
+    const badge: Prisma.BadgeUpdateInput = {
+      isPinned: false,
     };
     const result = await tx.badge.update({
       where: { id: id },
