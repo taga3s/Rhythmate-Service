@@ -38,6 +38,16 @@ export class BadgeModel {
     return result;
   }
 
+  public async listPinnedByUserId(userId: string): Promise<Badge[] | null> {
+    const result = await prisma.badge.findMany({
+      where: {
+        userId: userId,
+        isPinned: true,
+      },
+    });
+    return result;
+  }
+
   public async pinByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<Badge | null> {
     const badge: Prisma.BadgeUpdateInput = {
       isPinned: true,
