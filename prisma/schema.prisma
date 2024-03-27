@@ -80,7 +80,7 @@ model Badge {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   userId     String
-  User       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
 }
 
 model BadgeList {
