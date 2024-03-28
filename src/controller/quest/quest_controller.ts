@@ -9,8 +9,8 @@ import {
   listQuestsService,
   startQuestService,
   updateQuestService,
+  forceFinishQuestService,
 } from "../../service/quest";
-import { forceFinishQuestService } from "../../service/quest/force_finish_quest_service";
 import { CreateQuestRequest, UpdateQuestRequest } from "../quest/request";
 import {
   CreateQuestResponse,
