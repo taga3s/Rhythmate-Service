@@ -26,11 +26,11 @@ const updateEverySunday = () => {
   cron.schedule(scheduledTime, async () => {
     await prisma.$transaction(async (tx) => {
       logger.info("Running cron job for updating quests every Sunday.");
-      const { dateNowUtc, nextSundayUtc } = getStartAndEndUtcDateTime();
+      // const { dateNowUtc, nextSundayUtc } = getStartAndEndUtcDateTime();
       await tx.quest.updateMany({
         data: {
-          startDate: dateNowUtc,
-          endDate: nextSundayUtc,
+          // startDate: dateNowUtc,
+          // endDate: nextSundayUtc,
           weeklyCompletionCount: 0,
         },
       });
