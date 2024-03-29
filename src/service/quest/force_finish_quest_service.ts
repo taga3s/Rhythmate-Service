@@ -29,18 +29,25 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
     }
 
     // 週次レポートの更新
-    const completedQuestsIncrements = 0;
     const failedQuestsIncrements = 1;
-    const completedDaysIncrements = 0;
+
+    const completedQuests = targetWeeklyReport.completedQuests;
+    const failedQuests = targetWeeklyReport.failedQuests + failedQuestsIncrements;
+    const completedDays = 0;
+    const completedPercentage = Math.floor((completedQuests / (completedQuests + failedQuests)) * 100);
 
     const weeklyReport = await weeklyReportModel.updateByIdWithTx(
       targetWeeklyReport.id,
-      completedQuestsIncrements,
-      failedQuestsIncrements,
-      completedDaysIncrements,
+      completedQuests,
+      failedQuests,
+      completedDays,
       targetWeeklyReport.completedQuestsEachDay,
+      completedPercentage,
       tx,
     );
+    if (!weeklyReport) {
+      throw new HttpError("週報の更新に失敗しました", 500);
+    }
 
     return {
       id: forceFinishedQuest.id,

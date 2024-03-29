@@ -37,17 +37,21 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
 
     // 週次レポートの更新
     const completedQuestsIncrements = 1;
-    const failedQuestsIncrements = 0;
-    const completedDaysIncrements = 0;
+
+    const completedQuests = targetWeeklyReport.completedQuests + completedQuestsIncrements;
+    const failedQuests = targetWeeklyReport.failedQuests;
+    const completedDays = targetWeeklyReport.completedDays;
+    const completedPercentage = Math.floor((completedQuests / (completedQuests + failedQuests)) * 100);
     const index = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
     targetWeeklyReport.completedQuestsEachDay[index] += 1;
 
     const weeklyReport = await weeklyReportModel.updateByIdWithTx(
       targetWeeklyReport.id,
-      completedQuestsIncrements,
-      failedQuestsIncrements,
-      completedDaysIncrements,
+      completedQuests,
+      failedQuests,
+      completedDays,
       targetWeeklyReport.completedQuestsEachDay,
+      completedPercentage,
       tx,
     );
     if (!weeklyReport) {
