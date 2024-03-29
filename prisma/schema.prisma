@@ -84,7 +84,7 @@ model Badge {
   user       User     @relation(fields: [userId], references: [id])
 }
 
-model BadgeList {
+model BadgeDetail {
   id          String @id @default(uuid())
   name        String
   description String
