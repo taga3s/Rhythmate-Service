@@ -30,7 +30,7 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("クエストの完了に失敗しました", 500);
     }
 
-    const targetWeeklyReport = await weeklyReportModel.getByUserId(finishedQuest.userId);
+    const targetWeeklyReport = await weeklyReportModel.getByUserId(quest.userId);
     if (!targetWeeklyReport) {
       throw new HttpError("指定したuserIdの週報が存在しません", 400);
     }
@@ -59,12 +59,12 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     }
 
     //ユーザーの経験値とレベルを更新
-    const user = await userModel.getById(finishedQuest.userId);
+    const user = await userModel.getById(quest.userId);
     if (!user) {
       throw new HttpError("ユーザーが見つかりません", 400);
     }
 
-    const expIncrement = getQuestExp(finishedQuest.difficulty, finishedQuest.continuationLevel);
+    const expIncrement = getQuestExp(quest.difficulty, quest.continuationLevel);
     const updatedUser = await userModel.updateExpWithTx(user.id, user.exp, expIncrement, tx);
     if (!updatedUser) {
       throw new HttpError("ユーザーの経験値の更新に失敗しました", 500);

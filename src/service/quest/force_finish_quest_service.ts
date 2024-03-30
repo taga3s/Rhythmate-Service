@@ -23,7 +23,7 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("クエストの完了に失敗しました", 500);
     }
 
-    const targetWeeklyReport = await weeklyReportModel.getByUserId(forceFinishedQuest.userId);
+    const targetWeeklyReport = await weeklyReportModel.getByUserId(quest.userId);
     if (!targetWeeklyReport) {
       throw new HttpError("指定したuserIdの週報が存在しません", 400);
     }
