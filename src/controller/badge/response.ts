@@ -23,6 +23,9 @@ export type PinBadgeResponse = {
   status: string;
   id: string;
   badge_id: string;
+  name: string;
+  description: string;
+  image_dir: string;
   obtained_at: string;
   is_pinned: boolean;
 };
@@ -31,6 +34,9 @@ export type UnpinBadgeResponse = {
   status: string;
   id: string;
   badge_id: string;
+  name: string;
+  description: string;
+  image_dir: string;
   obtained_at: string;
   is_pinned: boolean;
 };

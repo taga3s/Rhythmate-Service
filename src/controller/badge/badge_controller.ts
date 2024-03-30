@@ -76,6 +76,9 @@ export const pinBadgeController = async (req: Request<{ id: string }>, res: Resp
       status: "ok",
       id: outputDTO.id,
       badge_id: outputDTO.badgeId,
+      name: outputDTO.name,
+      description: outputDTO.description,
+      image_dir: outputDTO.imageDir,
       obtained_at: outputDTO.obtainedAt,
       is_pinned: outputDTO.isPinned,
     };
@@ -101,6 +104,9 @@ export const unpinBadgeController = async (req: Request<{ id: string }>, res: Re
       status: "ok",
       id: outputDTO.id,
       badge_id: outputDTO.badgeId,
+      name: outputDTO.name,
+      description: outputDTO.description,
+      image_dir: outputDTO.imageDir,
       obtained_at: outputDTO.obtainedAt,
       is_pinned: outputDTO.isPinned,
     };

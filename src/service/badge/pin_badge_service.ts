@@ -29,9 +29,22 @@ export const pinBadgeService = async (inputDTO: InputDTO) => {
       throw new HttpError("バッジのピン止めに失敗しました", 500);
     }
 
+    // バッジの詳細を取得
+    const badgeDetail = await prisma.badgeDetail.findFirst({
+      where: {
+        id: badge.badgeId,
+      },
+    });
+    if (!badgeDetail) {
+      throw new HttpError("バッジ詳細が見つかりませんでした", 500);
+    }
+
     return {
       id: pinnedBadge.id,
       badgeId: pinnedBadge.badgeId,
+      name: badgeDetail.name,
+      description: badgeDetail.description,
+      imageDir: badgeDetail.imageDir,
       obtainedAt: pinnedBadge.obtainedAt,
       isPinned: pinnedBadge.isPinned,
     };
