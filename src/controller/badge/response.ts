@@ -13,6 +13,7 @@ export type ListBadgesResponse = {
     badge_id: string;
     name: string;
     description: string;
+    image_dir: string;
     obtained_at: string;
     is_pinned: boolean;
   }[];

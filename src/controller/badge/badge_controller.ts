@@ -48,6 +48,7 @@ export const listBadgeController = async (req: Request, res: Response) => {
           badge_id: badgeWithDetail.badgeId,
           name: badgeWithDetail.name,
           description: badgeWithDetail.description,
+          image_dir: badgeWithDetail.imageDir,
           obtained_at: badgeWithDetail.obtainedAt,
           is_pinned: badgeWithDetail.isPinned,
         };

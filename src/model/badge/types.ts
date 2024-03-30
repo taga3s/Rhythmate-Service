@@ -13,6 +13,7 @@ export type BadgeWithDetail = {
   badgeId: string;
   name: string;
   description: string;
+  imageDir: string;
   obtainedAt: string;
   isPinned: boolean;
   createdAt: Date;
