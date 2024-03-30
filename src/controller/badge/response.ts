@@ -8,9 +8,11 @@ export type AchieveBadgeResponse = {
 
 export type ListBadgesResponse = {
   status: string;
-  badges: {
+  badgesWithDetail: {
     id: string;
     badge_id: string;
+    name: string;
+    description: string;
     obtained_at: string;
     is_pinned: boolean;
   }[];

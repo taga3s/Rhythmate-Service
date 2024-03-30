@@ -1,6 +1,6 @@
 import { Request, Response, response } from "express";
 import { getUserIdFromToken } from "../../core/jwt";
-import { Badge } from "../../model/badge/types";
+import { BadgeWithDetail } from "../../model/badge/types";
 import { HttpError } from "../../pkg/httpError";
 import { achieveBadgeService, listBadgesService, pinBadgeService, unpinBadgeService } from "../../service/badge";
 import { AchieveBadgeResponse, ListBadgesResponse, PinBadgeResponse, UnpinBadgeResponse } from "./response";
@@ -39,14 +39,17 @@ export const listBadgeController = async (req: Request, res: Response) => {
 
   try {
     const outputDTO = await listBadgesService(inputDTO);
+    const badgesWithDetail = await Promise.all(outputDTO.badgesWithDetail);
     const response: ListBadgesResponse = {
       status: "ok",
-      badges: outputDTO.badges?.map((badge: Badge) => {
+      badgesWithDetail: badgesWithDetail?.map((badgeWithDetail: BadgeWithDetail) => {
         return {
-          id: badge.id,
-          badge_id: badge.badgeId,
-          obtained_at: badge.obtainedAt,
-          is_pinned: badge.isPinned,
+          id: badgeWithDetail.id,
+          badge_id: badgeWithDetail.badgeId,
+          name: badgeWithDetail.name,
+          description: badgeWithDetail.description,
+          obtained_at: badgeWithDetail.obtainedAt,
+          is_pinned: badgeWithDetail.isPinned,
         };
       }),
     };
