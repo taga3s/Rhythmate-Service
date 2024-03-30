@@ -4,9 +4,10 @@ import { PrismaClientWithTx } from "../../db/types";
 import { Tag } from "./types";
 
 export class TagModel {
-  public async createWithTx(name: string, userId: string, tx: PrismaClientWithTx): Promise<Tag> {
+  public async createWithTx(name: string, color: string, userId: string, tx: PrismaClientWithTx): Promise<Tag> {
     const tag: Prisma.TagCreateInput = {
       name: name,
+      color: color,
       user: {
         connect: {
           id: userId,
