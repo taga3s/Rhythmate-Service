@@ -64,13 +64,10 @@ export const updateQuestService = async (inputDTO: InputDTO) => {
       state: updatedQuest.state,
       isSucceeded: updatedQuest.isSucceeded,
       continuationLevel: updatedQuest.continuationLevel,
-      startDate: updatedQuest.startDate,
-      endDate: updatedQuest.endDate,
       days: updatedQuest.days,
       weeklyFrequency: updatedQuest.weeklyFrequency,
       weeklyCompletionCount: updatedQuest.weeklyCompletionCount,
       totalCompletionCount: updatedQuest.totalCompletionCount,
-      userId: updatedQuest.userId,
     };
   });
 };

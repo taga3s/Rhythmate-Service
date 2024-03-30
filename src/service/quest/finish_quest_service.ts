@@ -30,24 +30,28 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("クエストの完了に失敗しました", 500);
     }
 
-    const targetWeeklyReport = await weeklyReportModel.getByUserId(finishedQuest.userId);
+    const targetWeeklyReport = await weeklyReportModel.getByUserId(quest.userId);
     if (!targetWeeklyReport) {
       throw new HttpError("指定したuserIdの週報が存在しません", 400);
     }
 
     // 週次レポートの更新
     const completedQuestsIncrements = 1;
-    const failedQuestsIncrements = 0;
-    const completedDaysIncrements = 0;
+
+    const completedQuests = targetWeeklyReport.completedQuests + completedQuestsIncrements;
+    const failedQuests = targetWeeklyReport.failedQuests;
+    const completedDays = targetWeeklyReport.completedDays;
+    const completedPercentage = Math.floor((completedQuests / (completedQuests + failedQuests)) * 100);
     const index = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
     targetWeeklyReport.completedQuestsEachDay[index] += 1;
 
     const weeklyReport = await weeklyReportModel.updateByIdWithTx(
       targetWeeklyReport.id,
-      completedQuestsIncrements,
-      failedQuestsIncrements,
-      completedDaysIncrements,
+      completedQuests,
+      failedQuests,
+      completedDays,
       targetWeeklyReport.completedQuestsEachDay,
+      completedPercentage,
       tx,
     );
     if (!weeklyReport) {
@@ -55,12 +59,12 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     }
 
     //ユーザーの経験値とレベルを更新
-    const user = await userModel.getById(finishedQuest.userId);
+    const user = await userModel.getById(quest.userId);
     if (!user) {
       throw new HttpError("ユーザーが見つかりません", 400);
     }
 
-    const expIncrement = getQuestExp(finishedQuest.difficulty, finishedQuest.continuationLevel);
+    const expIncrement = getQuestExp(quest.difficulty, quest.continuationLevel);
     const updatedUser = await userModel.updateExpWithTx(user.id, user.exp, expIncrement, tx);
     if (!updatedUser) {
       throw new HttpError("ユーザーの経験値の更新に失敗しました", 500);
@@ -78,8 +82,6 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       state: finishedQuest.state,
       isSucceeded: finishedQuest.isSucceeded,
       continuationLevel: finishedQuest.continuationLevel,
-      startDate: finishedQuest.startDate,
-      endDate: finishedQuest.endDate,
       days: finishedQuest.days,
       weeklyFrequency: finishedQuest.weeklyFrequency,
       weeklyCompletionCount: finishedQuest.weeklyCompletionCount,
