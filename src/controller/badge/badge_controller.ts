@@ -1,15 +1,16 @@
-import { Request, Response, response } from "express";
+import { Request, Response } from "express";
 import { getUserIdFromToken } from "../../core/jwt";
 import { BadgeWithDetail } from "../../model/badge/types";
 import { HttpError } from "../../pkg/httpError";
 import { achieveBadgeService, listBadgesService, pinBadgeService, unpinBadgeService } from "../../service/badge";
+import { AchieveBadgeRequest } from "./request";
 import { AchieveBadgeResponse, ListBadgesResponse, PinBadgeResponse, UnpinBadgeResponse } from "./response";
 
 // バッジの達成
-export const achieveBadgeController = async (req: Request<{ badge_id: string }>, res: Response) => {
+export const achieveBadgeController = async (req: Request<{}, {}, AchieveBadgeRequest>, res: Response) => {
   const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = {
-    badgeId: req.params.badge_id,
+    badgeId: req.body.badge_id,
     userId: userId,
   };
 
