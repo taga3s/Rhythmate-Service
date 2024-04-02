@@ -13,7 +13,7 @@ export type ListBadgesResponse = {
     badge_id: string;
     name: string;
     description: string;
-    image_dir: string;
+    image_type: string;
     obtained_at: string;
     is_pinned: boolean;
   }[];
@@ -25,7 +25,7 @@ export type PinBadgeResponse = {
   badge_id: string;
   name: string;
   description: string;
-  image_dir: string;
+  image_type: string;
   obtained_at: string;
   is_pinned: boolean;
 };
@@ -36,7 +36,7 @@ export type UnpinBadgeResponse = {
   badge_id: string;
   name: string;
   description: string;
-  image_dir: string;
+  image_type: string;
   obtained_at: string;
   is_pinned: boolean;
 };
