@@ -14,8 +14,6 @@ type InputDTO = {
   state: string;
   isSucceeded: boolean;
   continuationLevel: number;
-  // startDate: string;
-  // endDate: string;
   days: string[];
   weeklyCompletionCount: number;
   totalCompletionCount: number;
@@ -43,8 +41,6 @@ export const updateQuestService = async (inputDTO: InputDTO) => {
       inputDTO.startedAt,
       inputDTO.isSucceeded,
       inputDTO.continuationLevel,
-      // inputDTO.startDate,
-      // inputDTO.endDate,
       inputDTO.days,
       inputDTO.weeklyCompletionCount,
       inputDTO.totalCompletionCount,
@@ -64,8 +60,6 @@ export const updateQuestService = async (inputDTO: InputDTO) => {
       state: updatedQuest.state,
       isSucceeded: updatedQuest.isSucceeded,
       continuationLevel: updatedQuest.continuationLevel,
-      // startDate: updatedQuest.startDate,
-      // endDate: updatedQuest.endDate,
       days: updatedQuest.days,
       weeklyFrequency: updatedQuest.weeklyFrequency,
       weeklyCompletionCount: updatedQuest.weeklyCompletionCount,

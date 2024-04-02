@@ -78,8 +78,6 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       state: finishedQuest.state,
       isSucceeded: finishedQuest.isSucceeded,
       continuationLevel: finishedQuest.continuationLevel,
-      // startDate: finishedQuest.startDate,
-      // endDate: finishedQuest.endDate,
       days: finishedQuest.days,
       weeklyFrequency: finishedQuest.weeklyFrequency,
       weeklyCompletionCount: finishedQuest.weeklyCompletionCount,
