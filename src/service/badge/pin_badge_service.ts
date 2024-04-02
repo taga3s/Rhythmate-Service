@@ -44,7 +44,7 @@ export const pinBadgeService = async (inputDTO: InputDTO) => {
       badgeId: pinnedBadge.badgeId,
       name: badgeDetail.name,
       description: badgeDetail.description,
-      imageDir: badgeDetail.imageDir,
+      imageType: badgeDetail.imageType,
       obtainedAt: pinnedBadge.obtainedAt,
       isPinned: pinnedBadge.isPinned,
     };

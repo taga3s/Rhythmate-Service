@@ -7,13 +7,13 @@ export class BadgeDetailModel {
   public async createWithTx(
     name: string,
     description: string,
-    imageDir: string,
+    imageType: string,
     tx: PrismaClientWithTx
   ): Promise<BadgeDetail> {
     const badgeDetail: Prisma.BadgeDetailCreateInput = {
       name: name,
       description: description,
-      imageDir: imageDir,
+      imageType: imageType,
     };
     const result = await tx.badgeDetail.create({ data: badgeDetail });
     return result;
@@ -23,13 +23,13 @@ export class BadgeDetailModel {
     id: string,
     name: string,
     description: string,
-    imageDir: string,
+    imageType: string,
     tx: PrismaClientWithTx
   ): Promise<BadgeDetail | null> {
     const badgeDetail: Prisma.BadgeDetailUpdateInput = {
       name: name,
       description: description,
-      imageDir: imageDir,
+      imageType: imageType,
     };
     const result = await tx.badgeDetail.update({
       where: { id: id },

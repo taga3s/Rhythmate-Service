@@ -88,5 +88,5 @@ model BadgeDetail {
   id          String @id @default(uuid())
   name        String
   description String
-  imageDir    String
+  imageType    String
 }

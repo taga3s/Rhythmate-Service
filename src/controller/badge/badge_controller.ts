@@ -48,7 +48,7 @@ export const listBadgeController = async (req: Request, res: Response) => {
           badge_id: badgeWithDetail.badgeId,
           name: badgeWithDetail.name,
           description: badgeWithDetail.description,
-          image_dir: badgeWithDetail.imageDir,
+          image_dir: badgeWithDetail.imageType,
           obtained_at: badgeWithDetail.obtainedAt,
           is_pinned: badgeWithDetail.isPinned,
         };
@@ -78,7 +78,7 @@ export const pinBadgeController = async (req: Request<{ id: string }>, res: Resp
       badge_id: outputDTO.badgeId,
       name: outputDTO.name,
       description: outputDTO.description,
-      image_dir: outputDTO.imageDir,
+      image_dir: outputDTO.imageType,
       obtained_at: outputDTO.obtainedAt,
       is_pinned: outputDTO.isPinned,
     };
@@ -106,7 +106,7 @@ export const unpinBadgeController = async (req: Request<{ id: string }>, res: Re
       badge_id: outputDTO.badgeId,
       name: outputDTO.name,
       description: outputDTO.description,
-      image_dir: outputDTO.imageDir,
+      image_dir: outputDTO.imageType,
       obtained_at: outputDTO.obtainedAt,
       is_pinned: outputDTO.isPinned,
     };

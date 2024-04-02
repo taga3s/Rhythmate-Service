@@ -26,7 +26,7 @@ const transfer = async () => {
   }
   // バッジリストを登録
   for (const data of badgeListData) {
-    const user = await prisma.badgeList.create({
+    const user = await prisma.badgeDetail.create({
       data,
     });
     console.log(`Created badge with id: ${user.id}`);

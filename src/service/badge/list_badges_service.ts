@@ -21,7 +21,7 @@ export const listBadgesService = async (inputDTO: { userId: string }) => {
       badgeId: badge.badgeId,
       name: badgeDetail.name,
       description: badgeDetail.description,
-      imageDir: badgeDetail.imageDir,
+      imageType: badgeDetail.imageType,
       obtainedAt: badge.obtainedAt,
       isPinned: badge.isPinned,
       createdAt: badge.createdAt,

@@ -37,7 +37,7 @@ export const unpinBadgeService = async (inputDTO: InputDTO) => {
       badgeId: unpinnedBadge.badgeId,
       name: badgeDetail.name,
       description: badgeDetail.description,
-      imageDir: badgeDetail.imageDir,
+      imageType: badgeDetail.imageType,
       obtainedAt: unpinnedBadge.obtainedAt,
       isPinned: unpinnedBadge.isPinned,
     };

@@ -153,24 +153,24 @@ export const badgeListData: Prisma.BadgeListCreateInput[] = [
     id: "1",
     name: "初級者",
     description: "初めてのクエスト",
-    imageDir: "https://example.com",
+    imageType: "https://example.com",
   },
   {
     id: "2",
     name: "中級者",
     description: "クエストを10回クリア",
-    imageDir: "https://example.com",
+    imageType: "https://example.com",
   },
   {
     id: "3",
     name: "上級者",
     description: "クエストを50回クリア",
-    imageDir: "https://example.com",
+    imageType: "https://example.com",
   },
   {
     id: "4",
     name: "マスター",
     description: "クエストを100回クリア",
-    imageDir: "https://example.com",
+    imageType: "https://example.com",
   },
 ];
