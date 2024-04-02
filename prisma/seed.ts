@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { badgeListData, questData, userData, weeklyReportData } from "./seed_inputs";
+import { badgeDetailData, questData, userData, weeklyReportData } from "./seed_inputs";
 const prisma = new PrismaClient();
 
 const transfer = async () => {
@@ -25,11 +25,11 @@ const transfer = async () => {
     console.log(`Created weeklyReport with id: ${user.id}`);
   }
   // バッジリストを登録
-  for (const data of badgeListData) {
+  for (const data of badgeDetailData) {
     const user = await prisma.badgeDetail.create({
       data,
     });
-    console.log(`Created badge with id: ${user.id}`);
+    console.log(`Created badge detail with id: ${user.id}`);
   }
 };
 

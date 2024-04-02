@@ -148,29 +148,41 @@ export const weeklyReportData: Prisma.WeeklyReportCreateInput[] = [
   },
 ];
 
-export const badgeListData: Prisma.BadgeListCreateInput[] = [
+export const badgeDetailData: Prisma.BadgeDetailCreateInput[] = [
   {
     id: "1",
     name: "初級者",
-    description: "初めてのクエスト",
-    imageType: "https://example.com",
+    description: "レベルが3になる",
+    imageType: "Cat",
   },
   {
     id: "2",
     name: "中級者",
-    description: "クエストを10回クリア",
-    imageType: "https://example.com",
+    description: "レベルが50になる",
+    imageType: "Sword",
   },
   {
     id: "3",
     name: "上級者",
-    description: "クエストを50回クリア",
-    imageType: "https://example.com",
+    description: "レベルが100になる",
+    imageType: "Gem",
   },
   {
     id: "4",
-    name: "マスター",
+    name: "駆け出しRhythmater",
+    description: "クエストを10回クリア",
+    imageType: "Horse",
+  },
+  {
+    id: "5",
+    name: "中級者Rhythmater",
     description: "クエストを100回クリア",
-    imageType: "https://example.com",
+    imageType: "Bow",
+  },
+  {
+    id: "6",
+    name: "マスターRhythmater",
+    description: "クエストを1000回クリア",
+    imageType: "Crown",
   },
 ];
