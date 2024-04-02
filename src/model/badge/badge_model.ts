@@ -2,13 +2,13 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
 import { PrismaClientWithTx } from "../../db/types";
 import { Badge } from "./types";
-import { now } from "../../pkg/dayjs";
+import { now, formatDateInJapanese } from "../../pkg/dayjs";
 
 export class BadgeModel {
   public async achieveWithTx(badgeId: string, userId: string, tx: PrismaClientWithTx): Promise<Badge> {
     const badge: Prisma.BadgeCreateInput = {
       badgeId: badgeId,
-      obtainedAt: now(),
+      obtainedAt: formatDateInJapanese(now()),
       isPinned: false,
       user: {
         connect: {
