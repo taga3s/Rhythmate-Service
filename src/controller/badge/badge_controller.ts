@@ -33,16 +33,15 @@ export const achieveBadgeController = async (req: Request<{ badge_id: string }>,
 };
 
 // バッジのリスト取得
-export const listBadgeController = async (req: Request, res: Response) => {
+export const listBadgesController = async (req: Request, res: Response) => {
   const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = { userId: userId };
 
   try {
     const outputDTO = await listBadgesService(inputDTO);
-    const badgesWithDetail = await Promise.all(outputDTO.badgesWithDetail);
     const response: ListBadgesResponse = {
       status: "ok",
-      badgesWithDetail: badgesWithDetail?.map((badgeWithDetail: BadgeWithDetail) => {
+      badgesWithDetail: outputDTO.badgesWithDetail.map((badgeWithDetail: BadgeWithDetail) => {
         return {
           id: badgeWithDetail.id,
           badge_id: badgeWithDetail.badgeId,

@@ -11,7 +11,7 @@ export const listBadgesService = async (inputDTO: { userId: string }) => {
     throw new HttpError("バッジが見つかりませんでした", 500);
   }
 
-  const badgesWithDetail = badges.map( async (badge) => {
+  const badgesWithDetail = await Promise.all(badges.map( async (badge) => {
     const badgeDetail = await badgeDetailModel.getById(badge.badgeId);
     if (badgeDetail === null) {
       throw new HttpError("バッジ詳細が見つかりませんでした", 500);
@@ -28,7 +28,7 @@ export const listBadgesService = async (inputDTO: { userId: string }) => {
       updatedAt: badge.updatedAt,
       userId: badge.userId,
     }
-  });
+  }));
 
   return {
     badgesWithDetail: badgesWithDetail,
