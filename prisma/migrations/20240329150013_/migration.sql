@@ -13,6 +13,7 @@ CREATE TABLE "BadgeDetail" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "imageType" TEXT NOT NULL,
+    "frameColor" TEXT NOT NULL,
 
     CONSTRAINT "BadgeDetail_pkey" PRIMARY KEY ("id")
 );

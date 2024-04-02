@@ -4,26 +4,26 @@ const prisma = new PrismaClient();
 
 const transfer = async () => {
   // ユーザデータを登録
-  for (const data of userData) {
-    const user = await prisma.user.create({
-      data,
-    });
-    console.log(`Created user with id: ${user.id}`);
-  }
+  // for (const data of userData) {
+  //   const user = await prisma.user.create({
+  //     data,
+  //   });
+  //   console.log(`Created user with id: ${user.id}`);
+  // }
   // クエストデータを登録
-  for (const data of questData) {
-    const user = await prisma.quest.create({
-      data,
-    });
-    console.log(`Created quest with id: ${user.id}`);
-  }
-  // 週次レポートを登録
-  for (const data of weeklyReportData) {
-    const user = await prisma.weeklyReport.create({
-      data,
-    });
-    console.log(`Created weeklyReport with id: ${user.id}`);
-  }
+  // for (const data of questData) {
+  //   const user = await prisma.quest.create({
+  //     data,
+  //   });
+  //   console.log(`Created quest with id: ${user.id}`);
+  // }
+  // // 週次レポートを登録
+  // for (const data of weeklyReportData) {
+  //   const user = await prisma.weeklyReport.create({
+  //     data,
+  //   });
+  //   console.log(`Created weeklyReport with id: ${user.id}`);
+  // }
   // バッジリストを登録
   for (const data of badgeDetailData) {
     const user = await prisma.badgeDetail.create({

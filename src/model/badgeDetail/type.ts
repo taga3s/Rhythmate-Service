@@ -3,4 +3,5 @@ export type BadgeDetail = {
   name : string;
   description : string;
   imageType : string;
+  frameColor : string;
   }
