@@ -20,6 +20,7 @@ import {
   ListQuestsResponse,
   StartQuestResponse,
   UpdateQuestResponse,
+  toQuestBaseResponse,
 } from "../quest/response";
 
 // クエストの作成
@@ -39,20 +40,10 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
 
   try {
     const outputDTO = await createQuestService(inputDTO);
+    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: CreateQuestResponse = {
       status: "ok",
-      id: outputDTO.id,
-      title: outputDTO.title,
-      description: outputDTO.description,
-      starts_at: outputDTO.startsAt,
-      started_at: outputDTO.startedAt,
-      minutes: outputDTO.minutes,
-      tag_id: outputDTO.tagId,
-      difficulty: outputDTO.difficulty,
-      state: outputDTO.state,
-      is_succeeded: outputDTO.isSucceeded,
-      days: outputDTO.days,
-      weekly_frequency: outputDTO.weeklyFrequency,
+      ...questBaseResponse,
     };
     return res.status(200).json(response);
   } catch (err) {
@@ -70,27 +61,11 @@ export const listQuestsController = async (req: Request, res: Response) => {
 
   try {
     const outputDTO = await listQuestsService(inputDTO);
+
+    const questBaseResponses = outputDTO.quests.map((quest: Quest) => toQuestBaseResponse(quest));
     const response: ListQuestsResponse = {
       status: "ok",
-      quests: outputDTO.quests?.map((quest: Quest) => {
-        return {
-          id: quest.id,
-          title: quest.title,
-          description: quest.description,
-          starts_at: quest.startsAt,
-          started_at: quest.startedAt,
-          minutes: quest.minutes,
-          tag_id: quest.tagId,
-          difficulty: quest.difficulty,
-          state: quest.state,
-          is_succeeded: quest.isSucceeded,
-          continuation_level: quest.continuationLevel,
-          days: quest.days,
-          weekly_frequency: quest.weeklyFrequency,
-          weekly_completion_count: quest.weeklyCompletionCount,
-          total_completion_count: quest.totalCompletionCount,
-        };
-      }),
+      quests: questBaseResponses,
     };
     return res.status(200).json(response);
   } catch (err) {
@@ -107,6 +82,7 @@ export const deleteQuestController = async (req: Request<{ id: string }>, res: R
 
   try {
     await deleteQuestService(inputDTO);
+
     const response: DeleteQuestResponse = { status: "ok" };
     return res.status(200).json(response);
   } catch (err) {
@@ -140,23 +116,11 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
 
   try {
     const outputDTO = await updateQuestService(inputDTO);
+
+    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: UpdateQuestResponse = {
       status: "ok",
-      id: outputDTO.id,
-      title: outputDTO.title,
-      description: outputDTO.description,
-      starts_at: outputDTO.startsAt,
-      started_at: outputDTO.startedAt,
-      minutes: outputDTO.minutes,
-      tag_id: outputDTO.tagId,
-      difficulty: outputDTO.difficulty,
-      state: outputDTO.state,
-      is_succeeded: outputDTO.isSucceeded,
-      continuation_level: outputDTO.continuationLevel,
-      days: outputDTO.days,
-      weekly_frequency: outputDTO.weeklyFrequency,
-      weekly_completion_count: outputDTO.weeklyCompletionCount,
-      total_completion_count: outputDTO.totalCompletionCount,
+      ...questBaseResponse,
     };
     return res.status(200).json(response);
   } catch (err) {
@@ -173,23 +137,11 @@ export const startQuestController = async (req: Request<{ id: string }>, res: Re
 
   try {
     const outputDTO = await startQuestService(inputDTO);
+
+    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: StartQuestResponse = {
       status: "ok",
-      id: outputDTO.id,
-      title: outputDTO.title,
-      description: outputDTO.description,
-      starts_at: outputDTO.startsAt,
-      started_at: outputDTO.startedAt,
-      minutes: outputDTO.minutes,
-      tag_id: outputDTO.tagId,
-      difficulty: outputDTO.difficulty,
-      state: outputDTO.state,
-      is_succeeded: outputDTO.isSucceeded,
-      continuation_level: outputDTO.continuationLevel,
-      days: outputDTO.days,
-      weekly_frequency: outputDTO.weeklyFrequency,
-      weekly_completion_count: outputDTO.weeklyCompletionCount,
-      total_completion_count: outputDTO.totalCompletionCount,
+      ...questBaseResponse,
     };
     return res.status(200).json(response);
   } catch (err) {
@@ -200,30 +152,18 @@ export const startQuestController = async (req: Request<{ id: string }>, res: Re
   }
 };
 
-// クエストの完了
+// クエストの終了
 export const finishQuestController = async (req: Request<{ id: string }>, res: Response) => {
   const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = { id: req.params.id, userId: userId };
 
   try {
     const outputDTO = await finishQuestService(inputDTO);
+
+    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: FinishQuestResponse = {
       status: "ok",
-      id: outputDTO.id,
-      title: outputDTO.title,
-      description: outputDTO.description,
-      starts_at: outputDTO.startsAt,
-      started_at: outputDTO.startedAt,
-      minutes: outputDTO.minutes,
-      tag_id: outputDTO.tagId,
-      difficulty: outputDTO.difficulty,
-      state: outputDTO.state,
-      is_succeeded: outputDTO.isSucceeded,
-      continuation_level: outputDTO.continuationLevel,
-      days: outputDTO.days,
-      weekly_frequency: outputDTO.weeklyFrequency,
-      weekly_completion_count: outputDTO.weeklyCompletionCount,
-      total_completion_count: outputDTO.totalCompletionCount,
+      ...questBaseResponse,
     };
     return res.status(200).json(response);
   } catch (err) {
@@ -234,30 +174,18 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
   }
 };
 
-// クエストの強制完了(失敗の場合)
+// クエストの強制終了
 export const forceFinishQuestController = async (req: Request<{ id: string }>, res: Response) => {
   const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = { id: req.params.id, userId: userId };
 
   try {
     const outputDTO = await forceFinishQuestService(inputDTO);
+
+    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: ForceFinishQuestResponse = {
       status: "ok",
-      id: outputDTO.id,
-      title: outputDTO.title,
-      description: outputDTO.description,
-      starts_at: outputDTO.startsAt,
-      started_at: outputDTO.startedAt,
-      minutes: outputDTO.minutes,
-      tag_id: outputDTO.tagId,
-      difficulty: outputDTO.difficulty,
-      state: outputDTO.state,
-      is_succeeded: outputDTO.isSucceeded,
-      continuation_level: outputDTO.continuationLevel,
-      days: outputDTO.days,
-      weekly_frequency: outputDTO.weeklyFrequency,
-      weekly_completion_count: outputDTO.weeklyCompletionCount,
-      total_completion_count: outputDTO.totalCompletionCount,
+      ...questBaseResponse,
     };
     return res.status(200).json(response);
   } catch (err) {

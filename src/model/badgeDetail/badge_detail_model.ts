@@ -9,7 +9,7 @@ export class BadgeDetailModel {
     description: string,
     imageType: string,
     frameColor: string,
-    tx: PrismaClientWithTx
+    tx: PrismaClientWithTx,
   ): Promise<BadgeDetail> {
     const badgeDetail: Prisma.BadgeDetailCreateInput = {
       name: name,
@@ -27,7 +27,7 @@ export class BadgeDetailModel {
     description: string,
     imageType: string,
     frameColor: string,
-    tx: PrismaClientWithTx
+    tx: PrismaClientWithTx,
   ): Promise<BadgeDetail | null> {
     const badgeDetail: Prisma.BadgeDetailUpdateInput = {
       name: name,

@@ -9,12 +9,7 @@ export const createTagService = async (inputDTO: {
   return prisma.$transaction(async (tx) => {
     const model = new TagModel();
 
-    const tag = await model.createWithTx(
-        inputDTO.name, 
-        inputDTO.color, 
-        inputDTO.userId, 
-        tx
-      );
+    const tag = await model.createWithTx(inputDTO.name, inputDTO.color, inputDTO.userId, tx);
 
     return {
       id: tag.id,

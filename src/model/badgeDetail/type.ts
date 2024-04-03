@@ -1,7 +1,7 @@
 export type BadgeDetail = {
-  id : string;
-  name : string;
-  description : string;
-  imageType : string;
-  frameColor : string;
-  }
+  id: string;
+  name: string;
+  description: string;
+  imageType: string;
+  frameColor: string;
+};

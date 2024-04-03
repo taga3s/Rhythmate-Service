@@ -66,6 +66,7 @@ export class WeeklyReportModel {
     });
     return result;
   }
+
   public async getByUserId(userId: string): Promise<WeeklyReport | null> {
     const result = await prisma.weeklyReport.findFirst({
       // 最新の週報を取得
@@ -81,19 +82,21 @@ export class WeeklyReportModel {
 
   public async updateByIdWithTx(
     id: string,
-    completedQuestsIncrements: number,
-    failedQuestsIncrements: number,
-    completedDaysIncrements: number,
+    completedQuests: number,
+    failedQuests: number,
+    completedDays: number,
     completedQuestsEachDay: number[],
+    completedPercentage: number,
     tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
     const result = await tx.weeklyReport.update({
       where: { id: id },
       data: {
-        completedQuests: { increment: completedQuestsIncrements },
-        failedQuests: { increment: failedQuestsIncrements },
-        completedDays: { increment: completedDaysIncrements },
+        completedQuests: completedQuests,
+        failedQuests: failedQuests,
+        completedDays: completedDays,
         completedQuestsEachDay: completedQuestsEachDay,
+        completedPercentage: completedPercentage,
       },
     });
     return result;

@@ -40,7 +40,10 @@ export const createQuestService = async (inputDTO: {
       state: quest.state,
       isSucceeded: quest.isSucceeded,
       days: quest.days,
+      continuationLevel: quest.continuationLevel,
       weeklyFrequency: quest.weeklyFrequency,
+      weeklyCompletionCount: quest.weeklyCompletionCount,
+      totalCompletionCount: quest.totalCompletionCount,
     };
   });
 };
