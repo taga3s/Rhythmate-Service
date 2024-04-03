@@ -61,6 +61,7 @@ model WeeklyReport {
   id                      String    @id @default(uuid())
   completedQuests         Int
   failedQuests            Int
+  failedQuestsEachDay     Int[]
   completedPercentage     Float
   completedDays           Int
   completedQuestsEachDay  Int[]

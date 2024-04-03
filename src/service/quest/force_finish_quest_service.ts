@@ -35,6 +35,8 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
     const failedQuests = targetWeeklyReport.failedQuests + failedQuestsIncrements;
     const completedDays = 0;
     const completedPercentage = Math.floor((completedQuests / (completedQuests + failedQuests)) * 100);
+    const index = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
+    targetWeeklyReport.failedQuestsEachDay[index] += 1;
 
     const weeklyReport = await weeklyReportModel.updateByIdWithTx(
       targetWeeklyReport.id,
@@ -42,6 +44,7 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
       failedQuests,
       completedDays,
       targetWeeklyReport.completedQuestsEachDay,
+      targetWeeklyReport.failedQuestsEachDay,
       completedPercentage,
       tx,
     );

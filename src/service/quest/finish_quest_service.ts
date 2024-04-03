@@ -51,6 +51,7 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       failedQuests,
       completedDays,
       targetWeeklyReport.completedQuestsEachDay,
+      targetWeeklyReport.failedQuestsEachDay,
       completedPercentage,
       tx,
     );

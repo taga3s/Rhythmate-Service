@@ -8,6 +8,7 @@ export const updateWeeklyReportService = async (inputDTO: {
   failedQuests: number;
   completedDays: number;
   completedQuestsEachDay: number[];
+  failedQuestsEachDay: number[];
   startDate: string;
   endDate: string;
   userId: string;
@@ -25,6 +26,7 @@ export const updateWeeklyReportService = async (inputDTO: {
       inputDTO.failedQuests,
       inputDTO.completedDays,
       inputDTO.completedQuestsEachDay,
+      inputDTO.failedQuestsEachDay,
       inputDTO.startDate,
       inputDTO.endDate,
       inputDTO.userId,
@@ -38,6 +40,7 @@ export const updateWeeklyReportService = async (inputDTO: {
       completedPercentage: updatedWeeklyReport.completedPercentage,
       completedDays: updatedWeeklyReport.completedDays,
       completedQuestsEachDay: updatedWeeklyReport.completedQuestsEachDay,
+      failedQuestsEachDay: updatedWeeklyReport.failedQuestsEachDay,
       startDate: updatedWeeklyReport.startDate,
       endDate: updatedWeeklyReport.endDate,
       userId: updatedWeeklyReport.userId,

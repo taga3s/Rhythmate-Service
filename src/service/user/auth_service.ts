@@ -33,7 +33,20 @@ export const authService = async (inputDTO: InputDTO) => {
     }
 
     const newUser = await userModel.createWithTx(name, email, tx);
-    const newWeeklyReport = await weeklyReportModel.createWithTx(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], newUser.id, tx);
+    const completedQuests = 0;
+    const failedQuests = 0;
+    const failedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
+    const completedDays = 0;
+    const completedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
+    const newWeeklyReport = await weeklyReportModel.createWithTx(
+      completedQuests,
+      failedQuests,
+      completedDays,
+      completedQuestsEachDay,
+      failedQuestsEachDay,
+      newUser.id,
+      tx,
+    );
 
     return {
       id: newUser.id,
