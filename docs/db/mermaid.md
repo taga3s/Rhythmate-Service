@@ -4,7 +4,7 @@ erDiagram
         varchar id PK
         varchar name "ユーザー名"
         varchar email "メールアドレス"
-        varchar image_url "プロフィール画像のURL"
+        varchar profileImageUrl "プロフィール画像のURL"
         int level "レベル"
         int total_exp "経験値"
         timestamptz created_at
@@ -19,7 +19,8 @@ erDiagram
         int minutes "何分間"
         varchar tag_id "タグ ID"
         varchar difficulty "難易度"
-        boolean is_done "完了/未完了"
+        boolean isSucceeded "完了（成功）したかどうか"
+        varchar string "開始前(ACTIVE)/終了後(INACTIVE)"
         array days "曜日の配列"
         int weekly_frequency "一週間の頻度"
         int weekly_completion_count "一週間でこなした数"
@@ -51,6 +52,7 @@ erDiagram
         varchar id PK
         varchar badge_id "達成したバッジのID"
         varchar obtainedAt "達成日時"
+        boolean isPinned "プロフィールにピン止めされているか"
         timestamptz created_at 
         timestamptz updated_at
         varchar userId FK

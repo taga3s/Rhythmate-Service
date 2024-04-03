@@ -1,6 +1,6 @@
 import express from "express";
 import "dotenv/config";
-import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter } from "./route";
+import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter, badgeRouter } from "./route";
 import { cookie } from "express-validator";
 import cookieParser from "cookie-parser";
 import { allowCrossDomain } from "./core/cors";
@@ -27,6 +27,7 @@ app.use("/v1/users", userRouter);
 app.use("/v1/quests", questRouter);
 app.use("/v1/tags", tagRouter);
 app.use("/v1/weekly-reports", weeklyReportRouter);
+app.use("/v1/badge", badgeRouter);
 // 開発環境のみ
 if (process.env.NODE_ENV === "dev") {
   app.use("/v1/health", healthRouter);

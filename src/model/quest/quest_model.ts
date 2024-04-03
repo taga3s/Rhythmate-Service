@@ -2,7 +2,6 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
 import { PrismaClientWithTx } from "../../db/types";
 import { now } from "../../pkg/dayjs";
-import { getStartAndEndUtcDateTime } from "../funcs/dateTime";
 import { Quest } from "./types";
 
 export class QuestModel {
@@ -36,7 +35,6 @@ export class QuestModel {
     userId: string,
     tx: PrismaClientWithTx,
   ): Promise<Quest> {
-    const { dateNowUtc, nextSundayUtc } = getStartAndEndUtcDateTime();
     const quest: Prisma.QuestCreateInput = {
       title: title,
       description: description,
@@ -46,8 +44,6 @@ export class QuestModel {
       tagId: tagId ?? "NO_TAG_ASSIGNED",
       state: state,
       difficulty: difficulty,
-      startDate: dateNowUtc,
-      endDate: nextSundayUtc,
       days: days,
       weeklyFrequency: days.length,
       user: {
@@ -77,8 +73,6 @@ export class QuestModel {
     state: string,
     isSucceeded: boolean,
     continuationLevel: number,
-    startDate: string,
-    endDate: string,
     days: string[],
     weeklyCompletionCount: number,
     totalCompletionCount: number,
@@ -97,8 +91,6 @@ export class QuestModel {
       state: state,
       isSucceeded: isSucceeded,
       continuationLevel: continuationLevel,
-      startDate: startDate,
-      endDate: endDate,
       days: days,
       weeklyFrequency: days.length,
       weeklyCompletionCount: weeklyCompletionCount,

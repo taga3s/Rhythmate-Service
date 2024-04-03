@@ -21,6 +21,7 @@ export const listTagsController = async (req: Request, res: Response) => {
         return {
           id: tag.id,
           name: tag.name,
+          color: tag.color,
           created_at: tag.createdAt,
           updated_at: tag.updatedAt,
         };
@@ -40,6 +41,7 @@ export const createTagController = async (req: Request<{}, {}, CreateTagRequest>
   const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = {
     name: req.body.name,
+    color: req.body.color,
     userId: userId,
   };
   try {
@@ -48,6 +50,7 @@ export const createTagController = async (req: Request<{}, {}, CreateTagRequest>
       status: "ok",
       id: outputDTO.id,
       name: outputDTO.name,
+      color: outputDTO.color,
       created_at: outputDTO.createdAt,
       updated_at: outputDTO.updatedAt,
     };
@@ -80,6 +83,7 @@ export const updateTagController = async (req: Request<{ id: string }, {}, Updat
   const inputDTO = {
     id: req.params.id,
     name: req.body.name,
+    color: req.body.color,
   };
 
   try {
@@ -88,6 +92,7 @@ export const updateTagController = async (req: Request<{ id: string }, {}, Updat
       status: "ok",
       id: outputDTO.id,
       name: outputDTO.name,
+      color: outputDTO.color,
       created_at: outputDTO.createdAt,
       updated_at: outputDTO.updatedAt,
     };

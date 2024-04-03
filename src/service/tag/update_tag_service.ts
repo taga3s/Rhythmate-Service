@@ -5,6 +5,7 @@ import { HttpError } from "../../pkg/httpError";
 export const updateTagService = async (inputDTO: {
   id: string;
   name: string;
+  color: string;
 }) => {
   return prisma.$transaction(async (tx) => {
     const model = new TagModel();
@@ -19,6 +20,7 @@ export const updateTagService = async (inputDTO: {
     return {
       id: result.id,
       name: result.name,
+      color: result.color,
       createdAt: result.createdAt,
       updatedAt: result.updatedAt,
       userId: result.userId,
