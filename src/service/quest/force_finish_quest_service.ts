@@ -30,21 +30,33 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
 
     // 週次レポートの更新
     const failedQuestsIncrements = 1;
+    const weekDaysLength = 7;
 
     const completedQuests = targetWeeklyReport.completedQuests;
     const failedQuests = targetWeeklyReport.failedQuests + failedQuestsIncrements;
     const completedDays = 0;
     const completedPercentage = Math.floor((completedQuests / (completedQuests + failedQuests)) * 100);
-    const index = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
-    targetWeeklyReport.failedQuestsEachDay[index] += 1;
+    const completedQuestsEachDay =
+      targetWeeklyReport.completedQuestsEachDay && targetWeeklyReport.completedQuestsEachDay.length === weekDaysLength
+        ? targetWeeklyReport.completedQuestsEachDay
+        : [0, 0, 0, 0, 0, 0, 0];
+    const failedQuestsEachDay =
+      targetWeeklyReport.failedQuestsEachDay && targetWeeklyReport.failedQuestsEachDay.length === weekDaysLength
+        ? targetWeeklyReport.failedQuestsEachDay
+        : [0, 0, 0, 0, 0, 0, 0];
+
+    const todayIndex = (new Date().getDay() + 6) % 7; // 0: 月曜日, 1: 火曜日...
+    const addedFailedQuestsEachDay = failedQuestsEachDay.map((failedQuestsEachDay, i) =>
+      i === todayIndex ? failedQuestsEachDay + failedQuestsIncrements : failedQuestsEachDay,
+    );
 
     const weeklyReport = await weeklyReportModel.updateByIdWithTx(
       targetWeeklyReport.id,
       completedQuests,
       failedQuests,
       completedDays,
-      targetWeeklyReport.completedQuestsEachDay,
-      targetWeeklyReport.failedQuestsEachDay,
+      completedQuestsEachDay,
+      addedFailedQuestsEachDay,
       completedPercentage,
       tx,
     );
