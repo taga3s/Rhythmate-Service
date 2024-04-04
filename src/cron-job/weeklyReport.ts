@@ -11,9 +11,25 @@ const createEverySunday = () => {
     logger.info("Running cron job for creating weekly reports every Sunday.");
     //'59 59 23 * * 0'
     const users = await prisma.user.findMany();
+    const completedQuests = 0;
+    const failedQuests = 0;
+    const completedDays = 0;
+    const completedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
+    const failedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
     await prisma.$transaction(async (tx) => {
       await Promise.all(
-        users.map(async (user) => await weeklyReportModel.createWithTx(0, 0, 0, [0, 0, 0, 0, 0, 0, 0], user.id, tx)),
+        users.map(
+          async (user) =>
+            await weeklyReportModel.createWithTx(
+              completedQuests,
+              failedQuests,
+              completedDays,
+              completedQuestsEachDay,
+              failedQuestsEachDay,
+              user.id,
+              tx,
+            ),
+        ),
       );
     });
   });

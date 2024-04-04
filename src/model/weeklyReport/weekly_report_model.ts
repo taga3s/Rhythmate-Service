@@ -10,6 +10,7 @@ export class WeeklyReportModel {
     failedQuests: number,
     completedDays: number,
     completedQuestsEachDay: number[],
+    failedQuestsEachDay: number[],
     userId: string,
     tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
@@ -21,6 +22,7 @@ export class WeeklyReportModel {
       completedPercentage: completedPercentage,
       completedDays: completedDays,
       completedQuestsEachDay: completedQuestsEachDay,
+      failedQuestsEachDay: failedQuestsEachDay,
       startDate: dateNowUtc,
       endDate: nextSundayUtc,
       user: {
@@ -39,6 +41,7 @@ export class WeeklyReportModel {
     failedQuests: number,
     completedDays: number,
     completedQuestsEachDay: number[],
+    failedQuestsEachDay: number[],
     startDate: string,
     endDate: string,
     userId: string,
@@ -51,6 +54,7 @@ export class WeeklyReportModel {
       completedPercentage: completedPercentage,
       completedDays: completedDays,
       completedQuestsEachDay: completedQuestsEachDay,
+      failedQuestsEachDay: failedQuestsEachDay,
       startDate: startDate,
       endDate: endDate,
       user: {
@@ -86,6 +90,7 @@ export class WeeklyReportModel {
     failedQuests: number,
     completedDays: number,
     completedQuestsEachDay: number[],
+    failedQuestsEachDay: number[],
     completedPercentage: number,
     tx: PrismaClientWithTx,
   ): Promise<WeeklyReport> {
@@ -96,6 +101,7 @@ export class WeeklyReportModel {
         failedQuests: failedQuests,
         completedDays: completedDays,
         completedQuestsEachDay: completedQuestsEachDay,
+        failedQuestsEachDay: failedQuestsEachDay,
         completedPercentage: completedPercentage,
       },
     });
