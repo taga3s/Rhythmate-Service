@@ -11,28 +11,27 @@ export const achieveBadgeService = async (inputDTO: {
   return prisma.$transaction(async (tx) => {
     const badgeModel = new BadgeModel();
     const badgeDetailModel = new BadgeDetailModel();
-    const userModel = new UserModel();
 
     const badgeDetail = await badgeDetailModel.getById(inputDTO.badgeId);
     if (!badgeDetail) {
       throw new HttpError("バッジ詳細が見つかりません", 400);
     }
 
-    const user = await userModel.getById(inputDTO.userId);
-    if (!user) {
-      throw new HttpError("ユーザーが見つかりません", 400);
+    const targetBadge = await badgeModel.getByBadgeIdAndUserId(inputDTO.badgeId, inputDTO.userId);
+    if (!targetBadge) {
+      throw new HttpError("バッジが見つかりません", 500);
     }
 
-    const badge = await badgeModel.achieveWithTx(inputDTO.badgeId, inputDTO.userId, tx);
+    const updatedBadge = await badgeModel.achieveWithTx(targetBadge.id, tx);
 
     return {
-      badgeId: badge.badgeId,
+      badgeId: updatedBadge.badgeId,
       name: badgeDetail.name,
       description: badgeDetail.description,
       image_type: badgeDetail.imageType,
       frame_color: badgeDetail.frameColor,
-      obtainedAt: badge.obtainedAt,
-      isPinned: badge.isPinned,
+      obtainedAt: updatedBadge.obtainedAt,
+      isPinned: updatedBadge.isPinned,
     };
   });
 };

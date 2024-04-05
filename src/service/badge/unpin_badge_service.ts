@@ -39,6 +39,8 @@ export const unpinBadgeService = async (inputDTO: InputDTO) => {
       description: badgeDetail.description,
       imageType: badgeDetail.imageType,
       obtainedAt: unpinnedBadge.obtainedAt,
+      frameColor: badgeDetail.frameColor,
+      unlockable: unpinnedBadge.unlockable,
       isPinned: unpinnedBadge.isPinned,
     };
   });

@@ -18,24 +18,10 @@ export type ListBadgesResponse = {
   badgesWithDetail: BaseResponse[];
 };
 
-export type PinBadgeResponse = {
+export type PinBadgeResponse = BaseResponse & {
   status: string;
-  id: string;
-  badge_id: string;
-  name: string;
-  description: string;
-  image_type: string;
-  obtained_at: string;
-  is_pinned: boolean;
 };
 
-export type UnpinBadgeResponse = {
+export type UnpinBadgeResponse = BaseResponse & {
   status: string;
-  id: string;
-  badge_id: string;
-  name: string;
-  description: string;
-  image_type: string;
-  obtained_at: string;
-  is_pinned: boolean;
 };

@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
 import { getUserIdFromToken } from "../../core/jwt";
-import { BadgeWithDetail } from "../../model/badge/types";
 import { HttpError } from "../../pkg/httpError";
 import { achieveBadgeService, listBadgesService, pinBadgeService, unpinBadgeService } from "../../service/badge";
-import { AchieveBadgeRequest } from "./request";
 import { AchieveBadgeResponse, ListBadgesResponse, PinBadgeResponse, UnpinBadgeResponse } from "./response";
 
 // バッジの達成
-export const achieveBadgeController = async (req: Request<{}, {}, AchieveBadgeRequest>, res: Response) => {
+export const achieveBadgeController = async (req: Request<{ id: string }>, res: Response) => {
   const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = {
-    badgeId: req.body.badge_id,
+    badgeId: req.params.id,
     userId: userId,
   };
 
@@ -80,12 +78,13 @@ export const pinBadgeController = async (req: Request<{ id: string }>, res: Resp
     const outputDTO = await pinBadgeService(inputDTO);
     const response: PinBadgeResponse = {
       status: "ok",
-      id: outputDTO.id,
       badge_id: outputDTO.badgeId,
       name: outputDTO.name,
       description: outputDTO.description,
       image_type: outputDTO.imageType,
+      frame_color: outputDTO.frameColor,
       obtained_at: outputDTO.obtainedAt,
+      unlockable: outputDTO.unlockable,
       is_pinned: outputDTO.isPinned,
     };
     return res.status(200).json(response);
@@ -109,12 +108,13 @@ export const unpinBadgeController = async (req: Request<{ id: string }>, res: Re
     const outputDTO = await unpinBadgeService(inputDTO);
     const response: UnpinBadgeResponse = {
       status: "ok",
-      id: outputDTO.id,
       badge_id: outputDTO.badgeId,
       name: outputDTO.name,
       description: outputDTO.description,
       image_type: outputDTO.imageType,
+      frame_color: outputDTO.frameColor,
       obtained_at: outputDTO.obtainedAt,
+      unlockable: outputDTO.unlockable,
       is_pinned: outputDTO.isPinned,
     };
     return res.status(200).json(response);

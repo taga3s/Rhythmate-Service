@@ -60,6 +60,16 @@ export class BadgeDetailModel {
     return result;
   }
 
+  public async getByFeatures(imageType: string, frameColor: string): Promise<BadgeDetail | null> {
+    const result = await prisma.badgeDetail.findFirst({
+      where: {
+        imageType: imageType,
+        frameColor: frameColor,
+      },
+    });
+    return result;
+  }
+
   public async listAll() {
     const result = await prisma.badgeDetail.findMany();
     return result;

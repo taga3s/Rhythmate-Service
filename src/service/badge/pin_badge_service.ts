@@ -45,7 +45,9 @@ export const pinBadgeService = async (inputDTO: InputDTO) => {
       name: badgeDetail.name,
       description: badgeDetail.description,
       imageType: badgeDetail.imageType,
+      frameColor: badgeDetail.frameColor,
       obtainedAt: pinnedBadge.obtainedAt,
+      unlockable: pinnedBadge.unlockable,
       isPinned: pinnedBadge.isPinned,
     };
   });

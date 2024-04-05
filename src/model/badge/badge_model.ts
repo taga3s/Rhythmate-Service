@@ -5,11 +5,11 @@ import { Badge } from "./types";
 import { now, formatDateInJapanese } from "../../pkg/dayjs";
 
 export class BadgeModel {
-  public async achieveWithTx(badgeId: string, userId: string, tx: PrismaClientWithTx): Promise<Badge> {
+  public async createWithTx(badgeId: string, userId: string, tx: PrismaClientWithTx): Promise<Badge> {
     const data: Prisma.BadgeCreateInput = {
       badgeId: badgeId,
-      obtainedAt: now(),
       isPinned: false,
+      obtainedAt: "",
       unlockable: true,
       user: {
         connect: {
@@ -18,6 +18,16 @@ export class BadgeModel {
       },
     };
     const result = await tx.badge.create({ data: data });
+    return result;
+  }
+
+  public async achieveWithTx(id: string, tx: PrismaClientWithTx): Promise<Badge> {
+    const result = await tx.badge.update({
+      where: { id: id },
+      data: {
+        obtainedAt: now(),
+      },
+    });
     return result;
   }
 
