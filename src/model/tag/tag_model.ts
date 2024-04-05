@@ -18,9 +18,10 @@ export class TagModel {
     return result;
   }
 
-  public async updateWithTx(id: string, name: string, tx: PrismaClientWithTx): Promise<Tag> {
+  public async updateWithTx(id: string, name: string, color: string, tx: PrismaClientWithTx): Promise<Tag> {
     const tag: Prisma.TagUpdateInput = {
       name: name,
+      color: color,
     };
     const result = await tx.tag.update({ where: { id: id }, data: tag });
     return result;
