@@ -25,12 +25,12 @@ const transfer = async () => {
   //   console.log(`Created weeklyReport with id: ${user.id}`);
   // }
   // バッジリストを登録
-  for (const data of badgeDetailData) {
-    const user = await prisma.badgeDetail.create({
-      data,
-    });
-    console.log(`Created badge detail with id: ${user.id}`);
-  }
+  // for (const data of badgeDetailData) {
+  //   const user = await prisma.badgeDetail.create({
+  //     data,
+  //   });
+  //   console.log(`Created badge detail with id: ${user.id}`);
+  // }
 };
 
 // 定義されたデータを実際のモデルへ登録する処理

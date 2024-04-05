@@ -17,6 +17,7 @@ export const achieveBadgeService = async (inputDTO: {
     if (!badgeDetail) {
       throw new HttpError("バッジ詳細が見つかりません", 400);
     }
+
     const user = await userModel.getById(inputDTO.userId);
     if (!user) {
       throw new HttpError("ユーザーが見つかりません", 400);
@@ -25,8 +26,11 @@ export const achieveBadgeService = async (inputDTO: {
     const badge = await badgeModel.achieveWithTx(inputDTO.badgeId, inputDTO.userId, tx);
 
     return {
-      id: badge.id,
       badgeId: badge.badgeId,
+      name: badgeDetail.name,
+      description: badgeDetail.description,
+      image_type: badgeDetail.imageType,
+      frame_color: badgeDetail.frameColor,
       obtainedAt: badge.obtainedAt,
       isPinned: badge.isPinned,
     };

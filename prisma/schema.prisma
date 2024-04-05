@@ -79,6 +79,7 @@ model Badge {
   badgeId    String
   obtainedAt String
   isPinned   Boolean  @default(false)
+  unlockable Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   userId     String
@@ -91,4 +92,8 @@ model BadgeDetail {
   description String
   imageType   String
   frameColor  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  publishedAt DateTime
+  revisedAt   DateTime
 }

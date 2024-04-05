@@ -2,13 +2,13 @@ import { prisma } from "../../db/db";
 import { BadgeModel } from "../../model/badge/badge_model";
 import { HttpError } from "../../pkg/httpError";
 
-type InputDTO = { id: string };
+type InputDTO = { badgeId: string; userId: string };
 
 export const pinBadgeService = async (inputDTO: InputDTO) => {
   return prisma.$transaction(async (tx) => {
     const badgeModel = new BadgeModel();
 
-    const badge = await badgeModel.getById(inputDTO.id);
+    const badge = await badgeModel.getByBadgeIdAndUserId(inputDTO.badgeId, inputDTO.userId);
     if (!badge) {
       throw new HttpError("指定したidのバッジが存在しません", 400);
     }
@@ -24,7 +24,7 @@ export const pinBadgeService = async (inputDTO: InputDTO) => {
       throw new HttpError("ピン止めできるバッジは３つまでです", 400);
     }
 
-    const pinnedBadge = await badgeModel.pinByIdWithTx(inputDTO.id, tx);
+    const pinnedBadge = await badgeModel.pinByIdWithTx(badge.id, tx);
     if (!pinnedBadge) {
       throw new HttpError("バッジのピン止めに失敗しました", 500);
     }
