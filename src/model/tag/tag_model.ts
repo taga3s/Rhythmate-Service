@@ -4,9 +4,10 @@ import { PrismaClientWithTx } from "../../db/types";
 import { Tag } from "./types";
 
 export class TagModel {
-  public async createWithTx(name: string, userId: string, tx: PrismaClientWithTx): Promise<Tag> {
+  public async createWithTx(name: string, color: string, userId: string, tx: PrismaClientWithTx): Promise<Tag> {
     const tag: Prisma.TagCreateInput = {
       name: name,
+      color: color,
       user: {
         connect: {
           id: userId,
@@ -17,9 +18,10 @@ export class TagModel {
     return result;
   }
 
-  public async updateWithTx(id: string, name: string, tx: PrismaClientWithTx): Promise<Tag> {
+  public async updateWithTx(id: string, name: string, color: string, tx: PrismaClientWithTx): Promise<Tag> {
     const tag: Prisma.TagUpdateInput = {
       name: name,
+      color: color,
     };
     const result = await tx.tag.update({ where: { id: id }, data: tag });
     return result;

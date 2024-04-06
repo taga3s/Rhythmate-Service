@@ -20,8 +20,6 @@ export type UpdateQuestRequest = {
   state: string;
   is_succeeded: boolean;
   continuation_level: number;
-  start_date: string;
-  end_date: string;
   days: string[];
   weekly_completion_count: number;
   total_completion_count: number;

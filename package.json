@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "start:watch": "tsc-watch --onSuccess \"node dist/app.js\"",
+    "start:utc": "TZ=utc tsc-watch --onSuccess \"node dist/app.js\"",
     "build": "tsc",
     "migrate": "npx prisma migrate dev",
     "studio": "npx prisma studio",
@@ -34,6 +35,7 @@
     "husky": "^9.0.11",
     "jsonwebtoken": "^9.0.2",
     "lint-staged": "^15.2.2",
+    "microcms-js-sdk": "^3.1.0",
     "node-cron": "^3.0.3",
     "winston": "^3.11.0"
   },

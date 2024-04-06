@@ -9,8 +9,8 @@ import {
   listQuestsService,
   startQuestService,
   updateQuestService,
+  forceFinishQuestService,
 } from "../../service/quest";
-import { forceFinishQuestService } from "../../service/quest/force_finish_quest_service";
 import { CreateQuestRequest, UpdateQuestRequest } from "../quest/request";
 import {
   CreateQuestResponse,
@@ -108,8 +108,6 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
     state: req.body.state,
     isSucceeded: req.body.is_succeeded,
     continuationLevel: req.body.continuation_level,
-    startDate: req.body.start_date,
-    endDate: req.body.end_date,
     days: req.body.days,
     weeklyCompletionCount: req.body.weekly_completion_count,
     totalCompletionCount: req.body.total_completion_count,

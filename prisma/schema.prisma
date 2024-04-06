@@ -14,6 +14,7 @@ model User {
   id              String   @id @default(uuid())
   name            String
   email           String
+  profileImageUrl String?
   exp             Int      @default(0)
   level           Int      @default(1)
   createdAt       DateTime @default(now())
@@ -21,6 +22,7 @@ model User {
   quests          Quest[]
   tags            Tag[]
   weeklyReports   WeeklyReport[]
+  Badges          Badge[]
 }
 
 model Quest {
@@ -35,8 +37,6 @@ model Quest {
   state                 String   @default("INACTIVE")
   isSucceeded           Boolean  @default(false)
   continuationLevel     Int      @default(1)
-  startDate             String
-  endDate               String
   days                  String[]
   weeklyFrequency       Int
   weeklyCompletionCount Int      @default(0)
@@ -50,6 +50,7 @@ model Quest {
 model Tag {
   id        String   @id @default(uuid())
   name      String
+  color     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
@@ -60,6 +61,7 @@ model WeeklyReport {
   id                      String    @id @default(uuid())
   completedQuests         Int
   failedQuests            Int
+  failedQuestsEachDay     Int[]
   completedPercentage     Float
   completedDays           Int
   completedQuestsEachDay  Int[]
@@ -70,4 +72,28 @@ model WeeklyReport {
   updatedAt               DateTime @updatedAt
   userId                  String   
   user                    User     @relation(fields: [userId], references: [id])
+}
+
+model Badge {
+  id         String   @id @default(uuid())
+  badgeId    String
+  obtainedAt String
+  isPinned   Boolean  @default(false)
+  unlockable Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+model BadgeDetail {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  imageType   String
+  frameColor  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  publishedAt DateTime
+  revisedAt   DateTime
 }
