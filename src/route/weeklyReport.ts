@@ -8,6 +8,6 @@ import { auth } from "./middlewares/auth";
 const weeklyReportRouter = Router();
 
 weeklyReportRouter.get("/", auth, listWeeklyReportController);
-weeklyReportRouter.get("/summarize/:index", auth, getWeeklyReportSummaryController);
+weeklyReportRouter.get("/summarize/:weeklyReportId", auth, getWeeklyReportSummaryController);
 
 export { weeklyReportRouter };

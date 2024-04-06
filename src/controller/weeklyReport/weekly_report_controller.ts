@@ -39,11 +39,10 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
 };
 
 // 週次レポートの要約を取得
-export const getWeeklyReportSummaryController = async (req: Request<{ index: string }>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
-  const weeklyReportIndex = Number(req.params.index);
+export const getWeeklyReportSummaryController = async (req: Request<{ weeklyReportId: string }>, res: Response) => {
+  const weeklyReportId = req.params.weeklyReportId;
   try {
-    const summary = await getWeeklyReportSummaryService({ userId: userId, weeklyReportIndex: weeklyReportIndex });
+    const summary = await getWeeklyReportSummaryService({ weeklyReportId: weeklyReportId });
 
     const response: GetWeeklyReportSummaryResponse = {
       status: "ok",

@@ -6,7 +6,6 @@ export type WeeklyReport = {
   completedDays: number;
   completedQuestsEachDay: number[];
   failedQuestsEachDay: number[];
-  summary: string;
   startDate: string;
   endDate: string;
   createdAt: Date;
