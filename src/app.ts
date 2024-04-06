@@ -8,6 +8,7 @@ import { logger } from "./pkg/logger";
 import { cronQuestModel } from "./cron-job/quest";
 import { cronWeeklyReportModel } from "./cron-job/weeklyReport";
 import { requestsLogger } from "./route/middlewares/requestsLogger";
+import { badgeCronJob } from "./cron-job/badge";
 
 const app = express();
 
@@ -37,6 +38,7 @@ if (process.env.NODE_ENV === "dev") {
 cronQuestModel.updateEveryDay(); // 1日ごとのクエストの状態のリセット
 cronQuestModel.updateEverySunday(); // 1週間ごとのクエストの週間達成数のリセット
 cronWeeklyReportModel.createEverySunday(); // 1週間ごとの新規週報の作成
+badgeCronJob.upsertEverySunday();
 
 const PORT = process.env.PORT;
 

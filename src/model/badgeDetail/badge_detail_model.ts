@@ -16,6 +16,8 @@ export class BadgeDetailModel {
       description: description,
       imageType: imageType,
       frameColor: frameColor,
+      publishedAt: "",
+      revisedAt: "",
     };
     const result = await tx.badgeDetail.create({ data: badgeDetail });
     return result;
@@ -55,6 +57,21 @@ export class BadgeDetailModel {
         id: id,
       },
     });
+    return result;
+  }
+
+  public async getByFeatures(imageType: string, frameColor: string): Promise<BadgeDetail | null> {
+    const result = await prisma.badgeDetail.findFirst({
+      where: {
+        imageType: imageType,
+        frameColor: frameColor,
+      },
+    });
+    return result;
+  }
+
+  public async listAll() {
+    const result = await prisma.badgeDetail.findMany();
     return result;
   }
 }

@@ -1,42 +1,27 @@
-export type AchieveBadgeResponse = {
-  status: string;
-  id: string;
+type BaseResponse = {
   badge_id: string;
+  name: string;
+  description: string;
+  image_type: string;
+  frame_color: string;
   obtained_at: string;
   is_pinned: boolean;
+  unlockable: boolean;
+};
+
+export type AchieveBadgeResponse = BaseResponse & {
+  status: string;
 };
 
 export type ListBadgesResponse = {
   status: string;
-  badgesWithDetail: {
-    id: string;
-    badge_id: string;
-    name: string;
-    description: string;
-    image_type: string;
-    obtained_at: string;
-    is_pinned: boolean;
-  }[];
+  badgesWithDetail: BaseResponse[];
 };
 
-export type PinBadgeResponse = {
+export type PinBadgeResponse = BaseResponse & {
   status: string;
-  id: string;
-  badge_id: string;
-  name: string;
-  description: string;
-  image_type: string;
-  obtained_at: string;
-  is_pinned: boolean;
 };
 
-export type UnpinBadgeResponse = {
+export type UnpinBadgeResponse = BaseResponse & {
   status: string;
-  id: string;
-  badge_id: string;
-  name: string;
-  description: string;
-  image_type: string;
-  obtained_at: string;
-  is_pinned: boolean;
 };

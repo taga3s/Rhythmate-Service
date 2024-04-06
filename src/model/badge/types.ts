@@ -3,6 +3,7 @@ export type Badge = {
   badgeId: string;
   obtainedAt: string;
   isPinned: boolean;
+  unlockable: boolean;
   createdAt: Date;
   updatedAt: Date;
   userId: string;

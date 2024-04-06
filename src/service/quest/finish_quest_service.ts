@@ -3,6 +3,8 @@ import { QuestModel } from "../../model/quest/quest_model";
 import { UserModel } from "../../model/user/user_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
+import { levelCheckService } from "../badge/check-achievements/level_check_service";
+import { totalQuestsCheckService } from "../badge/check-achievements/total_quests_check";
 
 const getQuestExp = (difficulty: string, continuationLevel: number) => {
   const baseExp = difficulty === "EASY" ? 10 : difficulty === "NORMAL" ? 20 : difficulty === "HARD" ? 30 : 0;
@@ -30,12 +32,12 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("クエストの完了に失敗しました", 500);
     }
 
+    // 週次レポートの更新
     const targetWeeklyReport = await weeklyReportModel.getByUserId(quest.userId);
     if (!targetWeeklyReport) {
       throw new HttpError("指定したuserIdの週報が存在しません", 400);
     }
 
-    // 週次レポートの更新
     const completedQuestsIncrements = 1;
     const weekDaysLength = 7;
 
@@ -82,6 +84,13 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     if (!updatedUser) {
       throw new HttpError("ユーザーの経験値の更新に失敗しました", 500);
     }
+
+    // バッジ獲得条件(レベルチェックサービス・累計クエスト数チェックサービスの注入）
+    await levelCheckService({ userId: updatedUser.id, level: updatedUser.level }, tx);
+
+    const targetWeeklyReports = await weeklyReportModel.listByUserId(quest.userId);
+    const totalQuestsNum = targetWeeklyReports.reduce((acc, weeklyReport) => acc + weeklyReport.completedQuests, 1);
+    await totalQuestsCheckService({ userId: updatedUser.id, totalQuestsNum: totalQuestsNum }, tx);
 
     return {
       id: finishedQuest.id,

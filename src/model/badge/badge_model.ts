@@ -5,18 +5,29 @@ import { Badge } from "./types";
 import { now, formatDateInJapanese } from "../../pkg/dayjs";
 
 export class BadgeModel {
-  public async achieveWithTx(badgeId: string, userId: string, tx: PrismaClientWithTx): Promise<Badge> {
-    const badge: Prisma.BadgeCreateInput = {
+  public async createWithTx(badgeId: string, userId: string, tx: PrismaClientWithTx): Promise<Badge> {
+    const data: Prisma.BadgeCreateInput = {
       badgeId: badgeId,
-      obtainedAt: formatDateInJapanese(now()),
       isPinned: false,
+      obtainedAt: "",
+      unlockable: true,
       user: {
         connect: {
           id: userId,
         },
       },
     };
-    const result = await tx.badge.create({ data: badge });
+    const result = await tx.badge.create({ data: data });
+    return result;
+  }
+
+  public async achieveWithTx(id: string, tx: PrismaClientWithTx): Promise<Badge> {
+    const result = await tx.badge.update({
+      where: { id: id },
+      data: {
+        obtainedAt: now(),
+      },
+    });
     return result;
   }
 
@@ -29,7 +40,17 @@ export class BadgeModel {
     return result;
   }
 
-  public async listByUserId(userId: string): Promise<Badge[] | null> {
+  public async getByBadgeIdAndUserId(badgeId: string, userId: string): Promise<Badge | null> {
+    const result = await prisma.badge.findFirst({
+      where: {
+        badgeId: badgeId,
+        userId: userId,
+      },
+    });
+    return result;
+  }
+
+  public async listByUserId(userId: string): Promise<Badge[]> {
     const result = await prisma.badge.findMany({
       where: {
         userId: userId,
@@ -38,7 +59,7 @@ export class BadgeModel {
     return result;
   }
 
-  public async listPinnedByUserId(userId: string): Promise<Badge[] | null> {
+  public async listPinnedByUserId(userId: string): Promise<Badge[]> {
     const result = await prisma.badge.findMany({
       where: {
         userId: userId,
