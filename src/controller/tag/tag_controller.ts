@@ -11,7 +11,7 @@ import { Tag } from "../../model/tag/types";
 
 // ユーザーの所持するすべてのタグを取得
 export const listTagsController = async (req: Request, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.session.accessToken || "");
   const inputDTO = { userId: userId };
   try {
     const outputDTO = await listTagsService(inputDTO);
@@ -38,7 +38,7 @@ export const listTagsController = async (req: Request, res: Response) => {
 
 // タグの作成
 export const createTagController = async (req: Request<{}, {}, CreateTagRequest>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.session.accessToken || "");
   const inputDTO = {
     name: req.body.name,
     color: req.body.color,

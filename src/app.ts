@@ -9,13 +9,32 @@ import { cronQuestModel } from "./cron-job/quest";
 import { cronWeeklyReportModel } from "./cron-job/weeklyReport";
 import { requestsLogger } from "./route/middlewares/requestsLogger";
 import { badgeCronJob } from "./cron-job/badge";
+import helmet from "helmet";
+import session from "express-session";
+
+declare module "express-session" {
+  interface SessionData {
+    accessToken: string;
+  }
+}
 
 const app = express();
 
-app.use(cookie());
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookie());
+app.use(cookieParser());
+app.use(helmet());
+
+app.use(
+  session({
+    name: "_rhythmate_session",
+    secret: process.env.SECRET!,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 60 * 60 * 1000 },
+  }),
+);
 
 // Logger
 app.use(requestsLogger);

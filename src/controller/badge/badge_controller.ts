@@ -6,7 +6,7 @@ import { AchieveBadgeResponse, ListBadgesResponse, PinBadgeResponse, UnpinBadgeR
 
 // バッジの達成
 export const achieveBadgeController = async (req: Request<{ id: string }>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.session.accessToken || "");
   const inputDTO = {
     badgeId: req.params.id,
     userId: userId,
@@ -37,7 +37,7 @@ export const achieveBadgeController = async (req: Request<{ id: string }>, res: 
 
 // バッジのリスト取得
 export const listBadgesController = async (req: Request, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.session.accessToken || "");
   const inputDTO = { userId: userId };
 
   try {
@@ -71,7 +71,7 @@ export const listBadgesController = async (req: Request, res: Response) => {
 export const pinBadgeController = async (req: Request<{ id: string }>, res: Response) => {
   const inputDTO = {
     badgeId: req.params.id,
-    userId: getUserIdFromToken(req.cookies.access_token),
+    userId: getUserIdFromToken(req.session.accessToken || ""),
   };
 
   try {
@@ -101,7 +101,7 @@ export const pinBadgeController = async (req: Request<{ id: string }>, res: Resp
 export const unpinBadgeController = async (req: Request<{ id: string }>, res: Response) => {
   const inputDTO = {
     badgeId: req.params.id,
-    userId: getUserIdFromToken(req.cookies.access_token),
+    userId: getUserIdFromToken(req.session.accessToken || ""),
   };
 
   try {
