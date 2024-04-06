@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node dist/app.js",
+    "start:utc": "TZ=utc node dist/app.js",
     "start:watch": "tsc-watch --onSuccess \"node dist/app.js\"",
-    "start:utc": "TZ=utc tsc-watch --onSuccess \"node dist/app.js\"",
     "build": "tsc",
     "migrate": "npx prisma migrate dev",
     "studio": "npx prisma studio",
