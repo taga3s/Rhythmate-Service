@@ -15,12 +15,7 @@ export const updateTagService = async (inputDTO: {
       throw new HttpError("タグが見つかりません", 404);
     }
 
-    const result = await model.updateWithTx(
-      inputDTO.id, 
-      inputDTO.name, 
-      inputDTO.color,
-      tx,
-    );
+    const result = await model.updateWithTx(inputDTO.id, inputDTO.name, inputDTO.color, tx);
 
     return {
       id: result.id,
