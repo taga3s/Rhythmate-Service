@@ -28,7 +28,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.4",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "express-jwt": "^8.4.1",
     "express-validator": "^7.0.1",
     "firebase-admin": "^12.0.0",
