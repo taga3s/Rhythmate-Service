@@ -1,4 +1,5 @@
 import { prisma } from "../../db/db";
+import { getStartAndEndUTCDateTime } from "../../funcs/datetime";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 
@@ -8,12 +9,11 @@ export const createWeeklyReportService = async (inputDTO: {
   completedDays: number;
   completedQuestsEachDay: number[];
   failedQuestsEachDay: number[];
-  startDate: Date;
-  endDate: Date;
   userId: string;
 }) => {
   return prisma.$transaction(async (tx) => {
     const model = new WeeklyReportModel();
+    const { nowUTC: startDate, sundayUTC: endDate } = getStartAndEndUTCDateTime();
 
     const weeklyReport = await model.createWithTx(
       inputDTO.completedQuests,
@@ -21,6 +21,8 @@ export const createWeeklyReportService = async (inputDTO: {
       inputDTO.completedDays,
       inputDTO.completedQuestsEachDay,
       inputDTO.failedQuestsEachDay,
+      startDate,
+      endDate,
       inputDTO.userId,
       tx,
     );
