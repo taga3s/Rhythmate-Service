@@ -14,5 +14,6 @@ export const getLoginUserService = async (inputDTO: { userId: string }) => {
     email: user.email,
     exp: user.exp,
     level: user.level,
+    imageUrl: user.profileImageUrl,
   };
 };

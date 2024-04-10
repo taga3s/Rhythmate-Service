@@ -1,7 +1,10 @@
 import { prisma } from "../../db/db";
 import { UserModel } from "../../model/user/user_model";
 
-export const updateLoginUserService = (inputDTO: { userId: string; name: string }) => {
+export const updateLoginUserService = (inputDTO: {
+  userId: string;
+  name: string;
+}) => {
   return prisma.$transaction(async (tx) => {
     const userModel = new UserModel();
 
@@ -12,6 +15,7 @@ export const updateLoginUserService = (inputDTO: { userId: string; name: string 
       email: user.email,
       exp: user.exp,
       level: user.level,
+      imageUrl: user.profileImageUrl,
     };
   });
 };

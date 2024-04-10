@@ -23,10 +23,11 @@ export class UserModel {
     return result;
   }
 
-  public async createWithTx(name: string, email: string, tx: PrismaClientWithTx): Promise<User> {
+  public async createWithTx(name: string, email: string, photoUrl: string, tx: PrismaClientWithTx): Promise<User> {
     const user: Prisma.UserCreateInput = {
       name: name,
       email: email,
+      profileImageUrl: photoUrl,
     };
     const result = await tx.user.create({ data: user });
     return result;
