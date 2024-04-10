@@ -27,6 +27,7 @@ export class UserModel {
     const user: Prisma.UserCreateInput = {
       name: name,
       email: email,
+      profileImageUrl: "",
     };
     const result = await tx.user.create({ data: user });
     return result;
