@@ -14,7 +14,7 @@ model User {
   id              String   @id @default(uuid())
   name            String
   email           String
-  profileImageUrl String?
+  profileImageUrl String
   exp             Int      @default(0)
   level           Int      @default(1)
   createdAt       DateTime @default(now())
