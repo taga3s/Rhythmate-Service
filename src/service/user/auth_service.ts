@@ -20,7 +20,7 @@ export const authService = async (inputDTO: InputDTO) => {
     const verifiedUser = await admin.auth().getUser(decodeValue.uid);
     const name = verifiedUser.displayName;
     const email = verifiedUser.email;
-    const photoUrl = verifiedUser.photoURL ?? "";
+    const imageUrl = verifiedUser.photoURL ?? "";
     if (!name || !email) {
       throw new HttpError("認証に失敗しました。", 401);
     }
@@ -30,11 +30,11 @@ export const authService = async (inputDTO: InputDTO) => {
       return {
         id: user.id,
         email: user.email,
-        photo: user.profileImageUrl,
+        imageUrl: user.profileImageUrl,
       };
     }
 
-    const newUser = await userModel.createWithTx(name, email, photoUrl, tx);
+    const newUser = await userModel.createWithTx(name, email, imageUrl, tx);
     const completedQuests = 0;
     const failedQuests = 0;
     const failedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
@@ -53,7 +53,7 @@ export const authService = async (inputDTO: InputDTO) => {
     return {
       id: newUser.id,
       email: newUser.email,
-      photoURL: newUser.email,
+      imageUrl: newUser.profileImageUrl,
     };
   });
 };
