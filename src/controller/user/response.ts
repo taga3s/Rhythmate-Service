@@ -8,4 +8,5 @@ export type GetLoginUserResponse = {
   email: string;
   exp: number;
   level: number;
+  imageUrl: string;
 };
