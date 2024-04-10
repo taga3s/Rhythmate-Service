@@ -30,7 +30,7 @@ export const authService = async (inputDTO: InputDTO) => {
       return {
         id: user.id,
         email: user.email,
-        imageUrl: user.profileImageUrl,
+        imageUrl: user.profileImageUrl ? user.profileImageUrl : "",
       };
     }
 
