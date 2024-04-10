@@ -57,6 +57,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
       email: outputDTO.email,
       exp: outputDTO.exp,
       level: outputDTO.level,
+      imageUrl: outputDTO.imageUrl,
     };
     res.status(200).json(response);
   } catch (err) {
@@ -83,6 +84,7 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
       email: outputDTO.email,
       exp: outputDTO.exp,
       level: outputDTO.level,
+      imageUrl: outputDTO.imageUrl,
     };
     return res.status(200).json(response);
   } catch (err) {
