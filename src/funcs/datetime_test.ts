@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
-import { now } from "../pkg/dayjs";
 
-export const getStartAndEndUTCDateTime = () => {
-  const nowUTC = dayjs(now()).format();
+export const getStartAndEndUTCDateTime = (date: string) => {
+  const nowUTC = dayjs(date).format();
   const nowUTCDayNum = dayjs(nowUTC).day();
 
   const subtractNum = nowUTCDayNum === 0 && dayjs(nowUTC).hour() < 15 ? 7 : nowUTCDayNum;

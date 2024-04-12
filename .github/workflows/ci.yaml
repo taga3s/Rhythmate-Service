@@ -28,4 +28,6 @@ jobs:
         run: npm i
 
       - name: Run test
-        run: echo "Run test"
+        env:
+          TZ: UTC
+        run: npm run test
