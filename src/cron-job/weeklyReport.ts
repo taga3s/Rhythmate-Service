@@ -17,7 +17,7 @@ const createEverySunday = () => {
     const completedDays = 0;
     const completedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
     const failedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
-    const { nowUTC: startDate, sundayUTC: endDate } = getStartAndEndUTCDateTime();
+    const { startUTC: startDate, endUTC: endDate } = getStartAndEndUTCDateTime();
 
     await prisma.$transaction(async (tx) => {
       await Promise.all(

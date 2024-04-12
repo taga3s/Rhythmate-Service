@@ -13,7 +13,7 @@ export const createWeeklyReportService = async (inputDTO: {
 }) => {
   return prisma.$transaction(async (tx) => {
     const model = new WeeklyReportModel();
-    const { nowUTC: startDate, sundayUTC: endDate } = getStartAndEndUTCDateTime();
+    const { startUTC: startDate, endUTC: endDate } = getStartAndEndUTCDateTime();
 
     const weeklyReport = await model.createWithTx(
       inputDTO.completedQuests,
