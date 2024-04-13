@@ -14,7 +14,7 @@ model User {
   id              String   @id @default(uuid())
   name            String
   email           String
-  profileImageUrl String?
+  profileImageUrl String
   exp             Int      @default(0)
   level           Int      @default(1)
   createdAt       DateTime @default(now())
@@ -44,7 +44,7 @@ model Quest {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
   userId                String
-  user                  User     @relation(fields: [userId], references: [id])
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Tag {
@@ -54,7 +54,7 @@ model Tag {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model WeeklyReport {
@@ -71,7 +71,7 @@ model WeeklyReport {
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
   userId                  String   
-  user                    User     @relation(fields: [userId], references: [id])
+  user                    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Badge {
@@ -83,7 +83,7 @@ model Badge {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   userId     String
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model BadgeDetail {

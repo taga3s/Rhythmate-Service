@@ -1,3 +1,21 @@
+type QuestBaseResponse = {
+  id: string;
+  title: string;
+  description: string;
+  starts_at: string;
+  started_at: string;
+  minutes: number;
+  tag_id: string;
+  difficulty: string;
+  state: string;
+  is_succeeded: boolean;
+  days: string[];
+  continuation_level: number;
+  weekly_frequency: number;
+  weekly_completion_count: number;
+  total_completion_count: number;
+};
+
 export type CreateQuestResponse = QuestBaseResponse & {
   status: string;
 };
@@ -25,24 +43,6 @@ export type FinishQuestResponse = QuestBaseResponse & {
 
 export type ForceFinishQuestResponse = QuestBaseResponse & {
   status: string;
-};
-
-type QuestBaseResponse = {
-  id: string;
-  title: string;
-  description: string;
-  starts_at: string;
-  started_at: string;
-  minutes: number;
-  tag_id: string;
-  difficulty: string;
-  state: string;
-  is_succeeded: boolean;
-  days: string[];
-  continuation_level: number;
-  weekly_frequency: number;
-  weekly_completion_count: number;
-  total_completion_count: number;
 };
 
 export const toQuestBaseResponse = (obj: {

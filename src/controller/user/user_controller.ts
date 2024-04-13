@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
 import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
-import { authService } from "../../service/user/auth_service";
-import { getLoginUserService } from "../../service/user/get_login_user_service";
-import { updateLoginUserService } from "../../service/user/update_login_user_service";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
 import { AuthResponse, GetLoginUserResponse } from "./response";
+import { authService, getLoginUserService, updateLoginUserService } from "../../service/user";
 import { logger } from "../../pkg/logger";
 
 // 認証
@@ -56,6 +54,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
       email: outputDTO.email,
       exp: outputDTO.exp,
       level: outputDTO.level,
+      imageUrl: outputDTO.imageUrl,
     };
     res.status(200).json(response);
   } catch (err) {
@@ -82,6 +81,7 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
       email: outputDTO.email,
       exp: outputDTO.exp,
       level: outputDTO.level,
+      imageUrl: outputDTO.imageUrl,
     };
     return res.status(200).json(response);
   } catch (err) {

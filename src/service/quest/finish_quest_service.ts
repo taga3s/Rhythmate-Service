@@ -3,8 +3,7 @@ import { QuestModel } from "../../model/quest/quest_model";
 import { UserModel } from "../../model/user/user_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
-import { levelCheckService } from "../badge/check-achievements/level_check_service";
-import { totalQuestsCheckService } from "../badge/check-achievements/total_quests_check";
+import { levelCheckService, totalQuestsCheckService } from "../badge/check-achievements";
 
 const getQuestExp = (difficulty: string, continuationLevel: number) => {
   const baseExp = difficulty === "EASY" ? 10 : difficulty === "NORMAL" ? 20 : difficulty === "HARD" ? 30 : 0;
