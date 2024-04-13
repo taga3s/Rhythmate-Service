@@ -9,8 +9,6 @@ const createEverySunday = () => {
   const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * 0" : "0 0 0 * * 1";
 
   cron.schedule(scheduledTime, async () => {
-    logger.info("Running cron job for creating weekly reports every Sunday.");
-
     const users = await prisma.user.findMany();
     const completedQuests = 0;
     const failedQuests = 0;
@@ -20,6 +18,7 @@ const createEverySunday = () => {
     const { startUTC: startDate, endUTC: endDate } = getStartAndEndUTCDateTime();
 
     await prisma.$transaction(async (tx) => {
+      logger.info("Running cron job for creating weekly reports every Sunday.");
       await Promise.all(
         users.map(
           async (user) =>
@@ -40,6 +39,6 @@ const createEverySunday = () => {
   });
 };
 
-export const cronWeeklyReportModel = {
+export const weeklyReportCronJob = {
   createEverySunday,
 };

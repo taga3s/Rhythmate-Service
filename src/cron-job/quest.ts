@@ -34,7 +34,7 @@ const updateEverySunday = () => {
   });
 };
 
-export const cronQuestModel = {
+export const questCronJob = {
   updateEveryDay,
   updateEverySunday,
 };

@@ -5,13 +5,13 @@ import { microCMSClient } from "../microcms/client";
 import { ListBadgesDetail } from "../microcms/types";
 
 const upsertEverySunday = async () => {
-  const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 13 * * 6" : "0 0 0 * * 1";
+  const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * 0" : "0 0 0 * * 1";
 
   cron.schedule(scheduledTime, async () => {
     const response: ListBadgesDetail = await microCMSClient.get({ endpoint: "badges-detail" });
-    logger.info("Running cron job for upserting badges every Sunday.");
 
     await prisma.$transaction(async (tx) => {
+      logger.info("Running cron job for upserting badges every Sunday.");
       for (const badge of response.contents) {
         await tx.badgeDetail.upsert({
           create: {
