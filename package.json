@@ -10,6 +10,7 @@
     "start:watch-utc": "TZ=utc tsc-watch --onSuccess \"node dist/app.js\"",
     "build": "tsc",
     "migrate": "npx prisma migrate dev",
+    "migrate:reset": "npx prisma migrate reset",
     "studio": "npx prisma studio",
     "lint": "biome lint --apply-unsafe src",
     "format": "biome format --write src",
