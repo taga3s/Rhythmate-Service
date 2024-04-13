@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
 import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
-import { authService } from "../../service/user/auth_service";
-import { getLoginUserService } from "../../service/user/get_login_user_service";
-import { updateLoginUserService } from "../../service/user/update_login_user_service";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
 import { AuthResponse, GetLoginUserResponse } from "./response";
+import { authService, getLoginUserService, updateLoginUserService } from "../../service/user";
 
 // 認証
 export const authController = async (req: Request<{}, {}, AuthRequest>, res: Response) => {
