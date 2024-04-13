@@ -1,4 +1,4 @@
-type BaseResponse = {
+type BadgeBaseResponse = {
   badge_id: string;
   name: string;
   description: string;
@@ -9,19 +9,19 @@ type BaseResponse = {
   unlockable: boolean;
 };
 
-export type AchieveBadgeResponse = BaseResponse & {
+export type AchieveBadgeResponse = BadgeBaseResponse & {
   status: string;
 };
 
 export type ListBadgesResponse = {
   status: string;
-  badgesWithDetail: BaseResponse[];
+  badgesWithDetail: BadgeBaseResponse[];
 };
 
-export type PinBadgeResponse = BaseResponse & {
+export type PinBadgeResponse = BadgeBaseResponse & {
   status: string;
 };
 
-export type UnpinBadgeResponse = BaseResponse & {
+export type UnpinBadgeResponse = BadgeBaseResponse & {
   status: string;
 };
