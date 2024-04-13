@@ -3,6 +3,7 @@ import { admin } from "../../firebase/config";
 import { UserModel } from "../../model/user/user_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
+import { getStartAndEndUTCDateTime } from "../../funcs/datetime";
 
 type InputDTO = { id_token: string };
 
@@ -40,12 +41,15 @@ export const authService = async (inputDTO: InputDTO) => {
     const failedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
     const completedDays = 0;
     const completedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
+    const { startUTC: startDate, endUTC: endDate } = getStartAndEndUTCDateTime();
     const newWeeklyReport = await weeklyReportModel.createWithTx(
       completedQuests,
       failedQuests,
       completedDays,
       completedQuestsEachDay,
       failedQuestsEachDay,
+      startDate,
+      endDate,
       newUser.id,
       tx,
     );

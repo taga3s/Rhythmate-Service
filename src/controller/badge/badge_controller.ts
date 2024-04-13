@@ -29,9 +29,8 @@ export const achieveBadgeController = async (req: Request<{ id: string }>, res: 
   } catch (err) {
     if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
-    } else {
-      return res.status(500).json({ status: "error", message: "Internal server error." });
     }
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -61,9 +60,8 @@ export const listBadgesController = async (req: Request, res: Response) => {
   } catch (err) {
     if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
-    } else {
-      return res.status(500).json({ status: "error", message: "Internal server error." });
     }
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -91,9 +89,8 @@ export const pinBadgeController = async (req: Request<{ id: string }>, res: Resp
   } catch (err) {
     if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
-    } else {
-      return res.status(500).json({ status: "error", message: "Internal server error." });
     }
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -121,8 +118,7 @@ export const unpinBadgeController = async (req: Request<{ id: string }>, res: Re
   } catch (err) {
     if (err instanceof HttpError) {
       return res.status(err.statusCode).json({ status: "error", message: err.message });
-    } else {
-      return res.status(500).json({ status: "error", message: "Internal server error." });
     }
+    return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
