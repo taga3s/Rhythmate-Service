@@ -9,19 +9,12 @@ import { requestsLogger } from "./route/middlewares/requestsLogger";
 import { badgeCronJob, weeklyReportCronJob, questCronJob } from "./cron-job";
 import helmet from "helmet";
 import session from "express-session";
-
-declare module "express-session" {
-  interface SessionData {
-    accessToken: string;
-  }
-}
+import { now } from "./pkg/dayjs";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookie());
-app.use(cookieParser());
 
 // session
 app.use(
@@ -30,9 +23,11 @@ app.use(
     secret: process.env.SECRET!,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true, maxAge: 60 * 60 * 1000 },
+    cookie: { secure: process.env.NODE_ENV === "dev" ? false : true, maxAge: 1000 * 60 * 60 * 24 * 7 },
   }),
 );
+app.use(cookie());
+app.use(cookieParser());
 
 // security
 app.use(helmet());
