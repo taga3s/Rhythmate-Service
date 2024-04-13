@@ -1,8 +1,20 @@
 # Rhythmate-Service
 
+ゲーム感覚で習慣化を楽しむ「Rhythmate」のバックエンドです。
+
 ## 概要
 
 Rhythmate のバックエンドです。
+
+## 技術スタック
+
+- Express
+- TypeScript
+- Prisma
+- postgresql
+- firebase
+- biome
+- jest
 
 ## 環境構築
 
@@ -64,6 +76,12 @@ $ psql -U rhyth_user -d rhyth_db
 
 ```
 $ npm run migrate
+```
+
+- DB をリセットして、マイグレーションを行いたい時
+
+```
+$ npm run migrate:reset
 ```
 
 - prisma studio を立ち上げたい時
