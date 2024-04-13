@@ -22,8 +22,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookie());
 app.use(cookieParser());
-app.use(helmet());
 
+// session
 app.use(
   session({
     name: "_rhythmate_session",
