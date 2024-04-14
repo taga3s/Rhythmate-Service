@@ -28,9 +28,13 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
 };
 
 // 認可状態確認
-export const authenticationController = async (req: Request, res: Response) => {
-  const isAuthenticated = getUserIsAuthenticated(req.session.accessToken || "");
-  res.status(200).json({ status: "ok", isAuthenticated: isAuthenticated });
+export const authCheckController = async (req: Request, res: Response) => {
+  try {
+    const isAuthenticated = getUserIsAuthenticated(req.session.accessToken || "");
+    return res.status(200).json({ status: "ok", isAuthenticated: isAuthenticated });
+  } catch {
+    return res.status(500).json({ status: "error", message: "Internal server error." });
+  }
 };
 
 // ログアウト
