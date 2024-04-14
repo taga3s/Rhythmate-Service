@@ -8,7 +8,7 @@ import { getWeeklyReportSummaryService } from "../../service/weeklyReport";
 
 // ユーザの所持するすべての週次レポートを取得
 export const listWeeklyReportController = async (req: Request, res: Response) => {
-  const userId = getUserIdFromToken(req.session.accessToken || "");
+  const userId = getUserIdFromToken(req.cookies.access_token);
 
   try {
     const outputDTO = await listWeeklyReportsService({ userId: userId });
@@ -40,7 +40,7 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
 
 // 週次レポートの要約を取得
 export const getWeeklyReportSummaryController = async (req: Request<{ index: string }>, res: Response) => {
-  const userId = getUserIdFromToken(req.session.accessToken || "");
+  const userId = getUserIdFromToken(req.cookies.access_token);
   const weeklyReportIndex = Number(req.params.index);
   try {
     const summary = await getWeeklyReportSummaryService({ userId: userId, weeklyReportIndex: weeklyReportIndex });
