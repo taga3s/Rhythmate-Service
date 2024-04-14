@@ -8,13 +8,26 @@ import { logger } from "./pkg/logger";
 import { requestsLogger } from "./route/middlewares/requestsLogger";
 import { badgeCronJob, weeklyReportCronJob, questCronJob } from "./cron-job";
 import helmet from "helmet";
+import session from "express-session";
+import { now } from "./pkg/dayjs";
 
 const app = express();
 
-app.use(cookie());
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// session
+app.use(
+  session({
+    name: "_rhythmate_session",
+    secret: process.env.SECRET!,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: process.env.NODE_ENV === "dev" ? false : true, maxAge: 1000 * 60 * 60 * 24 * 7 },
+  }),
+);
+app.use(cookie());
+app.use(cookieParser());
 
 // security
 app.use(helmet());
