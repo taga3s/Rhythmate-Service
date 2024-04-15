@@ -20,7 +20,7 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
           completed_quests: weeklyReport.completedQuests,
           failed_quests: weeklyReport.failedQuests,
           completed_percentage: weeklyReport.completedPercentage,
-          completed_days: weeklyReport.completedDays,
+          streak_days: weeklyReport.streakDays,
           completed_quests_each_day: weeklyReport.completedQuestsEachDay,
           failed_quests_each_day: weeklyReport.failedQuestsEachDay,
           start_date: weeklyReport.startDate,

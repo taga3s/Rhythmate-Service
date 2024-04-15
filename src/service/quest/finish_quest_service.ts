@@ -42,7 +42,7 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
 
     const completedQuests = targetWeeklyReport.completedQuests + completedQuestsIncrements;
     const failedQuests = targetWeeklyReport.failedQuests;
-    const completedDays = targetWeeklyReport.completedDays;
+    const streakDays = targetWeeklyReport.streakDays;
     const completedPercentage = Math.floor((completedQuests / (completedQuests + failedQuests)) * 100);
     const completedQuestsEachDay =
       targetWeeklyReport.completedQuestsEachDay && targetWeeklyReport.completedQuestsEachDay.length === weekDaysLength
@@ -62,7 +62,7 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       targetWeeklyReport.id,
       completedQuests,
       failedQuests,
-      completedDays,
+      streakDays,
       addedCompletedQuestsEachDay,
       failedQuestsEachDay,
       completedPercentage,

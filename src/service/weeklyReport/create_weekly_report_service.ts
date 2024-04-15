@@ -6,7 +6,7 @@ import { HttpError } from "../../pkg/httpError";
 export const createWeeklyReportService = async (inputDTO: {
   completedQuests: number;
   failedQuests: number;
-  completedDays: number;
+  streakDays: number;
   completedQuestsEachDay: number[];
   failedQuestsEachDay: number[];
   userId: string;
@@ -18,7 +18,7 @@ export const createWeeklyReportService = async (inputDTO: {
     const weeklyReport = await model.createWithTx(
       inputDTO.completedQuests,
       inputDTO.failedQuests,
-      inputDTO.completedDays,
+      inputDTO.streakDays,
       inputDTO.completedQuestsEachDay,
       inputDTO.failedQuestsEachDay,
       startDate,
@@ -35,7 +35,7 @@ export const createWeeklyReportService = async (inputDTO: {
       completedQuests: weeklyReport.completedQuests,
       failedQuests: weeklyReport.failedQuests,
       completedPercentage: weeklyReport.completedPercentage,
-      completedDays: weeklyReport.completedDays,
+      streakDays: weeklyReport.streakDays,
       completedQuestsEachDay: weeklyReport.completedQuestsEachDay,
       failedQuestsEachDay: weeklyReport.failedQuestsEachDay,
       startDate: weeklyReport.startDate,

@@ -4,6 +4,43 @@ import { prisma } from "../db/db";
 import { WeeklyReportModel } from "../model/weeklyReport/weekly_report_model";
 import { getStartAndEndUTCDateTime } from "../funcs/datetime";
 
+const updateEveryDay = () => {
+  const weeklyReportModel = new WeeklyReportModel();
+  const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * *" : "0 0 0 * * 1";
+
+  cron.schedule(scheduledTime, async () => {
+    await prisma.$transaction(async (tx) => {
+      const users = await tx.user.findMany();
+
+      await Promise.all(
+        users.map(async (user) => {
+          const targetWeeklyReport = await weeklyReportModel.getByUserId(user.id);
+          if (!targetWeeklyReport) {
+            return;
+          }
+
+          const updatedStreakDays =
+            0 < targetWeeklyReport.completedQuests && targetWeeklyReport.failedQuests === 0
+              ? targetWeeklyReport.streakDays + 1
+              : targetWeeklyReport.streakDays;
+
+          await weeklyReportModel.updateWithTx(
+            targetWeeklyReport.completedQuests,
+            targetWeeklyReport.failedQuests,
+            updatedStreakDays,
+            targetWeeklyReport.completedQuestsEachDay,
+            targetWeeklyReport.failedQuestsEachDay,
+            targetWeeklyReport.startDate,
+            targetWeeklyReport.endDate,
+            targetWeeklyReport.userId,
+            tx,
+          );
+        }),
+      );
+    });
+  });
+};
+
 const createEverySunday = () => {
   const weeklyReportModel = new WeeklyReportModel();
   const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * 0" : "0 0 0 * * 1";
@@ -12,7 +49,7 @@ const createEverySunday = () => {
     const users = await prisma.user.findMany();
     const completedQuests = 0;
     const failedQuests = 0;
-    const completedDays = 0;
+    const streakDays = 0;
     const completedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
     const failedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
     const { startUTC: startDate, endUTC: endDate } = getStartAndEndUTCDateTime();
@@ -25,7 +62,7 @@ const createEverySunday = () => {
             await weeklyReportModel.createWithTx(
               completedQuests,
               failedQuests,
-              completedDays,
+              streakDays,
               completedQuestsEachDay,
               failedQuestsEachDay,
               startDate,
@@ -41,4 +78,5 @@ const createEverySunday = () => {
 
 export const weeklyReportCronJob = {
   createEverySunday,
+  updateEveryDay,
 };
