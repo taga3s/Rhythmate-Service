@@ -6,6 +6,7 @@ import { getStartAndEndUTCDateTime } from "../funcs/datetime";
 
 const updateEveryDay = () => {
   const weeklyReportModel = new WeeklyReportModel();
+  // TODO まだ動かないからやる
   const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * *" : "0 0 0 * * 1";
 
   cron.schedule(scheduledTime, async () => {
