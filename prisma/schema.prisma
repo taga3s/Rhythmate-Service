@@ -65,6 +65,7 @@ model WeeklyReport {
   completedPercentage     Float
   completedDays           Int
   completedQuestsEachDay  Int[]
+  summary                 String   @default("")
   startDate               String
   endDate                 String
   createdAt               DateTime @default(now())

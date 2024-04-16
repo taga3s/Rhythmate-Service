@@ -3,7 +3,6 @@ import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model"
 import { HttpError } from "../../pkg/httpError";
 import { WeeklyReport } from "@prisma/client";
 import "dotenv/config";
-import { isBefore } from "../../pkg/dayjs";
 
 const runGemini = async (weeklyReport: WeeklyReport) => {
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY as string);
@@ -30,7 +29,6 @@ const runGemini = async (weeklyReport: WeeklyReport) => {
 export const getWeeklyReportSummaryService = async (inputDTO: {
   weeklyReportId: string;
 }) => {
-
   const model = new WeeklyReportModel();
 
   const weeklyReport = await model.getById(inputDTO.weeklyReportId);
