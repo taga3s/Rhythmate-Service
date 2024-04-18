@@ -1,13 +1,10 @@
 import { Request, Response } from "express";
 import { CreateTagRequest, UpdateTagRequest } from "./request";
 import { CreateTagResponse, UpdateTagResponse, DeleteTagResponse, ListTagsResponse } from "./response";
-import { getUserIdFromToken, verifyToken } from "../../core/jwt";
-import { createTagService } from "../../service/tag/create_tag_service";
-import { deleteTagService } from "../../service/tag/delete_tag_service";
-import { listTagsService } from "../../service/tag/list_tags_service";
-import { updateTagService } from "../../service/tag/update_tag_service";
+import { getUserIdFromToken } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { Tag } from "../../model/tag/types";
+import { createTagService, deleteTagService, listTagsService, updateTagService } from "../../service/tag";
 
 // ユーザーの所持するすべてのタグを取得
 export const listTagsController = async (req: Request, res: Response) => {

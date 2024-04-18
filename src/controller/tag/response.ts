@@ -1,5 +1,4 @@
-export type CreateTagResponse = {
-  status: string;
+type TagBaseResponse = {
   id: string;
   name: string;
   color: string;
@@ -7,24 +6,17 @@ export type CreateTagResponse = {
   updated_at: Date;
 };
 
-export type UpdateTagResponse = {
+export type CreateTagResponse = TagBaseResponse & {
   status: string;
-  id: string;
-  name: string;
-  color: string;
-  created_at: Date;
-  updated_at: Date;
+};
+
+export type UpdateTagResponse = TagBaseResponse & {
+  status: string;
 };
 
 export type ListTagsResponse = {
   status: string;
-  tags: {
-    id: string;
-    name: string;
-    color: string;
-    created_at: Date;
-    updated_at: Date;
-  }[];
+  tags: TagBaseResponse[];
 };
 
 export type DeleteTagResponse = {

@@ -1,11 +1,9 @@
 import { Request, Response } from "express";
 import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
-import { authService } from "../../service/user/auth_service";
-import { getLoginUserService } from "../../service/user/get_login_user_service";
-import { updateLoginUserService } from "../../service/user/update_login_user_service";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
 import { AuthResponse, GetLoginUserResponse } from "./response";
+import { authService, getLoginUserService, updateLoginUserService } from "../../service/user";
 
 // 認証
 export const authController = async (req: Request<{}, {}, AuthRequest>, res: Response) => {
@@ -33,9 +31,13 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
 };
 
 // 認可状態確認
-export const authenticationController = async (req: Request, res: Response) => {
-  const isAuthenticated = getUserIsAuthenticated(req.cookies.access_token);
-  res.status(200).json({ status: "ok", isAuthenticated: isAuthenticated });
+export const authCheckController = async (req: Request, res: Response) => {
+  try {
+    const isAuthenticated = getUserIsAuthenticated(req.cookies.access_token || "");
+    return res.status(200).json({ status: "ok", isAuthenticated: isAuthenticated });
+  } catch {
+    return res.status(500).json({ status: "error", message: "Internal server error." });
+  }
 };
 
 // ログアウト
@@ -57,6 +59,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
       email: outputDTO.email,
       exp: outputDTO.exp,
       level: outputDTO.level,
+      imageUrl: outputDTO.imageUrl,
     };
     res.status(200).json(response);
   } catch (err) {
@@ -83,6 +86,7 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
       email: outputDTO.email,
       exp: outputDTO.exp,
       level: outputDTO.level,
+      imageUrl: outputDTO.imageUrl,
     };
     return res.status(200).json(response);
   } catch (err) {

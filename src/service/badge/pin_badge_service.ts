@@ -20,7 +20,7 @@ export const pinBadgeService = async (inputDTO: InputDTO) => {
 
     // バッジがすでに３つピン止めされている場合は、エラーを返す
     const pinnedBadges = await badgeModel.listPinnedByUserId(badge.userId);
-    if (pinnedBadges && pinnedBadges.length == 3) {
+    if (pinnedBadges && pinnedBadges.length === 3) {
       throw new HttpError("ピン止めできるバッジは３つまでです", 400);
     }
 
