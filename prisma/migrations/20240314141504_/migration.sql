@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE "WeeklyReport" ADD COLUMN     "feedBack" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "WeeklyReport" ADD COLUMN     "summary" TEXT NOT NULL DEFAULT '';
