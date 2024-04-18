@@ -31,6 +31,7 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
           start_date: weeklyReport.startDate,
           end_date: weeklyReport.endDate,
           user_id: weeklyReport.userId,
+          feedback: weeklyReport.feedBack,
         };
       }),
     };
