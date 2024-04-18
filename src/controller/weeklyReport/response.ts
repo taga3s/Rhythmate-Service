@@ -48,6 +48,7 @@ export type DeleteWeeklyReportResponse = {
 
 export type GenerateWeeklyReportFeedBackResponse = {
   status: string;
+  feedBack: string;
 };
 
 export type GetWeeklyReportFeedBackResponse = {

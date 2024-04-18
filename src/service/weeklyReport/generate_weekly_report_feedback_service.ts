@@ -40,5 +40,6 @@ export const generateWeeklyReportFeedBackService = async (inputDTO: {
 
     const feedBack = await runGemini(weeklyReport);
     await model.updateFeedBackByIdWithTx(inputDTO.weeklyReportId, feedBack, tx);
+    return { feedBack: feedBack };
   });
 };

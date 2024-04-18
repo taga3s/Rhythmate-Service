@@ -50,9 +50,10 @@ export const generateWeeklyReportFeedBackController = async (
 ) => {
   const weeklyReportId = req.params.weeklyReportId;
   try {
-    await generateWeeklyReportFeedBackService({ weeklyReportId: weeklyReportId });
+    const outputDTO = await generateWeeklyReportFeedBackService({ weeklyReportId: weeklyReportId });
     const response: GenerateWeeklyReportFeedBackResponse = {
       status: "ok",
+      feedBack: outputDTO.feedBack,
     };
     return res.status(200).json(response);
   } catch (err) {
