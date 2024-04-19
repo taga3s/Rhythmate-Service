@@ -1,7 +1,7 @@
 /*
   Warnings:
 
-  - You are about to drop the column `completedDays` on the `WeeklyReport` table. All the data in the column will be lost.
+  - You are about to drop the column `summary` on the `WeeklyReport` table. All the data in the column will be lost.
   - Made the column `profileImageUrl` on table `User` required. This step will fail if there are existing NULL values in that column.
 
 */
@@ -9,5 +9,5 @@
 ALTER TABLE "User" ALTER COLUMN "profileImageUrl" SET NOT NULL;
 
 -- AlterTable
-ALTER TABLE "WeeklyReport" DROP COLUMN "completedDays",
-ADD COLUMN     "streakDays" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "WeeklyReport" DROP COLUMN "summary",
+ADD COLUMN     "feedBack" TEXT NOT NULL DEFAULT '';

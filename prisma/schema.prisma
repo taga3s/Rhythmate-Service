@@ -65,7 +65,7 @@ model WeeklyReport {
   completedPercentage     Float
   streakDays              Int      @default(0)
   completedQuestsEachDay  Int[]
-  summary                 String   @default("")
+  feedBack                String   @default("")
   startDate               String
   endDate                 String
   createdAt               DateTime @default(now())
