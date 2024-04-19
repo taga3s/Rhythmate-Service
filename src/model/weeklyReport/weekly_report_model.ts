@@ -108,6 +108,16 @@ export class WeeklyReportModel {
     return result;
   }
 
+  public async updateFeedBackByIdWithTx(id: string, feedBack: string, tx: PrismaClientWithTx): Promise<WeeklyReport> {
+    const result = await tx.weeklyReport.update({
+      where: { id: id },
+      data: {
+        feedBack: feedBack,
+      },
+    });
+    return result;
+  }
+
   public async deleteByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<WeeklyReport | null> {
     const result = await tx.weeklyReport.delete({ where: { id: id } });
     return result;
@@ -129,18 +139,6 @@ export class WeeklyReportModel {
       },
       orderBy: {
         createdAt: "desc",
-      },
-    });
-    return result;
-  }
-
-  public async saveSummary(id: string, summary: string): Promise<WeeklyReport> {
-    const result = await prisma.weeklyReport.update({
-      where: {
-        id: id,
-      },
-      data: {
-        summary: summary,
       },
     });
     return result;
