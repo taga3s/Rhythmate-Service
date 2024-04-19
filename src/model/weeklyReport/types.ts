@@ -3,7 +3,7 @@ export type WeeklyReport = {
   completedQuests: number;
   failedQuests: number;
   completedPercentage: number;
-  completedDays: number;
+  streakDays: number;
   completedQuestsEachDay: number[];
   failedQuestsEachDay: number[];
   feedBack: string;

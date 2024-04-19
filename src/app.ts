@@ -38,6 +38,7 @@ if (process.env.NODE_ENV === "dev") {
 // cron jobs
 questCronJob.updateEveryDay();
 questCronJob.updateEverySunday();
+weeklyReportCronJob.updateEveryDay();
 weeklyReportCronJob.createEverySunday();
 badgeCronJob.upsertEverySunday();
 

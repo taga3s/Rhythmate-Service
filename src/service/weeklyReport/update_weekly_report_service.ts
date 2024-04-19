@@ -6,7 +6,7 @@ export const updateWeeklyReportService = async (inputDTO: {
   id: string;
   completedQuests: number;
   failedQuests: number;
-  completedDays: number;
+  streakDays: number;
   completedQuestsEachDay: number[];
   failedQuestsEachDay: number[];
   startDate: string;
@@ -24,7 +24,7 @@ export const updateWeeklyReportService = async (inputDTO: {
     const updatedWeeklyReport = await model.updateWithTx(
       inputDTO.completedQuests,
       inputDTO.failedQuests,
-      inputDTO.completedDays,
+      inputDTO.streakDays,
       inputDTO.completedQuestsEachDay,
       inputDTO.failedQuestsEachDay,
       inputDTO.startDate,
@@ -38,7 +38,7 @@ export const updateWeeklyReportService = async (inputDTO: {
       completedQuests: updatedWeeklyReport.completedQuests,
       failedQuests: updatedWeeklyReport.failedQuests,
       completedPercentage: updatedWeeklyReport.completedPercentage,
-      completedDays: updatedWeeklyReport.completedDays,
+      streakDays: updatedWeeklyReport.streakDays,
       completedQuestsEachDay: updatedWeeklyReport.completedQuestsEachDay,
       failedQuestsEachDay: updatedWeeklyReport.failedQuestsEachDay,
       startDate: updatedWeeklyReport.startDate,
