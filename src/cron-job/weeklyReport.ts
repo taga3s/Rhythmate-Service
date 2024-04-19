@@ -6,36 +6,33 @@ import { getStartAndEndUTCDateTime } from "../funcs/datetime";
 
 const updateEveryDay = () => {
   const weeklyReportModel = new WeeklyReportModel();
-  // TODO まだ動かないからやる
   const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * *" : "0 0 0 * * 1";
 
   cron.schedule(scheduledTime, async () => {
     await prisma.$transaction(async (tx) => {
+      logger.info("Running cron job for updating weekly reports every day.");
       const users = await tx.user.findMany();
 
       await Promise.all(
         users.map(async (user) => {
           const targetWeeklyReport = await weeklyReportModel.getByUserId(user.id);
-          if (!targetWeeklyReport) {
-            return;
+          if (targetWeeklyReport) {
+            const updatedStreakDays =
+              0 < targetWeeklyReport.completedQuests && targetWeeklyReport.failedQuests === 0
+                ? targetWeeklyReport.streakDays + 1
+                : targetWeeklyReport.streakDays;
+
+            await weeklyReportModel.updateByIdWithTx(
+              targetWeeklyReport.id,
+              targetWeeklyReport.completedQuests,
+              targetWeeklyReport.failedQuests,
+              updatedStreakDays,
+              targetWeeklyReport.completedQuestsEachDay,
+              targetWeeklyReport.failedQuestsEachDay,
+              targetWeeklyReport.completedPercentage,
+              tx,
+            );
           }
-
-          const updatedStreakDays =
-            0 < targetWeeklyReport.completedQuests && targetWeeklyReport.failedQuests === 0
-              ? targetWeeklyReport.streakDays + 1
-              : targetWeeklyReport.streakDays;
-
-          await weeklyReportModel.updateWithTx(
-            targetWeeklyReport.completedQuests,
-            targetWeeklyReport.failedQuests,
-            updatedStreakDays,
-            targetWeeklyReport.completedQuestsEachDay,
-            targetWeeklyReport.failedQuestsEachDay,
-            targetWeeklyReport.startDate,
-            targetWeeklyReport.endDate,
-            targetWeeklyReport.userId,
-            tx,
-          );
         }),
       );
     });
