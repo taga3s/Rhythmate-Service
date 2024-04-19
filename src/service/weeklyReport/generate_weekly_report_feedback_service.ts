@@ -18,7 +18,7 @@ const runGemini = async (weeklyReport: WeeklyReport) => {
     - 完了したルーティン数: ${weeklyReport.completedQuests}
     - 失敗したルーティン数: ${weeklyReport.failedQuests}
     - 完了率: ${weeklyReport.completedPercentage}%
-    - その日の全ルーティンを達成した日数: ${weeklyReport.completedDays}
+    - 連続ストリーク日数: ${weeklyReport.streakDays}
     - 各曜日の完了ルーティン数: ${weeklyReport.completedQuestsEachDay}
   `;
   const result = await model.generateContent(prompt);
