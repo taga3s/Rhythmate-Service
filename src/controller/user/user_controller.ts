@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
-import { AuthResponse, GetLoginUserResponse } from "./response";
+import { AuthResponse, GetLoginUserResponse, UpdateLoginUserResponse } from "./response";
 import { authService, getLoginUserService, updateLoginUserService } from "../../service/user";
 
 // 認証
@@ -75,12 +75,13 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
   const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = {
     userId: userId,
-    ...req.body,
+    name: req.body.name,
+    imageBinary: req.body.image_binary,
   };
 
   try {
     const outputDTO = await updateLoginUserService(inputDTO);
-    const response: GetLoginUserResponse = {
+    const response: UpdateLoginUserResponse = {
       status: "ok",
       name: outputDTO.name,
       email: outputDTO.email,

@@ -10,3 +10,12 @@ export type GetLoginUserResponse = {
   level: number;
   imageUrl: string;
 };
+
+export type UpdateLoginUserResponse = {
+  status: string;
+  name: string;
+  email: string;
+  exp: number;
+  level: number;
+  imageUrl: string;
+};
