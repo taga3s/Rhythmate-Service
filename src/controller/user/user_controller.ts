@@ -107,6 +107,7 @@ export const deleteUserController = async (req: Request, res: Response) => {
     const response: DeleteUserResponse = {
       status: "ok",
     };
+    res.cookie("access_token", "");
     return res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
