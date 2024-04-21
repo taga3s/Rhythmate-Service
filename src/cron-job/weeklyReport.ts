@@ -6,7 +6,7 @@ import { getStartAndEndUTCDateTime } from "../funcs/datetime";
 
 const updateEveryDay = () => {
   const weeklyReportModel = new WeeklyReportModel();
-  const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * *" : "0 0 0 * * 1";
+  const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 59 14 * * *" : "0 0 0 * * 1";
 
   cron.schedule(scheduledTime, async () => {
     await prisma.$transaction(async (tx) => {

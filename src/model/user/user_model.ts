@@ -66,4 +66,13 @@ export class UserModel {
     });
     return result;
   }
+
+  public async deleteWithTx(id: string, tx: PrismaClientWithTx): Promise<User> {
+    const result = await tx.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    return result;
+  }
 }

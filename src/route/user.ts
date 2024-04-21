@@ -6,6 +6,7 @@ import {
   getLoginUserController,
   logoutController,
   updateUserController,
+  deleteUserController,
 } from "../controller/user/user_controller";
 import { validate } from "../pkg/validate";
 import { auth } from "./middlewares/auth";
@@ -26,5 +27,6 @@ userRouter.patch(
   validate([body("name").isString().isLength({ min: 1 }).withMessage("必須項目です。")]),
   updateUserController,
 );
+userRouter.delete("/me", auth, deleteUserController);
 
 export { userRouter };
