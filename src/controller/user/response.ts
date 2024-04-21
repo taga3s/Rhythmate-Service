@@ -10,3 +10,7 @@ export type GetLoginUserResponse = {
   level: number;
   imageUrl: string;
 };
+
+export type DeleteUserResponse = {
+  status: string;
+}

@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
-import { AuthResponse, GetLoginUserResponse } from "./response";
+import { AuthResponse, DeleteUserResponse, GetLoginUserResponse } from "./response";
 import { authService, getLoginUserService, updateLoginUserService } from "../../service/user";
+import { deleteUserService } from "../../service/user/delete_user_service";
 
 // 認証
 export const authController = async (req: Request<{}, {}, AuthRequest>, res: Response) => {
@@ -96,3 +97,22 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
     return res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
+
+// ユーザー削除
+export const deleteUserController = async (req: Request, res: Response) => {
+  const userId = getUserIdFromToken(req.cookies.access_token);
+
+  try {
+    await deleteUserService({ userId: userId });
+    const response: DeleteUserResponse = {
+      status: "ok",
+    };
+    res.cookie("access_token", "");
+    return res.status(200).json(response);
+  } catch (err) {
+    if (err instanceof HttpError) {
+      return res.status(err.statusCode).json({ status: "error", message: err.message });
+    }
+    return res.status(500).json({ status: "error", message: "Internal server error." });
+  }
+}
