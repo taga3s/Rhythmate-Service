@@ -11,6 +11,6 @@ export type GetLoginUserResponse = {
   imageUrl: string;
 };
 
-export type DeleteUserResponce = {
+export type DeleteUserResponse = {
   status: string;
 }

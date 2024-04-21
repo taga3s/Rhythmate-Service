@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
-import { AuthResponse, DeleteUserResponce, GetLoginUserResponse } from "./response";
+import { AuthResponse, DeleteUserResponse, GetLoginUserResponse } from "./response";
 import { authService, getLoginUserService, updateLoginUserService } from "../../service/user";
 import { deleteUserService } from "../../service/user/delete_user_service";
 
@@ -104,7 +104,7 @@ export const deleteUserController = async (req: Request, res: Response) => {
 
   try {
     await deleteUserService({ userId: userId });
-    const response: DeleteUserResponce = {
+    const response: DeleteUserResponse = {
       status: "ok",
     };
     return res.status(200).json(response);
