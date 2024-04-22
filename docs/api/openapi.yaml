@@ -478,6 +478,77 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  "/weeklyReports":
+    get:
+      tags: ["weeklyReports"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListWeeklyReportResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/weeklyReports/feedback/:weeklyReportId":
+    get:
+      tags: ["weeklyReports"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetWeeklyReportFeedBackResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      tags: ["weeklyReports"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerateWeeklyReportFeedBackResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
 components:
   schemas:
@@ -667,3 +738,32 @@ components:
       type: object
       properties:
         status: { type: string, example: "ok" }
+    ListWeeklyReportResponse:
+      type: object
+      properties:
+        status: { type: string }
+        weeklyReports:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              completed_quests: { type: integer }
+              failed_quests: { type: integer }
+              completed_percentage: { type: number }
+              streak_days: { type: integer }
+              completed_quests_each_day: { type: array, items: { type: integer } }
+              failed_quests_each_day: { type: array, items: { type: integer } }
+              start_date: { type: string }
+              end_date: { type: string }
+              user_id: { type: string }
+    GenerateWeeklyReportFeedBackResponse:
+      type: object
+      properties:
+        status: { type: string }
+        feedBack: { type: string }
+    GetWeeklyReportFeedBackResponse:
+      type: object
+      properties:
+        status: { type: string }
+        feedBack: { type: string }
