@@ -20,6 +20,8 @@ tags:
     description: "タグ情報の操作"
   - name: "weeklyReports"
     description: "週次レポート情報の操作"
+  - name: "badges"
+    description: "バッジ情報の操作"
 
 paths:
   "/users/auth":
@@ -377,7 +379,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TagsResponse"
+                $ref: "#/components/schemas/ListTagsResponse"
         "401":
           description: "認証エラー"
           content:
@@ -549,9 +551,130 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  "/badges":
+    get:
+      tags: ["badges"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListBadgeResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/badges/:id":
+    patch:
+      tags: ["badges"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AchieveBadgeResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/badges/pin/:id":
+    patch:
+      tags: ["badges"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PinBadgeResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"  
+  "/badges/unpin/:id":
+    patch:
+      tags: ["badges"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnpinBadgeResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
 components:
   schemas:
+    AuthRequest:
+      type: object
+      properties:
+        id_token:
+          type: string
+    UpdateLoginUserRequest:
+      type: object
+      properties:
+        name:
+          type: string
     AuthResponse:
       type: object
       properties:
@@ -576,16 +699,6 @@ components:
       type: object
       properties:
         status:
-          type: string
-    AuthRequest:
-      type: object
-      properties:
-        id_token:
-          type: string
-    UpdateLoginUserRequest:
-      type: object
-      properties:
-        name:
           type: string
     ErrorResponse:
       type: object
@@ -710,7 +823,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/QuestBaseResponse'
-    TagsResponse:
+    TagsCreateRequest:
+      type: object
+      properties:
+        name: { type: string, example: "TechStudy" }
+        color: { type: string, example: "Blue" }
+      required:
+        - name
+    ListTagsResponse:
       type: object
       properties:
         tags:
@@ -723,13 +843,6 @@ components:
                 { id: 3, name: "Health", color: "Green"},
               ],
           }
-    TagsCreateRequest:
-      type: object
-      properties:
-        name: { type: string, example: "TechStudy" }
-        color: { type: string, example: "Blue" }
-      required:
-        - name
     TagsCreateResponse:
       type: object
       properties:
@@ -767,3 +880,38 @@ components:
       properties:
         status: { type: string }
         feedBack: { type: string }
+    
+    BadgeBaseResponse:
+      type: object
+      properties:
+        badge_id: { type: string }
+        name: { type: string }
+        description: { type: string }
+        image_type: { type: string }
+        frame_color: { type: string }
+        obtained_at: { type: string }
+        is_pinned: { type: boolean }
+        unlockable: { type: boolean }
+    AchieveBadgeResponse:
+      allOf:
+        - $ref: '#/components/schemas/BadgeBaseResponse'
+        - type: object
+          properties:
+            status: { type: string }
+    ListBadgeResponse:
+      type: object
+      properties:
+        status: { type: string }
+        quests: { type: array, items: { $ref: '#/components/schemas/BadgeBaseResponse' } }
+    PinBadgeResponse:
+      allOf:
+        - $ref: '#/components/schemas/BadgeBaseResponse'
+        - type: object
+          properties:
+            status: { type: string }
+    UnpinBadgeResponse:
+      allOf:
+        - $ref: '#/components/schemas/BadgeBaseResponse'
+        - type: object
+          properties:
+            status: { type: string }
