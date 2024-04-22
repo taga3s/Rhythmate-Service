@@ -369,6 +369,27 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
   "/tags":
+    get:
+      tags: ["tags"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TagsResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags: ["tags"]
       deprecated: false
@@ -451,23 +472,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-        "500":
-          description: "サーバーエラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  "/tags/:userId":
-    get:
-      tags: ["tags"]
-      responses:
-        "200":
-          description: "成功"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TagsResponse"
-
         "500":
           description: "サーバーエラー"
           content:
@@ -643,15 +647,16 @@ components:
             type: array,
             example:
               [
-                { id: 1, name: "TechStudy" },
-                { id: 2, name: "EnglishStudy" },
-                { id: 3, name: "Health" },
+                { id: 1, name: "TechStudy", color: "Blue"},
+                { id: 2, name: "EnglishStudy", color: "Red"},
+                { id: 3, name: "Health", color: "Green"},
               ],
           }
     TagsCreateRequest:
       type: object
       properties:
         name: { type: string, example: "TechStudy" }
+        color: { type: string, example: "Blue" }
       required:
         - name
     TagsCreateResponse:
