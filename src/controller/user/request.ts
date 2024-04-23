@@ -4,5 +4,5 @@ export type AuthRequest = {
 
 export type UpdateLoginUserRequest = {
   name: string;
-  image_binary: string;
+  image_src: string;
 };

@@ -77,7 +77,7 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
   const inputDTO = {
     userId: userId,
     name: req.body.name,
-    imageBinary: req.body.image_binary,
+    imageSrc: req.body.image_src,
   };
 
   try {
