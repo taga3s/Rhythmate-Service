@@ -29,14 +29,14 @@ jobs:
 
       - name: Validate Swagger Files
         run: |
-          swagger-cli validate -d openapi.yaml --type yaml
+          swagger-cli validate -d docs/api/openapi.yaml --type yaml
 
       - name: Generate Swagger UI
         if: github.event.pull_request.merged == true
         uses: Legion2/swagger-ui-action@v1
         with:
           output: swagger-ui
-          spec-file: openapi.yaml
+          spec-file: docs/api/openapi.yaml
 
       - name: Deploy to GitHub Pages
         if: github.event.pull_request.merged == true
