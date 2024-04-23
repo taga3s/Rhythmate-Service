@@ -1,9 +1,14 @@
 name: Deploy Swagger UI to Github Pages
 
 on:
+  push:
+    branches:
+      - develop
+      - open-api
   pull_request:
     branches:
       - main
+      - develop
     types:
       - opened
       - synchronize
