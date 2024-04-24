@@ -5,42 +5,37 @@ on:
     branches:
       - develop
       - open-api
-  pull_request:
-    branches:
-      - main
-      - develop
-    types:
-      - opened
-      - synchronize
-      - closed
-    paths:
-      - docs/api/openapi.yaml
-      - .github/workflows/deploy-swagger.yaml
 
 jobs:
-  deploy-to-github-pages:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
+      - name: Chekcout code
+        uses: actions/checkout@v4
       - name: Install swagger-cli
-        run: |
-          npm install -g swagger-cli
-
-      - name: Validate Swagger Files
-        run: |
-          swagger-cli validate -d docs/api/openapi.yaml --type yaml
-
+        run: npm install -g swagger-cli
       - name: Generate Swagger UI
-        if: github.event.pull_request.merged == true
         uses: Legion2/swagger-ui-action@v1
         with:
           output: swagger-ui
-          spec-file: docs/api/openapi.yaml
-
-      - name: Deploy to GitHub Pages
-        if: github.event.pull_request.merged == true
-        uses: peaceiris/actions-gh-pages@v3
+          spec-file: doc/openapi.yml
+      - name: Upload Documents
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: swagger-ui
+          # 絶対パスを指定
+          path: swagger-ui
+
+  # Deploy the artifact to GitHub pages.
+  # This is a separate job so that only actions/deploy-pages has the necessary permissions.
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
