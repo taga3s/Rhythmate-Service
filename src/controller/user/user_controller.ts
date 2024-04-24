@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
 import { HttpError } from "../../pkg/httpError";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
-import { AuthResponse, DeleteUserResponse, GetLoginUserResponse } from "./response";
+import { AuthResponse, GetLoginUserResponse, UpdateLoginUserResponse, DeleteUserResponse } from "./response";
 import { authService, getLoginUserService, updateLoginUserService } from "../../service/user";
 import { deleteUserService } from "../../service/user/delete_user_service";
 
@@ -76,12 +76,13 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
   const userId = getUserIdFromToken(req.cookies.access_token);
   const inputDTO = {
     userId: userId,
-    ...req.body,
+    name: req.body.name,
+    imageSrc: req.body.image_src,
   };
 
   try {
     const outputDTO = await updateLoginUserService(inputDTO);
-    const response: GetLoginUserResponse = {
+    const response: UpdateLoginUserResponse = {
       status: "ok",
       name: outputDTO.name,
       email: outputDTO.email,
@@ -115,4 +116,4 @@ export const deleteUserController = async (req: Request, res: Response) => {
     }
     return res.status(500).json({ status: "error", message: "Internal server error." });
   }
-}
+};
