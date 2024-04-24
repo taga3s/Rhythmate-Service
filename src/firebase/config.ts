@@ -6,6 +6,7 @@ admin.initializeApp({
     privateKey: process.env.FIREBASE_PRIVATE_KEY,
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   }),
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET_URL,
 });
 
 export { admin };

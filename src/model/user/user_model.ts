@@ -33,9 +33,10 @@ export class UserModel {
     return result;
   }
 
-  public async updateWithTx(id: string, name: string, tx: PrismaClientWithTx): Promise<User> {
+  public async updateWithTx(tx: PrismaClientWithTx, id: string, name: string, imageUrl?: string): Promise<User> {
     const user: Prisma.UserUpdateInput = {
       name: name,
+      ...(imageUrl && { profileImageUrl: imageUrl }),
     };
     const result = await tx.user.update({
       where: {
