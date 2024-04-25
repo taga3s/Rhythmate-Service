@@ -1,8 +1,8 @@
 openapi: "3.0.3"
 
 info:
-  title: "rhythmate API"
-  description: "rhythmateのAPIです。"
+  title: "Rhythmate API"
+  description: "RhythmateのAPIです。"
   version: "1.0"
 
 servers:
@@ -20,24 +20,25 @@ tags:
     description: "タグ情報の操作"
   - name: "weeklyReports"
     description: "週次レポート情報の操作"
+  - name: "badges"
+    description: "バッジ情報の操作"
 
 paths:
-  "/users/signup":
+  "/users/auth":
     post:
       tags: ["users"]
-      deprecated: false
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UsersSignUpRequest"
+              $ref: "#/components/schemas/AuthRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersSignUpResponse"
+                $ref: "#/components/schemas/AuthResponse"
         "400":
           description: "クライアントエラー"
           content:
@@ -50,23 +51,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/users/login":
-    post:
+  "/users/authenticated":
+    get:
       tags: ["users"]
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UsersLoginRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersLoginResponse"
+                $ref: "#/components/schemas/GetLoginUserResponse"
         "400":
-          description: "クライアントエラー"
+          description: "認証エラー"
           content:
             application/json:
               schema:
@@ -81,9 +77,9 @@ paths:
     post:
       tags: ["users"]
       responses:
-        "204":
+        "200":
           description: "成功"
-        "401":
+        "400":
           description: "認証エラー"
           content:
             application/json:
@@ -95,7 +91,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/users/:id":
+  "/users/me":
     get:
       tags: ["users"]
       responses:
@@ -104,8 +100,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserResponse"
-        "401":
+                $ref: "#/components/schemas/GetLoginUserResponse"
+        "400":
           description: "認証エラー"
           content:
             application/json:
@@ -123,14 +119,64 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UsersPatchRequest"
+              $ref: "#/components/schemas/UpdateLoginUserRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserResponse"
+                $ref: "#/components/schemas/GetLoginUserResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags: ["users"]
+      responses:
+        "200":
+          description: "成功"
+        "400":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/quests":
+    post:
+      tags: ["quests"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateQuestRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateQuestResponse"
         "400":
           description: "クライアントエラー"
           content:
@@ -149,28 +195,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/quests":
-    post:
+    get:
       tags: ["quests"]
-      deprecated: false
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/QuestsCreateRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/QuestsCreateResponse"
-        "400":
-          description: "クライアントエラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/ListQuestsResponse"
         "401":
           description: "認証エラー"
           content:
@@ -190,14 +223,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/QuestsPatchRequest"
+              $ref: "#/components/schemas/UpdateQuestRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/QuestsResponse"
+                $ref: "#/components/schemas/UpdateQuestResponse"
         "400":
           description: "クライアントエラー"
           content:
@@ -225,7 +258,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/QuestsDeleteResponse"
+                $ref: "#/components/schemas/DeleteQuestResponse"
         "401":
           description: "認証エラー"
           content:
@@ -241,13 +274,24 @@ paths:
   "/quests/start/:id":
     patch:
       tags: ["quests"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/QuestsResponse"
+                $ref: "#/components/schemas/UpdateQuestResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "401":
           description: "認証エラー"
           content:
@@ -263,13 +307,24 @@ paths:
   "/quests/finish/:id":
     patch:
       tags: ["quests"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/QuestsResponse"
+                $ref: "#/components/schemas/UpdateQuestResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "401":
           description: "認証エラー"
           content:
@@ -282,16 +337,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/quests/:userId":
-    get:
+  "/quests/force-finish/:id":
+    patch:
       tags: ["quests"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/QuestsListResponse"
+                $ref: "#/components/schemas/UpdateQuestResponse"
         "400":
           description: "クライアントエラー"
           content:
@@ -311,6 +371,27 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
   "/tags":
+    get:
+      tags: ["tags"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListTagsResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags: ["tags"]
       deprecated: false
@@ -399,17 +480,182 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/tags/:userId":
+  "/weeklyReports":
     get:
-      tags: ["tags"]
+      tags: ["weeklyReports"]
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TagsResponse"
-
+                $ref: "#/components/schemas/ListWeeklyReportResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/weeklyReports/feedback/:weeklyReportId":
+    get:
+      tags: ["weeklyReports"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetWeeklyReportFeedBackResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      tags: ["weeklyReports"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerateWeeklyReportFeedBackResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/badges":
+    get:
+      tags: ["badges"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListBadgeResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/badges/:id":
+    patch:
+      tags: ["badges"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateQuestRequest"
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AchieveBadgeResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  "/badges/pin/:id":
+    patch:
+      tags: ["badges"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PinBadgeResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: "サーバーエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"  
+  "/badges/unpin/:id":
+    patch:
+      tags: ["badges"]
+      responses:
+        "200":
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnpinBadgeResponse"
+        "400":
+          description: "クライアントエラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: "認証エラー"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: "サーバーエラー"
           content:
@@ -419,45 +665,41 @@ paths:
 
 components:
   schemas:
-    UsersSignUpRequest:
+    AuthRequest:
       type: object
       properties:
-        username: { type: string, example: "test" }
-        email: { type: string, example: "example@gmail.com" }
-        password: { type: string, example: "password" }
-      required:
-        - username
-        - email
-        - password
-    UsersSignUpResponse:
+        id_token:
+          type: string
+    UpdateLoginUserRequest:
       type: object
       properties:
-        status: { type: string, example: "ok" }
-    UsersLoginRequest:
+        name:
+          type: string
+    AuthResponse:
       type: object
       properties:
-        email: { type: string, example: "example@gmail.com" }
-        password: { type: string, example: "password" }
-      required:
-        - email
-        - password
-    UsersLoginResponse:
+        status:
+          type: string
+    GetLoginUserResponse:
       type: object
       properties:
-        status: { type: string, example: "ok" }
-    UsersPatchRequest:
+        status:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        exp:
+          type: integer
+        level:
+          type: integer
+        imageUrl:
+          type: string
+    DeleteUserResponse:
       type: object
       properties:
-        username: { type: string, example: test }
-      required:
-        - username
-    UserResponse:
-      type: object
-      properties:
-        status: { type: string, example: "ok" }
-        username: { type: string, example: "test" }
-        email: { type: string, example: "example@gmail.com" }
-        level: { type: number, example: 1 }
+        status:
+          type: string
     ErrorResponse:
       type: object
       properties:
@@ -465,70 +707,130 @@ components:
         message: { type: string, example: "errorMsg" }
       required:
         - message
-    QuestsCreateRequest:
+    CreateQuestRequest:
       type: object
       properties:
-        title: { type: string, example: "WorkOut" }
-        description: { type: string, example: "Push ups 30reps 3sets." }
-        starts_at: { type: string, example: "9:00" }
-        minutes: { type: number, example: 30 }
-        tag_id: { type: number, example: 1 }
-        difficulty: { type: number, example: 1 }
-        days: { type: array, example: ["Mon", "Wed", "Fri"] }
-        userId: { type: number, example: 1 }
-      required:
-        - title
-        - description
-        - starts_at
-        - minutes
-        - tag_id
-        - difficulty
-        - days
-        - userId
-    QuestsCreateResponse:
+        title:
+          type: string
+        description:
+          type: string
+        starts_at:
+          type: string
+        minutes:
+          type: integer
+        tag_id:
+          type: string
+        difficulty:
+          type: string
+        days:
+          type: array
+          items:
+            type: string
+        state:
+          type: string
+          enum: ["INACTIVE", "ACTIVE"]
+    UpdateQuestRequest:
       type: object
       properties:
-        status: { type: string, example: "ok" }
-    QuestsDeleteResponse:
+        title:
+          type: string
+        description:
+          type: string
+        starts_at:
+          type: string
+        started_at:
+          type: string
+        minutes:
+          type: integer
+        tag_id:
+          type: string
+        difficulty:
+          type: string
+        state:
+          type: string
+        is_succeeded:
+          type: boolean
+        continuation_level:
+          type: integer
+        days:
+          type: array
+          items:
+            type: string
+        weekly_completion_count:
+          type: integer
+        total_completion_count:
+          type: integer
+    QuestBaseResponse:
       type: object
       properties:
-        status: { type: string, example: "ok" }
-    QuestsPatchRequest:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        starts_at:
+          type: string
+        started_at:
+          type: string
+        minutes:
+          type: integer
+        tag_id:
+          type: string
+        difficulty:
+          type: string
+        state:
+          type: string
+        is_succeeded:
+          type: boolean
+        days:
+          type: array
+          items:
+            type: string
+        continuation_level:
+          type: integer
+        weekly_frequency:
+          type: integer
+        weekly_completion_count:
+          type: integer
+        total_completion_count:
+          type: integer
+    CreateQuestResponse:
+      allOf:
+        - $ref: '#/components/schemas/QuestBaseResponse'
+        - type: object
+          properties:
+            status:
+              type: string
+    UpdateQuestResponse:
+      allOf:
+        - $ref: '#/components/schemas/QuestBaseResponse'
+        - type: object
+          properties:
+            status:
+              type: string
+    DeleteQuestResponse:
       type: object
       properties:
-        title: { type: string, example: "WorkOut" }
-        description: { type: string, example: "Push ups 30reps 3sets." }
-        starts_at: { type: string, example: "9:00" }
-        minutes: { type: number, example: 30 }
-    QuestsResponse:
+        status:
+          type: string
+    ListQuestsResponse:
       type: object
       properties:
-        title: { type: string, example: "WorkOut" }
-        description: { type: string, example: "Push ups 30reps 3sets." }
-        starts_at: { type: string, example: "9:00" }
-        started_at: { type: string, example: "9:10" }
-        minutes: { type: number, example: 30 }
-        tag_id: { type: number, example: 1 }
-        difficulty: { type: number, example: 1 }
-        is_done: { type: boolean, example: false }
-        days: { type: array, example: ["Mon", "Wed", "Fri"] }
-        weekly_frequency: { type: number, example: 3 }
-        weekly_completion_count: { type: number, example: 2 }
-        userId: { type: number, example: 1 }
-    QuestsListResponse:
-      type: object
-      properties:
+        status:
+          type: string
         quests:
-          {
-            type: array,
-            example:
-              [
-                { $ref: "#/components/schemas/QuestsResponse" },
-                { $ref: "#/components/schemas/QuestsResponse" },
-                { $ref: "#/components/schemas/QuestsResponse" },
-              ],
-          }
-    TagsResponse:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestBaseResponse'
+    TagsCreateRequest:
+      type: object
+      properties:
+        name: { type: string, example: "TechStudy" }
+        color: { type: string, example: "Blue" }
+      required:
+        - name
+    ListTagsResponse:
       type: object
       properties:
         tags:
@@ -536,17 +838,11 @@ components:
             type: array,
             example:
               [
-                { id: 1, name: "TechStudy" },
-                { id: 2, name: "EnglishStudy" },
-                { id: 3, name: "Health" },
+                { id: 1, name: "TechStudy", color: "Blue"},
+                { id: 2, name: "EnglishStudy", color: "Red"},
+                { id: 3, name: "Health", color: "Green"},
               ],
           }
-    TagsCreateRequest:
-      type: object
-      properties:
-        name: { type: string, example: "TechStudy" }
-      required:
-        - name
     TagsCreateResponse:
       type: object
       properties:
@@ -555,3 +851,67 @@ components:
       type: object
       properties:
         status: { type: string, example: "ok" }
+    ListWeeklyReportResponse:
+      type: object
+      properties:
+        status: { type: string }
+        weeklyReports:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              completed_quests: { type: integer }
+              failed_quests: { type: integer }
+              completed_percentage: { type: number }
+              streak_days: { type: integer }
+              completed_quests_each_day: { type: array, items: { type: integer } }
+              failed_quests_each_day: { type: array, items: { type: integer } }
+              start_date: { type: string }
+              end_date: { type: string }
+              user_id: { type: string }
+    GenerateWeeklyReportFeedBackResponse:
+      type: object
+      properties:
+        status: { type: string }
+        feedBack: { type: string }
+    GetWeeklyReportFeedBackResponse:
+      type: object
+      properties:
+        status: { type: string }
+        feedBack: { type: string }
+    
+    BadgeBaseResponse:
+      type: object
+      properties:
+        badge_id: { type: string }
+        name: { type: string }
+        description: { type: string }
+        image_type: { type: string }
+        frame_color: { type: string }
+        obtained_at: { type: string }
+        is_pinned: { type: boolean }
+        unlockable: { type: boolean }
+    AchieveBadgeResponse:
+      allOf:
+        - $ref: '#/components/schemas/BadgeBaseResponse'
+        - type: object
+          properties:
+            status: { type: string }
+    ListBadgeResponse:
+      type: object
+      properties:
+        status: { type: string }
+        quests: { type: array, items: { $ref: '#/components/schemas/BadgeBaseResponse' } }
+    PinBadgeResponse:
+      allOf:
+        - $ref: '#/components/schemas/BadgeBaseResponse'
+        - type: object
+          properties:
+            status: { type: string }
+    UnpinBadgeResponse:
+      allOf:
+        - $ref: '#/components/schemas/BadgeBaseResponse'
+        - type: object
+          properties:
+            status: { type: string }
