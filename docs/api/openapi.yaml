@@ -1018,50 +1018,29 @@ components:
         - type: object
           properties:
             status: { type: string }
-      required:
-        - badge_id
-        - name
-        - description
-        - image_type
-        - frame_color
-        - obtained_at
-        - is_pinned
-        - unlockable
+          required:
+            - status
     ListBadgeResponse:
       type: object
       properties:
         status: { type: string }
-        quests: { type: array, items: { $ref: '#/components/schemas/BadgeBaseResponse' } }
+        badgesWithDetail: { type: array, items: { $ref: '#/components/schemas/BadgeBaseResponse' } }
       required:
         - status
-        - quests
+        - badgesWithDetail
     PinBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
         - type: object
           properties:
             status: { type: string }
-      required:
-        - badge_id
-        - name
-        - description
-        - image_type
-        - frame_color
-        - obtained_at
-        - is_pinned
-        - unlockable
+          required:
+            - status
     UnpinBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
         - type: object
           properties:
             status: { type: string }
-      required:
-        - badge_id
-        - name
-        - description
-        - image_type
-        - frame_color
-        - obtained_at
-        - is_pinned
-        - unlockable
+          required:
+            - status
