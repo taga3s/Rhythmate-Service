@@ -16,7 +16,7 @@
     "format": "biome format --write src",
     "prepare": "husky",
     "test": "TZ=utc jest",
-    "generate:types": "npx openapi-typescript docs/api/openapi.yaml --output docs/api/types.ts"
+    "generate:types": "npx openapi-typescript docs/api/openapi.yaml --output src/pkg/types.gen.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
