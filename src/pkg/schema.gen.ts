@@ -3,10 +3,13 @@
  * Do not make direct changes to the file.
  */
 
+/** WithRequired type helpers */
+type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
+
 export interface paths {
   "/users/auth": {
     post: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["AuthRequest"];
         };
@@ -106,7 +109,9 @@ export interface paths {
       responses: {
         /** @description 成功 */
         200: {
-          content: never;
+          content: {
+            "application/json": components["schemas"]["DeleteUserResponse"];
+          };
         };
         /** @description 認証エラー */
         400: {
@@ -123,7 +128,7 @@ export interface paths {
       };
     };
     patch: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["UpdateLoginUserRequest"];
         };
@@ -180,7 +185,7 @@ export interface paths {
       };
     };
     post: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["CreateQuestRequest"];
         };
@@ -237,7 +242,7 @@ export interface paths {
       };
     };
     patch: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["UpdateQuestRequest"];
         };
@@ -272,7 +277,7 @@ export interface paths {
   };
   "/quests/start/:id": {
     patch: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["UpdateQuestRequest"];
         };
@@ -307,7 +312,7 @@ export interface paths {
   };
   "/quests/finish/:id": {
     patch: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["UpdateQuestRequest"];
         };
@@ -342,7 +347,7 @@ export interface paths {
   };
   "/quests/force-finish/:id": {
     patch: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["UpdateQuestRequest"];
         };
@@ -399,7 +404,7 @@ export interface paths {
       };
     };
     post: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["TagsCreateRequest"];
         };
@@ -456,7 +461,7 @@ export interface paths {
       };
     };
     patch: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["TagsCreateRequest"];
         };
@@ -591,7 +596,7 @@ export interface paths {
   };
   "/badges/:id": {
     patch: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": components["schemas"]["UpdateQuestRequest"];
         };
@@ -690,57 +695,58 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
-    AuthRequest: {
-      id_token?: string;
-    };
-    UpdateLoginUserRequest: {
-      name?: string;
-    };
-    AuthResponse: {
-      status?: string;
-    };
-    GetLoginUserResponse: {
-      status?: string;
-      name?: string;
-      email?: string;
-      exp?: number;
-      level?: number;
-      imageUrl?: string;
-    };
-    DeleteUserResponse: {
-      status?: string;
-    };
     ErrorResponse: {
       /** @example error */
-      status?: string;
+      status: string;
       /** @example errorMsg */
       message: string;
     };
+    AuthRequest: {
+      id_token: string;
+    };
+    UpdateLoginUserRequest: {
+      name: string;
+      image_src: string;
+    };
+    AuthResponse: {
+      status: string;
+    };
+    GetLoginUserResponse: {
+      status: string;
+      name: string;
+      email: string;
+      exp: number;
+      level: number;
+      imageUrl: string;
+    };
+    DeleteUserResponse: {
+      status: string;
+    };
     CreateQuestRequest: {
-      title?: string;
-      description?: string;
-      starts_at?: string;
-      minutes?: number;
-      tag_id?: string;
-      difficulty?: string;
-      days?: string[];
+      title: string;
+      description: string;
+      starts_at: string;
+      minutes: number;
+      tag_id: string;
+      difficulty: string;
+      days: string[];
       /** @enum {string} */
-      state?: "INACTIVE" | "ACTIVE";
+      state: "INACTIVE" | "ACTIVE";
     };
     UpdateQuestRequest: {
-      title?: string;
-      description?: string;
-      starts_at?: string;
-      started_at?: string;
-      minutes?: number;
-      tag_id?: string;
-      difficulty?: string;
-      state?: string;
-      is_succeeded?: boolean;
-      continuation_level?: number;
-      days?: string[];
-      weekly_completion_count?: number;
-      total_completion_count?: number;
+      title: string;
+      description: string;
+      starts_at: string;
+      started_at: string;
+      minutes: number;
+      tag_id: string;
+      difficulty: string;
+      state: string;
+      is_succeeded: boolean;
+      continuation_level: number;
+      days: string[];
+      weekly_completion_count: number;
+      total_completion_count: number;
     };
     QuestBaseResponse: {
       id?: string;
@@ -759,24 +765,58 @@ export interface components {
       weekly_completion_count?: number;
       total_completion_count?: number;
     };
-    CreateQuestResponse: components["schemas"]["QuestBaseResponse"] & {
-      status?: string;
-    };
-    UpdateQuestResponse: components["schemas"]["QuestBaseResponse"] & {
-      status?: string;
-    };
+    CreateQuestResponse: WithRequired<
+      components["schemas"]["QuestBaseResponse"] & {
+        status?: string;
+      },
+      | "id"
+      | "title"
+      | "description"
+      | "starts_at"
+      | "started_at"
+      | "minutes"
+      | "tag_id"
+      | "difficulty"
+      | "state"
+      | "is_succeeded"
+      | "days"
+      | "continuation_level"
+      | "weekly_frequency"
+      | "weekly_completion_count"
+      | "total_completion_count"
+    >;
+    UpdateQuestResponse: WithRequired<
+      components["schemas"]["QuestBaseResponse"] & {
+        status?: string;
+      },
+      | "id"
+      | "title"
+      | "description"
+      | "starts_at"
+      | "started_at"
+      | "minutes"
+      | "tag_id"
+      | "difficulty"
+      | "state"
+      | "is_succeeded"
+      | "days"
+      | "continuation_level"
+      | "weekly_frequency"
+      | "weekly_completion_count"
+      | "total_completion_count"
+    >;
     DeleteQuestResponse: {
-      status?: string;
+      status: string;
     };
     ListQuestsResponse: {
-      status?: string;
-      quests?: components["schemas"]["QuestBaseResponse"][];
+      status: string;
+      quests: components["schemas"]["QuestBaseResponse"][];
     };
     TagsCreateRequest: {
       /** @example TechStudy */
       name: string;
       /** @example Blue */
-      color?: string;
+      color: string;
     };
     ListTagsResponse: {
       /**
@@ -798,19 +838,19 @@ export interface components {
        *   }
        * ]
        */
-      tags?: unknown[];
+      tags: unknown[];
     };
     TagsCreateResponse: {
       /** @example ok */
-      status?: string;
+      status: string;
     };
     TagsDeleteResponse: {
       /** @example ok */
-      status?: string;
+      status: string;
     };
     ListWeeklyReportResponse: {
-      status?: string;
-      weeklyReports?: {
+      status: string;
+      weeklyReports: {
         id?: string;
         completed_quests?: number;
         failed_quests?: number;
@@ -824,36 +864,45 @@ export interface components {
       }[];
     };
     GenerateWeeklyReportFeedBackResponse: {
-      status?: string;
-      feedBack?: string;
+      status: string;
+      feedBack: string;
     };
     GetWeeklyReportFeedBackResponse: {
-      status?: string;
-      feedBack?: string;
+      status: string;
+      feedBack: string;
     };
     BadgeBaseResponse: {
-      badge_id?: string;
-      name?: string;
-      description?: string;
-      image_type?: string;
-      frame_color?: string;
-      obtained_at?: string;
-      is_pinned?: boolean;
-      unlockable?: boolean;
+      badge_id: string;
+      name: string;
+      description: string;
+      image_type: string;
+      frame_color: string;
+      obtained_at: string;
+      is_pinned: boolean;
+      unlockable: boolean;
     };
-    AchieveBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
-      status?: string;
-    };
+    AchieveBadgeResponse: WithRequired<
+      components["schemas"]["BadgeBaseResponse"] & {
+        status?: string;
+      },
+      "badge_id" | "name" | "description" | "image_type" | "frame_color" | "obtained_at" | "is_pinned" | "unlockable"
+    >;
     ListBadgeResponse: {
-      status?: string;
-      quests?: components["schemas"]["BadgeBaseResponse"][];
+      status: string;
+      quests: components["schemas"]["BadgeBaseResponse"][];
     };
-    PinBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
-      status?: string;
-    };
-    UnpinBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
-      status?: string;
-    };
+    PinBadgeResponse: WithRequired<
+      components["schemas"]["BadgeBaseResponse"] & {
+        status?: string;
+      },
+      "badge_id" | "name" | "description" | "image_type" | "frame_color" | "obtained_at" | "is_pinned" | "unlockable"
+    >;
+    UnpinBadgeResponse: WithRequired<
+      components["schemas"]["BadgeBaseResponse"] & {
+        status?: string;
+      },
+      "badge_id" | "name" | "description" | "image_type" | "frame_color" | "obtained_at" | "is_pinned" | "unlockable"
+    >;
   };
   responses: never;
   parameters: never;

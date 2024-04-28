@@ -1,8 +1,5 @@
-export type AuthRequest = {
-  id_token: string;
-};
+import * as schemaHelper from "../../pkg/schemaHelper";
 
-export type UpdateLoginUserRequest = {
-  name: string;
-  image_src: string;
-};
+export type AuthRequest = schemaHelper.RequestData<"/users/auth", "post">;
+
+export type UpdateLoginUserRequest = schemaHelper.RequestData<"/users/me", "patch">;
