@@ -493,7 +493,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/weeklyReports":
+  "/weekly-reports":
     get:
       tags: ["weeklyReports"]
       responses:
@@ -515,7 +515,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/weeklyReports/feedback/:weeklyReportId":
+  "/weekly-reports/feedback/:weeklyReportId":
     get:
       tags: ["weeklyReports"]
       responses:

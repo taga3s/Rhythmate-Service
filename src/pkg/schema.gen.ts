@@ -494,7 +494,7 @@ export interface paths {
       };
     };
   };
-  "/weeklyReports": {
+  "/weekly-reports": {
     get: {
       responses: {
         /** @description 成功 */
@@ -518,7 +518,7 @@ export interface paths {
       };
     };
   };
-  "/weeklyReports/feedback/:weeklyReportId": {
+  "/weekly-reports/feedback/:weeklyReportId": {
     get: {
       responses: {
         /** @description 成功 */
