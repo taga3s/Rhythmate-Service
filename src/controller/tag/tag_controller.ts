@@ -48,8 +48,6 @@ export const createTagController = async (req: Request<{}, {}, CreateTagRequest>
       id: outputDTO.id,
       name: outputDTO.name,
       color: outputDTO.color,
-      created_at: outputDTO.createdAt,
-      updated_at: outputDTO.updatedAt,
     };
     return res.status(200).json(response);
   } catch (err) {
@@ -90,8 +88,6 @@ export const updateTagController = async (req: Request<{ id: string }, {}, Updat
       id: outputDTO.id,
       name: outputDTO.name,
       color: outputDTO.color,
-      created_at: outputDTO.createdAt,
-      updated_at: outputDTO.updatedAt,
     };
     return res.status(200).json(response);
   } catch (err) {

@@ -406,14 +406,14 @@ export interface paths {
     post: {
       requestBody: {
         content: {
-          "application/json": components["schemas"]["TagsCreateRequest"];
+          "application/json": components["schemas"]["CreateTagRequest"];
         };
       };
       responses: {
         /** @description 成功 */
         200: {
           content: {
-            "application/json": components["schemas"]["TagsCreateResponse"];
+            "application/json": components["schemas"]["CreateTagResponse"];
           };
         };
         /** @description クライアントエラー */
@@ -443,7 +443,7 @@ export interface paths {
         /** @description 成功 */
         200: {
           content: {
-            "application/json": components["schemas"]["TagsDeleteResponse"];
+            "application/json": components["schemas"]["DeleteTagResponse"];
           };
         };
         /** @description 認証エラー */
@@ -463,14 +463,14 @@ export interface paths {
     patch: {
       requestBody: {
         content: {
-          "application/json": components["schemas"]["TagsCreateRequest"];
+          "application/json": components["schemas"]["UpdateTagRequest"];
         };
       };
       responses: {
         /** @description 成功 */
         200: {
           content: {
-            "application/json": components["schemas"]["TagsCreateResponse"];
+            "application/json": components["schemas"]["UpdateTagResponse"];
           };
         };
         /** @description クライアントエラー */
@@ -812,39 +812,34 @@ export interface components {
       status: string;
       quests: components["schemas"]["QuestBaseResponse"][];
     };
-    TagsCreateRequest: {
+    CreateTagRequest: {
       /** @example TechStudy */
       name: string;
       /** @example Blue */
       color: string;
     };
-    ListTagsResponse: {
-      /**
-       * @example [
-       *   {
-       *     "id": 1,
-       *     "name": "TechStudy",
-       *     "color": "Blue"
-       *   },
-       *   {
-       *     "id": 2,
-       *     "name": "EnglishStudy",
-       *     "color": "Red"
-       *   },
-       *   {
-       *     "id": 3,
-       *     "name": "Health",
-       *     "color": "Green"
-       *   }
-       * ]
-       */
-      tags: unknown[];
+    UpdateTagRequest: {
+      /** @example TechStudy */
+      name: string;
+      /** @example Blue */
+      color: string;
     };
-    TagsCreateResponse: {
-      /** @example ok */
+    TagsBaseResponse: {
+      id: string;
+      name: string;
+      color: string;
+    };
+    CreateTagResponse: components["schemas"]["TagsBaseResponse"] & {
       status: string;
     };
-    TagsDeleteResponse: {
+    UpdateTagResponse: components["schemas"]["TagsBaseResponse"] & {
+      status: string;
+    };
+    ListTagsResponse: {
+      status: string;
+      tags: components["schemas"]["TagsBaseResponse"][];
+    };
+    DeleteTagResponse: {
       /** @example ok */
       status: string;
     };
