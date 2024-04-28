@@ -749,21 +749,21 @@ export interface components {
       total_completion_count: number;
     };
     QuestBaseResponse: {
-      id?: string;
-      title?: string;
-      description?: string;
-      starts_at?: string;
-      started_at?: string;
-      minutes?: number;
-      tag_id?: string;
-      difficulty?: string;
-      state?: string;
-      is_succeeded?: boolean;
-      days?: string[];
-      continuation_level?: number;
-      weekly_frequency?: number;
-      weekly_completion_count?: number;
-      total_completion_count?: number;
+      id: string;
+      title: string;
+      description: string;
+      starts_at: string;
+      started_at: string;
+      minutes: number;
+      tag_id: string;
+      difficulty: string;
+      state: string;
+      is_succeeded: boolean;
+      days: string[];
+      continuation_level: number;
+      weekly_frequency: number;
+      weekly_completion_count: number;
+      total_completion_count: number;
     };
     CreateQuestResponse: WithRequired<
       components["schemas"]["QuestBaseResponse"] & {
@@ -881,28 +881,19 @@ export interface components {
       is_pinned: boolean;
       unlockable: boolean;
     };
-    AchieveBadgeResponse: WithRequired<
-      components["schemas"]["BadgeBaseResponse"] & {
-        status?: string;
-      },
-      "badge_id" | "name" | "description" | "image_type" | "frame_color" | "obtained_at" | "is_pinned" | "unlockable"
-    >;
+    AchieveBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
+      status: string;
+    };
     ListBadgeResponse: {
       status: string;
-      quests: components["schemas"]["BadgeBaseResponse"][];
+      badgesWithDetail: components["schemas"]["BadgeBaseResponse"][];
     };
-    PinBadgeResponse: WithRequired<
-      components["schemas"]["BadgeBaseResponse"] & {
-        status?: string;
-      },
-      "badge_id" | "name" | "description" | "image_type" | "frame_color" | "obtained_at" | "is_pinned" | "unlockable"
-    >;
-    UnpinBadgeResponse: WithRequired<
-      components["schemas"]["BadgeBaseResponse"] & {
-        status?: string;
-      },
-      "badge_id" | "name" | "description" | "image_type" | "frame_color" | "obtained_at" | "is_pinned" | "unlockable"
-    >;
+    PinBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
+      status: string;
+    };
+    UnpinBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
+      status: string;
+    };
   };
   responses: never;
   parameters: never;

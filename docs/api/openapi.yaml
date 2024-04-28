@@ -853,6 +853,22 @@ components:
           type: integer
         total_completion_count:
           type: integer
+      required:
+        - id
+        - title
+        - description
+        - starts_at
+        - started_at
+        - minutes
+        - tag_id
+        - difficulty
+        - state
+        - is_succeeded
+        - days
+        - continuation_level
+        - weekly_frequency
+        - weekly_completion_count
+        - total_completion_count
     CreateQuestResponse:
       allOf:
         - $ref: '#/components/schemas/QuestBaseResponse'
