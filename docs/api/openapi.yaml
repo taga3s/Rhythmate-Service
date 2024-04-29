@@ -594,7 +594,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateQuestRequest"
+              $ref: "#/components/schemas/AchieveBadgeRequest"
       responses:
         "200":
           description: "成功"
@@ -837,14 +837,17 @@ components:
           type: string
         difficulty:
           type: string
+          enum: ["EASY", "NORMAL", "HARD"]
         state:
           type: string
+          enum: ["INACTIVE", "ACTIVE"]
         is_succeeded:
           type: boolean
         days:
           type: array
           items:
             type: string
+            enum: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
         continuation_level:
           type: integer
         weekly_frequency:
@@ -1037,8 +1040,8 @@ components:
         badge_id: { type: string }
         name: { type: string }
         description: { type: string }
-        image_type: { type: string }
-        frame_color: { type: string }
+        image_type: { type: string, enum:  ["bow", "cat", "crown", "gem", "horse", "shield", "sword"] }
+        frame_color: { type: string, enum: ["bronze", "silver", "gold"] }
         obtained_at: { type: string }
         is_pinned: { type: boolean }
         unlockable: { type: boolean }
@@ -1051,6 +1054,12 @@ components:
         - obtained_at
         - is_pinned
         - unlockable
+    AchieveBadgeRequest:
+      type: object
+      properties:
+        badge_id: { type: string }
+      required:
+        - badge_id
     AchieveBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'

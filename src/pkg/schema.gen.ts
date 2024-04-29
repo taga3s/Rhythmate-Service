@@ -3,6 +3,7 @@
  * Do not make direct changes to the file.
  */
 
+
 /** WithRequired type helpers */
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
@@ -598,7 +599,7 @@ export interface paths {
     patch: {
       requestBody: {
         content: {
-          "application/json": components["schemas"]["UpdateQuestRequest"];
+          "application/json": components["schemas"]["AchieveBadgeRequest"];
         };
       };
       responses: {
@@ -756,55 +757,23 @@ export interface components {
       started_at: string;
       minutes: number;
       tag_id: string;
-      difficulty: string;
-      state: string;
+      /** @enum {string} */
+      difficulty: "EASY" | "NORMAL" | "HARD";
+      /** @enum {string} */
+      state: "INACTIVE" | "ACTIVE";
       is_succeeded: boolean;
-      days: string[];
+      days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
       continuation_level: number;
       weekly_frequency: number;
       weekly_completion_count: number;
       total_completion_count: number;
     };
-    CreateQuestResponse: WithRequired<
-      components["schemas"]["QuestBaseResponse"] & {
-        status?: string;
-      },
-      | "id"
-      | "title"
-      | "description"
-      | "starts_at"
-      | "started_at"
-      | "minutes"
-      | "tag_id"
-      | "difficulty"
-      | "state"
-      | "is_succeeded"
-      | "days"
-      | "continuation_level"
-      | "weekly_frequency"
-      | "weekly_completion_count"
-      | "total_completion_count"
-    >;
-    UpdateQuestResponse: WithRequired<
-      components["schemas"]["QuestBaseResponse"] & {
-        status?: string;
-      },
-      | "id"
-      | "title"
-      | "description"
-      | "starts_at"
-      | "started_at"
-      | "minutes"
-      | "tag_id"
-      | "difficulty"
-      | "state"
-      | "is_succeeded"
-      | "days"
-      | "continuation_level"
-      | "weekly_frequency"
-      | "weekly_completion_count"
-      | "total_completion_count"
-    >;
+    CreateQuestResponse: WithRequired<components["schemas"]["QuestBaseResponse"] & {
+      status?: string;
+    }, "id" | "title" | "description" | "starts_at" | "started_at" | "minutes" | "tag_id" | "difficulty" | "state" | "is_succeeded" | "days" | "continuation_level" | "weekly_frequency" | "weekly_completion_count" | "total_completion_count">;
+    UpdateQuestResponse: WithRequired<components["schemas"]["QuestBaseResponse"] & {
+      status?: string;
+    }, "id" | "title" | "description" | "starts_at" | "started_at" | "minutes" | "tag_id" | "difficulty" | "state" | "is_succeeded" | "days" | "continuation_level" | "weekly_frequency" | "weekly_completion_count" | "total_completion_count">;
     DeleteQuestResponse: {
       status: string;
     };
@@ -846,17 +815,17 @@ export interface components {
     ListWeeklyReportResponse: {
       status: string;
       weeklyReports: {
-        id?: string;
-        completed_quests?: number;
-        failed_quests?: number;
-        completed_percentage?: number;
-        streak_days?: number;
-        completed_quests_each_day?: number[];
-        failed_quests_each_day?: number[];
-        start_date?: string;
-        end_date?: string;
-        user_id?: string;
-      }[];
+          id?: string;
+          completed_quests?: number;
+          failed_quests?: number;
+          completed_percentage?: number;
+          streak_days?: number;
+          completed_quests_each_day?: number[];
+          failed_quests_each_day?: number[];
+          start_date?: string;
+          end_date?: string;
+          user_id?: string;
+        }[];
     };
     GenerateWeeklyReportFeedBackResponse: {
       status: string;
@@ -870,11 +839,16 @@ export interface components {
       badge_id: string;
       name: string;
       description: string;
-      image_type: string;
-      frame_color: string;
+      /** @enum {string} */
+      image_type: "bow" | "cat" | "crown" | "gem" | "horse" | "shield" | "sword";
+      /** @enum {string} */
+      frame_color: "bronze" | "silver" | "gold";
       obtained_at: string;
       is_pinned: boolean;
       unlockable: boolean;
+    };
+    AchieveBadgeRequest: {
+      badge_id: string;
     };
     AchieveBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
       status: string;
