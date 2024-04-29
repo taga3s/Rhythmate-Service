@@ -1,57 +1,13 @@
-export type CreateWeeklyReportResponse = {
-  status: string;
-  id: string;
-  completed_quests: number;
-  failed_quests: number;
-  completed_percentage: number;
-  streak_days: number;
-  completed_quests_each_day: number[];
-  failed_quests_each_day: number[];
-  start_date: string;
-  end_date: string;
-  user_id: string;
-};
+import * as schemaHelper from "../../pkg/schemaHelper";
 
-export type UpdateWeeklyReportResponse = {
-  status: string;
-  id: string;
-  completed_quests: number;
-  failed_quests: number;
-  completed_percentage: number;
-  streak_days: number;
-  completed_quests_each_day: number[];
-  failed_quests_each_day: number[];
-  start_date: string;
-  end_date: string;
-  user_id: string;
-};
+export type ListWeeklyReportResponse = schemaHelper.ResponseData<"/weekly-reports", "get">;
 
-export type ListWeeklyReportResponse = {
-  status: string;
-  weeklyReports: {
-    id: string;
-    completed_quests: number;
-    failed_quests: number;
-    completed_percentage: number;
-    streak_days: number;
-    completed_quests_each_day: number[];
-    failed_quests_each_day: number[];
-    start_date: string;
-    end_date: string;
-    user_id: string;
-  }[];
-};
+export type GetWeeklyReportFeedBackResponse = schemaHelper.ResponseData<
+  "/weekly-reports/feedback/:weeklyReportId",
+  "get"
+>;
 
-export type DeleteWeeklyReportResponse = {
-  status: string;
-};
-
-export type GenerateWeeklyReportFeedBackResponse = {
-  status: string;
-  feedBack: string;
-};
-
-export type GetWeeklyReportFeedBackResponse = {
-  status: string;
-  feedBack: string;
-};
+export type GenerateWeeklyReportFeedBackResponse = schemaHelper.ResponseData<
+  "/weekly-reports/feedback/:weeklyReportId",
+  "post"
+>;

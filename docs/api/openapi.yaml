@@ -28,6 +28,7 @@ paths:
     post:
       tags: ["users"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -116,6 +117,7 @@ paths:
     patch:
       tags: ["users"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -150,6 +152,10 @@ paths:
       responses:
         "200":
           description: "成功"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteUserResponse"
         "400":
           description: "認証エラー"
           content:
@@ -166,6 +172,7 @@ paths:
     post:
       tags: ["quests"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -220,6 +227,7 @@ paths:
     patch:
       tags: ["quests"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -275,6 +283,7 @@ paths:
     patch:
       tags: ["quests"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -308,6 +317,7 @@ paths:
     patch:
       tags: ["quests"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -341,6 +351,7 @@ paths:
     patch:
       tags: ["quests"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -396,17 +407,18 @@ paths:
       tags: ["tags"]
       deprecated: false
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TagsCreateRequest"
+              $ref: "#/components/schemas/CreateTagRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TagsCreateResponse"
+                $ref: "#/components/schemas/CreateTagResponse"
         "400":
           description: "クライアントエラー"
           content:
@@ -429,17 +441,18 @@ paths:
     patch:
       tags: ["tags"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TagsCreateRequest"
+              $ref: "#/components/schemas/UpdateTagRequest"
       responses:
         "200":
           description: "成功"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TagsCreateResponse"
+                $ref: "#/components/schemas/UpdateTagResponse"
         "400":
           description: "クライアントエラー"
           content:
@@ -467,7 +480,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TagsDeleteResponse"
+                $ref: "#/components/schemas/DeleteTagResponse"
         "401":
           description: "認証エラー"
           content:
@@ -480,7 +493,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/weeklyReports":
+  "/weekly-reports":
     get:
       tags: ["weeklyReports"]
       responses:
@@ -502,7 +515,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  "/weeklyReports/feedback/:weeklyReportId":
+  "/weekly-reports/feedback/:weeklyReportId":
     get:
       tags: ["weeklyReports"]
       responses:
@@ -577,6 +590,7 @@ paths:
     patch:
       tags: ["badges"]
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -665,21 +679,39 @@ paths:
 
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        status: { type: string, example: "error" }
+        message: { type: string, example: "errorMsg" }
+      required:
+        - status
+        - message
+
     AuthRequest:
       type: object
       properties:
         id_token:
           type: string
+      required:
+        - id_token
     UpdateLoginUserRequest:
       type: object
       properties:
         name:
           type: string
+        image_src:
+          type: string
+      required:
+        - name
+        - image_src
     AuthResponse:
       type: object
       properties:
         status:
           type: string
+      required:
+        - status
     GetLoginUserResponse:
       type: object
       properties:
@@ -695,18 +727,21 @@ components:
           type: integer
         imageUrl:
           type: string
+      required:
+        - status
+        - name
+        - email
+        - exp
+        - level
+        - imageUrl
     DeleteUserResponse:
       type: object
       properties:
         status:
           type: string
-    ErrorResponse:
-      type: object
-      properties:
-        status: { type: string, example: "error" }
-        message: { type: string, example: "errorMsg" }
       required:
-        - message
+        - status
+
     CreateQuestRequest:
       type: object
       properties:
@@ -729,6 +764,15 @@ components:
         state:
           type: string
           enum: ["INACTIVE", "ACTIVE"]
+      required:
+        - title
+        - description
+        - starts_at
+        - minutes
+        - tag_id
+        - difficulty
+        - days
+        - state
     UpdateQuestRequest:
       type: object
       properties:
@@ -760,6 +804,20 @@ components:
           type: integer
         total_completion_count:
           type: integer
+      required:
+        - title
+        - description
+        - starts_at
+        - started_at
+        - minutes
+        - tag_id
+        - difficulty
+        - state
+        - is_succeeded
+        - continuation_level
+        - days
+        - weekly_completion_count
+        - total_completion_count
     QuestBaseResponse:
       type: object
       properties:
@@ -795,6 +853,22 @@ components:
           type: integer
         total_completion_count:
           type: integer
+      required:
+        - id
+        - title
+        - description
+        - starts_at
+        - started_at
+        - minutes
+        - tag_id
+        - difficulty
+        - state
+        - is_succeeded
+        - days
+        - continuation_level
+        - weekly_frequency
+        - weekly_completion_count
+        - total_completion_count
     CreateQuestResponse:
       allOf:
         - $ref: '#/components/schemas/QuestBaseResponse'
@@ -802,6 +876,22 @@ components:
           properties:
             status:
               type: string
+      required:
+        - id
+        - title
+        - description
+        - starts_at
+        - started_at
+        - minutes
+        - tag_id
+        - difficulty
+        - state
+        - is_succeeded
+        - days
+        - continuation_level
+        - weekly_frequency
+        - weekly_completion_count
+        - total_completion_count
     UpdateQuestResponse:
       allOf:
         - $ref: '#/components/schemas/QuestBaseResponse'
@@ -809,11 +899,29 @@ components:
           properties:
             status:
               type: string
+      required:
+        - id
+        - title
+        - description
+        - starts_at
+        - started_at
+        - minutes
+        - tag_id
+        - difficulty
+        - state
+        - is_succeeded
+        - days
+        - continuation_level
+        - weekly_frequency
+        - weekly_completion_count
+        - total_completion_count
     DeleteQuestResponse:
       type: object
       properties:
         status:
           type: string
+      required:
+        - status
     ListQuestsResponse:
       type: object
       properties:
@@ -823,34 +931,67 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/QuestBaseResponse'
-    TagsCreateRequest:
+      required:
+        - status
+        - quests
+
+    CreateTagRequest:
       type: object
       properties:
         name: { type: string, example: "TechStudy" }
         color: { type: string, example: "Blue" }
       required:
         - name
+        - color
+    UpdateTagRequest:
+      type: object
+      properties:
+        name: { type: string, example: "TechStudy" }
+        color: { type: string, example: "Blue" }
+      required:
+        - name
+        - color
+    TagsBaseResponse:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        color: { type: string }
+      required:
+        - id
+        - name
+        - color
+    CreateTagResponse:
+      allOf:
+        - $ref: '#/components/schemas/TagsBaseResponse'
+        - type: object
+          properties:
+            status: { type: string }
+          required:
+            - status
+    UpdateTagResponse:
+      allOf:
+        - $ref: '#/components/schemas/TagsBaseResponse'
+        - type: object
+          properties:
+            status: { type: string }
+          required:
+            - status
     ListTagsResponse:
       type: object
       properties:
-        tags:
-          {
-            type: array,
-            example:
-              [
-                { id: 1, name: "TechStudy", color: "Blue"},
-                { id: 2, name: "EnglishStudy", color: "Red"},
-                { id: 3, name: "Health", color: "Green"},
-              ],
-          }
-    TagsCreateResponse:
+        status: { type: string }
+        tags: { type: array, items: { $ref: '#/components/schemas/TagsBaseResponse' } }
+      required:
+        - status
+        - tags
+    DeleteTagResponse:
       type: object
       properties:
         status: { type: string, example: "ok" }
-    TagsDeleteResponse:
-      type: object
-      properties:
-        status: { type: string, example: "ok" }
+      required:
+        - status
+
     ListWeeklyReportResponse:
       type: object
       properties:
@@ -870,16 +1011,25 @@ components:
               start_date: { type: string }
               end_date: { type: string }
               user_id: { type: string }
+      required:
+        - status
+        - weeklyReports
     GenerateWeeklyReportFeedBackResponse:
       type: object
       properties:
         status: { type: string }
         feedBack: { type: string }
+      required:
+        - status
+        - feedBack
     GetWeeklyReportFeedBackResponse:
       type: object
       properties:
         status: { type: string }
         feedBack: { type: string }
+      required:
+        - status
+        - feedBack
     
     BadgeBaseResponse:
       type: object
@@ -892,26 +1042,44 @@ components:
         obtained_at: { type: string }
         is_pinned: { type: boolean }
         unlockable: { type: boolean }
+      required:
+        - badge_id
+        - name
+        - description
+        - image_type
+        - frame_color
+        - obtained_at
+        - is_pinned
+        - unlockable
     AchieveBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
         - type: object
           properties:
             status: { type: string }
+          required:
+            - status
     ListBadgeResponse:
       type: object
       properties:
         status: { type: string }
-        quests: { type: array, items: { $ref: '#/components/schemas/BadgeBaseResponse' } }
+        badgesWithDetail: { type: array, items: { $ref: '#/components/schemas/BadgeBaseResponse' } }
+      required:
+        - status
+        - badgesWithDetail
     PinBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
         - type: object
           properties:
             status: { type: string }
+          required:
+            - status
     UnpinBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
         - type: object
           properties:
             status: { type: string }
+          required:
+            - status

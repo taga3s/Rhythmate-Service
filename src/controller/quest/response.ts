@@ -1,3 +1,19 @@
+import * as schemaHelper from "../../pkg/schemaHelper";
+
+export type CreateQuestResponse = schemaHelper.ResponseData<"/quests", "post">;
+
+export type UpdateQuestResponse = schemaHelper.ResponseData<"/quests/:id", "patch">;
+
+export type DeleteQuestResponse = schemaHelper.ResponseData<"/quests/:id", "delete">;
+
+export type ListQuestsResponse = schemaHelper.ResponseData<"/quests", "get">;
+
+export type StartQuestResponse = schemaHelper.ResponseData<"/quests/start/:id", "patch">;
+
+export type FinishQuestResponse = schemaHelper.ResponseData<"/quests/finish/:id", "patch">;
+
+export type ForceFinishQuestResponse = schemaHelper.ResponseData<"/quests/force-finish/:id", "patch">;
+
 type QuestBaseResponse = {
   id: string;
   title: string;
@@ -14,35 +30,6 @@ type QuestBaseResponse = {
   weekly_frequency: number;
   weekly_completion_count: number;
   total_completion_count: number;
-};
-
-export type CreateQuestResponse = QuestBaseResponse & {
-  status: string;
-};
-
-export type UpdateQuestResponse = QuestBaseResponse & {
-  status: string;
-};
-
-export type DeleteQuestResponse = {
-  status: string;
-};
-
-export type ListQuestsResponse = {
-  status: string;
-  quests: QuestBaseResponse[];
-};
-
-export type StartQuestResponse = QuestBaseResponse & {
-  status: string;
-};
-
-export type FinishQuestResponse = QuestBaseResponse & {
-  status: string;
-};
-
-export type ForceFinishQuestResponse = QuestBaseResponse & {
-  status: string;
 };
 
 export const toQuestBaseResponse = (obj: {

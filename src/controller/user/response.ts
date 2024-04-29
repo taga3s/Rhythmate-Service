@@ -1,25 +1,9 @@
-export type AuthResponse = {
-  status: string;
-};
+import * as schemaHelper from "../../pkg/schemaHelper";
 
-export type GetLoginUserResponse = {
-  status: string;
-  name: string;
-  email: string;
-  exp: number;
-  level: number;
-  imageUrl: string;
-};
+export type AuthResponse = schemaHelper.ResponseData<"/users/auth", "post">;
 
-export type UpdateLoginUserResponse = {
-  status: string;
-  name: string;
-  email: string;
-  exp: number;
-  level: number;
-  imageUrl: string;
-};
+export type GetLoginUserResponse = schemaHelper.ResponseData<"/users/me", "get">;
 
-export type DeleteUserResponse = {
-  status: string;
-};
+export type UpdateLoginUserResponse = schemaHelper.ResponseData<"/users/me", "patch">;
+
+export type DeleteUserResponse = schemaHelper.ResponseData<"/users/me", "delete">;
