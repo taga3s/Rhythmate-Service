@@ -15,11 +15,11 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
     // jwtを生成し、クッキーにセットする
     const jwt = generateToken(outputDTO.id, outputDTO.email);
     res.cookie("access_token", jwt, {
-      expires: new Date(Date.now() + 12 * 3600000),
       path: "/",
       httpOnly: true,
       secure: true,
       sameSite: "none",
+      maxAge: 60 * 60 * 1000 * 7,
     });
     const response: AuthResponse = { status: "ok" };
     return res.status(200).json(response);
