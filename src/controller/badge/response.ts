@@ -1,27 +1,9 @@
-type BadgeBaseResponse = {
-  badge_id: string;
-  name: string;
-  description: string;
-  image_type: string;
-  frame_color: string;
-  obtained_at: string;
-  is_pinned: boolean;
-  unlockable: boolean;
-};
+import * as schemaHelper from "../../pkg/schemaHelper";
 
-export type AchieveBadgeResponse = BadgeBaseResponse & {
-  status: string;
-};
+export type AchieveBadgeResponse = schemaHelper.ResponseData<"/badges/:id", "patch">;
 
-export type ListBadgesResponse = {
-  status: string;
-  badgesWithDetail: BadgeBaseResponse[];
-};
+export type ListBadgesResponse = schemaHelper.ResponseData<"/badges", "get">;
 
-export type PinBadgeResponse = BadgeBaseResponse & {
-  status: string;
-};
+export type PinBadgeResponse = schemaHelper.ResponseData<"/badges/pin/:id", "patch">;
 
-export type UnpinBadgeResponse = BadgeBaseResponse & {
-  status: string;
-};
+export type UnpinBadgeResponse = schemaHelper.ResponseData<"/badges/unpin/:id", "patch">;

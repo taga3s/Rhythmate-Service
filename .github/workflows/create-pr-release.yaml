@@ -1,0 +1,38 @@
+name: Create PR Release
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set current datetime as env variable
+        env:
+          TZ: "Asia/Tokyo"
+        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+
+      - name: Check If PullRequest Exists
+        id: check_pr
+        env:
+          HEAD_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          COMMIT_MESSAGE=$(echo "${HEAD_MESSAGE}" | sed -n -e 1p)
+          echo "message=${COMMIT_MESSAGE}" >> "$GITHUB_OUTPUT"
+          echo "count=$(gh pr list -S 本番反映 | wc -l)" >> "$GITHUB_OUTPUT"
+
+      - name: Create Release PullRequest
+        if: ${{ steps.check_pr.outputs.count == 0 }}
+        run: |
+          gh pr create \
+            -B main \
+            -t '【本番反映】${{ env.CURRENT_DATETIME }}' \
+            -a ${{ github.actor }}  \
+            -F ./.github/release_workflow_template.md

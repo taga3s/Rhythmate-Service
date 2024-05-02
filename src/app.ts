@@ -3,11 +3,11 @@ import express from "express";
 import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter, badgeRouter } from "./route";
 import { cookie } from "express-validator";
 import cookieParser from "cookie-parser";
-import { allowCrossDomain } from "./core/cors";
 import { logger } from "./pkg/logger";
 import { requestsLogger } from "./route/middlewares/requestsLogger";
 import { badgeCronJob, weeklyReportCronJob, questCronJob } from "./cron-job";
 import helmet from "helmet";
+import cors from "cors";
 
 const app = express();
 
@@ -23,7 +23,12 @@ app.use(helmet());
 app.use(requestsLogger);
 
 // cors
-app.use(allowCrossDomain);
+app.use(
+  cors({
+    origin: process.env.ORIGIN_URL,
+    credentials: true,
+  }),
+);
 
 // routing
 app.use("/v1/users", userRouter);
