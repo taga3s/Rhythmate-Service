@@ -3,7 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-
 /** WithRequired type helpers */
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
@@ -768,12 +767,46 @@ export interface components {
       weekly_completion_count: number;
       total_completion_count: number;
     };
-    CreateQuestResponse: WithRequired<components["schemas"]["QuestBaseResponse"] & {
-      status?: string;
-    }, "id" | "title" | "description" | "starts_at" | "started_at" | "minutes" | "tag_id" | "difficulty" | "state" | "is_succeeded" | "days" | "continuation_level" | "weekly_frequency" | "weekly_completion_count" | "total_completion_count">;
-    UpdateQuestResponse: WithRequired<components["schemas"]["QuestBaseResponse"] & {
-      status?: string;
-    }, "id" | "title" | "description" | "starts_at" | "started_at" | "minutes" | "tag_id" | "difficulty" | "state" | "is_succeeded" | "days" | "continuation_level" | "weekly_frequency" | "weekly_completion_count" | "total_completion_count">;
+    CreateQuestResponse: WithRequired<
+      components["schemas"]["QuestBaseResponse"] & {
+        status?: string;
+      },
+      | "id"
+      | "title"
+      | "description"
+      | "starts_at"
+      | "started_at"
+      | "minutes"
+      | "tag_id"
+      | "difficulty"
+      | "state"
+      | "is_succeeded"
+      | "days"
+      | "continuation_level"
+      | "weekly_frequency"
+      | "weekly_completion_count"
+      | "total_completion_count"
+    >;
+    UpdateQuestResponse: WithRequired<
+      components["schemas"]["QuestBaseResponse"] & {
+        status?: string;
+      },
+      | "id"
+      | "title"
+      | "description"
+      | "starts_at"
+      | "started_at"
+      | "minutes"
+      | "tag_id"
+      | "difficulty"
+      | "state"
+      | "is_succeeded"
+      | "days"
+      | "continuation_level"
+      | "weekly_frequency"
+      | "weekly_completion_count"
+      | "total_completion_count"
+    >;
     DeleteQuestResponse: {
       status: string;
     };
@@ -815,17 +848,17 @@ export interface components {
     ListWeeklyReportResponse: {
       status: string;
       weeklyReports: {
-          id?: string;
-          completed_quests?: number;
-          failed_quests?: number;
-          completed_percentage?: number;
-          streak_days?: number;
-          completed_quests_each_day?: number[];
-          failed_quests_each_day?: number[];
-          start_date?: string;
-          end_date?: string;
-          user_id?: string;
-        }[];
+        id?: string;
+        completed_quests?: number;
+        failed_quests?: number;
+        completed_percentage?: number;
+        streak_days?: number;
+        completed_quests_each_day?: number[];
+        failed_quests_each_day?: number[];
+        start_date?: string;
+        end_date?: string;
+        user_id?: string;
+      }[];
     };
     GenerateWeeklyReportFeedBackResponse: {
       status: string;
@@ -857,8 +890,14 @@ export interface components {
       status: string;
       badgesWithDetail: components["schemas"]["BadgeBaseResponse"][];
     };
+    PinBadgeRequest: {
+      badge_id: string;
+    };
     PinBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
       status: string;
+    };
+    UnpinBadgeRequest: {
+      badge_id: string;
     };
     UnpinBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
       status: string;

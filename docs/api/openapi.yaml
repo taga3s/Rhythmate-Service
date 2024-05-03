@@ -1076,6 +1076,12 @@ components:
       required:
         - status
         - badgesWithDetail
+    PinBadgeRequest:
+      type: object
+      properties:
+        badge_id: { type: string }
+      required:
+        - badge_id
     PinBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
@@ -1084,6 +1090,12 @@ components:
             status: { type: string }
           required:
             - status
+    UnpinBadgeRequest:
+      type: object
+      properties:
+        badge_id: { type: string }
+      required:
+        - badge_id
     UnpinBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
