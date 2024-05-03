@@ -631,6 +631,11 @@ export interface paths {
   };
   "/badges/pin/:id": {
     patch: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["PinBadgeRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {
@@ -661,6 +666,11 @@ export interface paths {
   };
   "/badges/unpin/:id": {
     patch: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["UnpinBadgeRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {

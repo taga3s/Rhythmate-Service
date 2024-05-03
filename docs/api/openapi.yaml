@@ -623,6 +623,12 @@ paths:
   "/badges/pin/:id":
     patch:
       tags: ["badges"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PinBadgeRequest"
       responses:
         "200":
           description: "成功"
@@ -651,6 +657,12 @@ paths:
   "/badges/unpin/:id":
     patch:
       tags: ["badges"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnpinBadgeRequest"
       responses:
         "200":
           description: "成功"
