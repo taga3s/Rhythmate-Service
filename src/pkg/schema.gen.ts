@@ -444,6 +444,11 @@ export interface paths {
   };
   "/tags/:id": {
     delete: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["DeleteTagRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {
@@ -847,6 +852,9 @@ export interface components {
       name: string;
       /** @example Blue */
       color: string;
+    };
+    DeleteTagRequest: {
+      id: string;
     };
     TagsBaseResponse: {
       id: string;

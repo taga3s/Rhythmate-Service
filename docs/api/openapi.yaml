@@ -480,6 +480,12 @@ paths:
     delete:
       tags: ["tags"]
       deprecated: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteTagRequest"
       responses:
         "200":
           description: "成功"
@@ -986,6 +992,12 @@ components:
       required:
         - name
         - color
+    DeleteTagRequest:
+      type: object
+      properties:
+        id: { type: string }
+      required:
+        - id
     TagsBaseResponse:
       type: object
       properties:
