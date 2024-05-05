@@ -750,6 +750,7 @@ export interface components {
       state: "INACTIVE" | "ACTIVE";
     };
     UpdateQuestRequest: {
+      id?: string;
       title: string;
       description: string;
       starts_at: string;

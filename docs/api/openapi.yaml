@@ -796,6 +796,8 @@ components:
     UpdateQuestRequest:
       type: object
       properties:
+        id:
+          type: string
         title:
           type: string
         description:
