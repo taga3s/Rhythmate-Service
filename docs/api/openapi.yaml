@@ -987,6 +987,7 @@ components:
     UpdateTagRequest:
       type: object
       properties:
+        id: { type: string }
         name: { type: string, example: "TechStudy" }
         color: { type: string, example: "Blue" }
       required:

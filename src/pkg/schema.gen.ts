@@ -848,6 +848,7 @@ export interface components {
       color: string;
     };
     UpdateTagRequest: {
+      id?: string;
       /** @example TechStudy */
       name: string;
       /** @example Blue */
