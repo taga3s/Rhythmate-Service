@@ -514,7 +514,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListWeeklyReportResponse"
+                $ref: "#/components/schemas/ListWeeklyReportsResponse"
         "401":
           description: "認証エラー"
           content:
@@ -530,6 +530,12 @@ paths:
   "/weekly-reports/feedback/:weeklyReportId":
     get:
       tags: ["weeklyReports"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateWeeklyReportFeedBackRequest"
       responses:
         "200":
           description: "成功"
@@ -1041,7 +1047,13 @@ components:
       required:
         - status
 
-    ListWeeklyReportResponse:
+    GenerateWeeklyReportFeedBackRequest:
+      type: object
+      properties:
+        weeklyReportId: { type: string }
+      required:
+        - weeklyReportId
+    ListWeeklyReportsResponse:
       type: object
       properties:
         status: { type: string }
@@ -1060,6 +1072,17 @@ components:
               start_date: { type: string }
               end_date: { type: string }
               user_id: { type: string }
+            required:
+              - id
+              - completed_quests
+              - failed_quests
+              - completed_percentage
+              - streak_days
+              - completed_quests_each_day
+              - failed_quests_each_day
+              - start_date
+              - end_date
+              - user_id
       required:
         - status
         - weeklyReports

@@ -510,7 +510,7 @@ export interface paths {
         /** @description 成功 */
         200: {
           content: {
-            "application/json": components["schemas"]["ListWeeklyReportResponse"];
+            "application/json": components["schemas"]["ListWeeklyReportsResponse"];
           };
         };
         /** @description 認証エラー */
@@ -530,6 +530,11 @@ export interface paths {
   };
   "/weekly-reports/feedback/:weeklyReportId": {
     get: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["GenerateWeeklyReportFeedBackRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {
@@ -876,19 +881,22 @@ export interface components {
       /** @example ok */
       status: string;
     };
-    ListWeeklyReportResponse: {
+    GenerateWeeklyReportFeedBackRequest: {
+      weeklyReportId: string;
+    };
+    ListWeeklyReportsResponse: {
       status: string;
       weeklyReports: {
-        id?: string;
-        completed_quests?: number;
-        failed_quests?: number;
-        completed_percentage?: number;
-        streak_days?: number;
-        completed_quests_each_day?: number[];
-        failed_quests_each_day?: number[];
-        start_date?: string;
-        end_date?: string;
-        user_id?: string;
+        id: string;
+        completed_quests: number;
+        failed_quests: number;
+        completed_percentage: number;
+        streak_days: number;
+        completed_quests_each_day: number[];
+        failed_quests_each_day: number[];
+        start_date: string;
+        end_date: string;
+        user_id: string;
       }[];
     };
     GenerateWeeklyReportFeedBackResponse: {
