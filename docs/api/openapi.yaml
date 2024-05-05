@@ -528,7 +528,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
   "/weekly-reports/feedback/:weeklyReportId":
-    get:
+    post:
       tags: ["weeklyReports"]
       requestBody:
         required: true
@@ -536,27 +536,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/GenerateWeeklyReportFeedBackRequest"
-      responses:
-        "200":
-          description: "成功"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GetWeeklyReportFeedBackResponse"
-        "401":
-          description: "認証エラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "500":
-          description: "サーバーエラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-    post:
-      tags: ["weeklyReports"]
       responses:
         "200":
           description: "成功"
@@ -1087,14 +1066,6 @@ components:
         - status
         - weeklyReports
     GenerateWeeklyReportFeedBackResponse:
-      type: object
-      properties:
-        status: { type: string }
-        feedBack: { type: string }
-      required:
-        - status
-        - feedBack
-    GetWeeklyReportFeedBackResponse:
       type: object
       properties:
         status: { type: string }

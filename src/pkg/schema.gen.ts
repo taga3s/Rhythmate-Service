@@ -529,34 +529,12 @@ export interface paths {
     };
   };
   "/weekly-reports/feedback/:weeklyReportId": {
-    get: {
+    post: {
       requestBody: {
         content: {
           "application/json": components["schemas"]["GenerateWeeklyReportFeedBackRequest"];
         };
       };
-      responses: {
-        /** @description 成功 */
-        200: {
-          content: {
-            "application/json": components["schemas"]["GetWeeklyReportFeedBackResponse"];
-          };
-        };
-        /** @description 認証エラー */
-        401: {
-          content: {
-            "application/json": components["schemas"]["ErrorResponse"];
-          };
-        };
-        /** @description サーバーエラー */
-        500: {
-          content: {
-            "application/json": components["schemas"]["ErrorResponse"];
-          };
-        };
-      };
-    };
-    post: {
       responses: {
         /** @description 成功 */
         200: {
@@ -900,10 +878,6 @@ export interface components {
       }[];
     };
     GenerateWeeklyReportFeedBackResponse: {
-      status: string;
-      feedBack: string;
-    };
-    GetWeeklyReportFeedBackResponse: {
       status: string;
       feedBack: string;
     };
