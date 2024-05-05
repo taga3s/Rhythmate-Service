@@ -991,6 +991,7 @@ components:
         name: { type: string, example: "TechStudy" }
         color: { type: string, example: "Blue" }
       required:
+        - id
         - name
         - color
     DeleteTagRequest:
