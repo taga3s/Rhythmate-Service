@@ -260,6 +260,12 @@ paths:
     delete:
       tags: ["quests"]
       deprecated: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteQuestRequest"
       responses:
         "200":
           description: "成功"
@@ -769,10 +775,12 @@ components:
           type: string
         difficulty:
           type: string
+          enum: ["EASY", "NORMAL", "HARD"]
         days:
           type: array
           items:
             type: string
+            enum: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
         state:
           type: string
           enum: ["INACTIVE", "ACTIVE"]
@@ -802,8 +810,10 @@ components:
           type: string
         difficulty:
           type: string
+          enum: ["EASY", "NORMAL", "HARD"]
         state:
           type: string
+          enum: ["INACTIVE", "ACTIVE"]
         is_succeeded:
           type: boolean
         continuation_level:
@@ -812,6 +822,7 @@ components:
           type: array
           items:
             type: string
+            enum: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
         weekly_completion_count:
           type: integer
         total_completion_count:
@@ -830,6 +841,13 @@ components:
         - days
         - weekly_completion_count
         - total_completion_count
+    DeleteQuestRequest:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
     QuestBaseResponse:
       type: object
       properties:

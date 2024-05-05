@@ -220,6 +220,11 @@ export interface paths {
   };
   "/quests/:id": {
     delete: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["DeleteQuestRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {
@@ -738,8 +743,9 @@ export interface components {
       starts_at: string;
       minutes: number;
       tag_id: string;
-      difficulty: string;
-      days: string[];
+      /** @enum {string} */
+      difficulty: "EASY" | "NORMAL" | "HARD";
+      days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
       /** @enum {string} */
       state: "INACTIVE" | "ACTIVE";
     };
@@ -750,13 +756,18 @@ export interface components {
       started_at: string;
       minutes: number;
       tag_id: string;
-      difficulty: string;
-      state: string;
+      /** @enum {string} */
+      difficulty: "EASY" | "NORMAL" | "HARD";
+      /** @enum {string} */
+      state: "INACTIVE" | "ACTIVE";
       is_succeeded: boolean;
       continuation_level: number;
-      days: string[];
+      days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
       weekly_completion_count: number;
       total_completion_count: number;
+    };
+    DeleteQuestRequest: {
+      id: string;
     };
     QuestBaseResponse: {
       id: string;
