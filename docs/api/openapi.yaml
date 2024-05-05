@@ -1048,6 +1048,7 @@ components:
               streak_days: { type: integer }
               completed_quests_each_day: { type: array, items: { type: integer } }
               failed_quests_each_day: { type: array, items: { type: integer } }
+              feedback: { type: string }
               start_date: { type: string }
               end_date: { type: string }
               user_id: { type: string }

@@ -872,6 +872,7 @@ export interface components {
         streak_days: number;
         completed_quests_each_day: number[];
         failed_quests_each_day: number[];
+        feedback?: string;
         start_date: string;
         end_date: string;
         user_id: string;
