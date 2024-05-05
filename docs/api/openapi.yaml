@@ -1060,6 +1060,7 @@ components:
               - streak_days
               - completed_quests_each_day
               - failed_quests_each_day
+              - feedback
               - start_date
               - end_date
               - user_id
