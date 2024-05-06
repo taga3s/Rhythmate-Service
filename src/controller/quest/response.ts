@@ -22,10 +22,10 @@ type QuestBaseResponse = {
   started_at: string;
   minutes: number;
   tag_id: string;
-  difficulty: string;
-  state: string;
+  difficulty: "EASY" | "NORMAL" | "HARD";
+  state: "INACTIVE" | "ACTIVE";
   is_succeeded: boolean;
-  days: string[];
+  days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
   continuation_level: number;
   weekly_frequency: number;
   weekly_completion_count: number;
@@ -57,11 +57,11 @@ export const toQuestBaseResponse = (obj: {
     started_at: obj.startedAt,
     minutes: obj.minutes,
     tag_id: obj.tagId,
-    difficulty: obj.difficulty,
-    state: obj.state,
+    difficulty: obj.difficulty as "EASY" | "NORMAL" | "HARD",
+    state: obj.state as "INACTIVE" | "ACTIVE",
     is_succeeded: obj.isSucceeded,
     continuation_level: obj.continuationLevel,
-    days: obj.days,
+    days: obj.days as ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[],
     weekly_frequency: obj.weeklyFrequency,
     weekly_completion_count: obj.weeklyCompletionCount,
     total_completion_count: obj.totalCompletionCount,
