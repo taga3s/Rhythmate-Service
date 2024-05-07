@@ -220,6 +220,11 @@ export interface paths {
   };
   "/quests/:id": {
     delete: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["DeleteQuestRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {
@@ -439,6 +444,11 @@ export interface paths {
   };
   "/tags/:id": {
     delete: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["DeleteTagRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {
@@ -500,7 +510,7 @@ export interface paths {
         /** @description 成功 */
         200: {
           content: {
-            "application/json": components["schemas"]["ListWeeklyReportResponse"];
+            "application/json": components["schemas"]["ListWeeklyReportsResponse"];
           };
         };
         /** @description 認証エラー */
@@ -519,29 +529,12 @@ export interface paths {
     };
   };
   "/weekly-reports/feedback/:weeklyReportId": {
-    get: {
-      responses: {
-        /** @description 成功 */
-        200: {
-          content: {
-            "application/json": components["schemas"]["GetWeeklyReportFeedBackResponse"];
-          };
-        };
-        /** @description 認証エラー */
-        401: {
-          content: {
-            "application/json": components["schemas"]["ErrorResponse"];
-          };
-        };
-        /** @description サーバーエラー */
-        500: {
-          content: {
-            "application/json": components["schemas"]["ErrorResponse"];
-          };
+    post: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["GenerateWeeklyReportFeedBackRequest"];
         };
       };
-    };
-    post: {
       responses: {
         /** @description 成功 */
         200: {
@@ -598,7 +591,7 @@ export interface paths {
     patch: {
       requestBody: {
         content: {
-          "application/json": components["schemas"]["UpdateQuestRequest"];
+          "application/json": components["schemas"]["AchieveBadgeRequest"];
         };
       };
       responses: {
@@ -631,6 +624,11 @@ export interface paths {
   };
   "/badges/pin/:id": {
     patch: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["PinBadgeRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {
@@ -661,6 +659,11 @@ export interface paths {
   };
   "/badges/unpin/:id": {
     patch: {
+      requestBody: {
+        content: {
+          "application/json": components["schemas"]["UnpinBadgeRequest"];
+        };
+      };
       responses: {
         /** @description 成功 */
         200: {
@@ -728,25 +731,32 @@ export interface components {
       starts_at: string;
       minutes: number;
       tag_id: string;
-      difficulty: string;
-      days: string[];
+      /** @enum {string} */
+      difficulty: "EASY" | "NORMAL" | "HARD";
+      days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
       /** @enum {string} */
       state: "INACTIVE" | "ACTIVE";
     };
     UpdateQuestRequest: {
+      id?: string;
       title: string;
       description: string;
       starts_at: string;
       started_at: string;
       minutes: number;
       tag_id: string;
-      difficulty: string;
-      state: string;
+      /** @enum {string} */
+      difficulty: "EASY" | "NORMAL" | "HARD";
+      /** @enum {string} */
+      state: "INACTIVE" | "ACTIVE";
       is_succeeded: boolean;
       continuation_level: number;
-      days: string[];
+      days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
       weekly_completion_count: number;
       total_completion_count: number;
+    };
+    DeleteQuestRequest: {
+      id: string;
     };
     QuestBaseResponse: {
       id: string;
@@ -756,10 +766,12 @@ export interface components {
       started_at: string;
       minutes: number;
       tag_id: string;
-      difficulty: string;
-      state: string;
+      /** @enum {string} */
+      difficulty: "EASY" | "NORMAL" | "HARD";
+      /** @enum {string} */
+      state: "INACTIVE" | "ACTIVE";
       is_succeeded: boolean;
-      days: string[];
+      days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
       continuation_level: number;
       weekly_frequency: number;
       weekly_completion_count: number;
@@ -819,10 +831,14 @@ export interface components {
       color: string;
     };
     UpdateTagRequest: {
+      id: string;
       /** @example TechStudy */
       name: string;
       /** @example Blue */
       color: string;
+    };
+    DeleteTagRequest: {
+      id: string;
     };
     TagsBaseResponse: {
       id: string;
@@ -843,26 +859,26 @@ export interface components {
       /** @example ok */
       status: string;
     };
-    ListWeeklyReportResponse: {
+    GenerateWeeklyReportFeedBackRequest: {
+      weeklyReportId: string;
+    };
+    ListWeeklyReportsResponse: {
       status: string;
       weeklyReports: {
-        id?: string;
-        completed_quests?: number;
-        failed_quests?: number;
-        completed_percentage?: number;
-        streak_days?: number;
-        completed_quests_each_day?: number[];
-        failed_quests_each_day?: number[];
-        start_date?: string;
-        end_date?: string;
-        user_id?: string;
+        id: string;
+        completed_quests: number;
+        failed_quests: number;
+        completed_percentage: number;
+        streak_days: number;
+        completed_quests_each_day: number[];
+        failed_quests_each_day: number[];
+        feedback: string;
+        start_date: string;
+        end_date: string;
+        user_id: string;
       }[];
     };
     GenerateWeeklyReportFeedBackResponse: {
-      status: string;
-      feedBack: string;
-    };
-    GetWeeklyReportFeedBackResponse: {
       status: string;
       feedBack: string;
     };
@@ -870,11 +886,16 @@ export interface components {
       badge_id: string;
       name: string;
       description: string;
-      image_type: string;
-      frame_color: string;
+      /** @enum {string} */
+      image_type: "bow" | "cat" | "crown" | "gem" | "horse" | "shield" | "sword";
+      /** @enum {string} */
+      frame_color: "bronze" | "silver" | "gold";
       obtained_at: string;
       is_pinned: boolean;
       unlockable: boolean;
+    };
+    AchieveBadgeRequest: {
+      badge_id: string;
     };
     AchieveBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
       status: string;
@@ -883,8 +904,14 @@ export interface components {
       status: string;
       badgesWithDetail: components["schemas"]["BadgeBaseResponse"][];
     };
+    PinBadgeRequest: {
+      badge_id: string;
+    };
     PinBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
       status: string;
+    };
+    UnpinBadgeRequest: {
+      badge_id: string;
     };
     UnpinBadgeResponse: components["schemas"]["BadgeBaseResponse"] & {
       status: string;

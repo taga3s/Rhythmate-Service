@@ -260,6 +260,12 @@ paths:
     delete:
       tags: ["quests"]
       deprecated: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteQuestRequest"
       responses:
         "200":
           description: "成功"
@@ -474,6 +480,12 @@ paths:
     delete:
       tags: ["tags"]
       deprecated: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteTagRequest"
       responses:
         "200":
           description: "成功"
@@ -502,7 +514,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ListWeeklyReportResponse"
+                $ref: "#/components/schemas/ListWeeklyReportsResponse"
         "401":
           description: "認証エラー"
           content:
@@ -516,29 +528,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
   "/weekly-reports/feedback/:weeklyReportId":
-    get:
-      tags: ["weeklyReports"]
-      responses:
-        "200":
-          description: "成功"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GetWeeklyReportFeedBackResponse"
-        "401":
-          description: "認証エラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "500":
-          description: "サーバーエラー"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags: ["weeklyReports"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateWeeklyReportFeedBackRequest"
       responses:
         "200":
           description: "成功"
@@ -594,7 +591,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateQuestRequest"
+              $ref: "#/components/schemas/AchieveBadgeRequest"
       responses:
         "200":
           description: "成功"
@@ -623,6 +620,12 @@ paths:
   "/badges/pin/:id":
     patch:
       tags: ["badges"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PinBadgeRequest"
       responses:
         "200":
           description: "成功"
@@ -651,6 +654,12 @@ paths:
   "/badges/unpin/:id":
     patch:
       tags: ["badges"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UnpinBadgeRequest"
       responses:
         "200":
           description: "成功"
@@ -757,10 +766,12 @@ components:
           type: string
         difficulty:
           type: string
+          enum: ["EASY", "NORMAL", "HARD"]
         days:
           type: array
           items:
             type: string
+            enum: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
         state:
           type: string
           enum: ["INACTIVE", "ACTIVE"]
@@ -776,6 +787,8 @@ components:
     UpdateQuestRequest:
       type: object
       properties:
+        id:
+          type: string
         title:
           type: string
         description:
@@ -790,8 +803,10 @@ components:
           type: string
         difficulty:
           type: string
+          enum: ["EASY", "NORMAL", "HARD"]
         state:
           type: string
+          enum: ["INACTIVE", "ACTIVE"]
         is_succeeded:
           type: boolean
         continuation_level:
@@ -800,6 +815,7 @@ components:
           type: array
           items:
             type: string
+            enum: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
         weekly_completion_count:
           type: integer
         total_completion_count:
@@ -818,6 +834,13 @@ components:
         - days
         - weekly_completion_count
         - total_completion_count
+    DeleteQuestRequest:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
     QuestBaseResponse:
       type: object
       properties:
@@ -837,14 +860,17 @@ components:
           type: string
         difficulty:
           type: string
+          enum: ["EASY", "NORMAL", "HARD"]
         state:
           type: string
+          enum: ["INACTIVE", "ACTIVE"]
         is_succeeded:
           type: boolean
         days:
           type: array
           items:
             type: string
+            enum: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
         continuation_level:
           type: integer
         weekly_frequency:
@@ -946,11 +972,19 @@ components:
     UpdateTagRequest:
       type: object
       properties:
+        id: { type: string }
         name: { type: string, example: "TechStudy" }
         color: { type: string, example: "Blue" }
       required:
+        - id
         - name
         - color
+    DeleteTagRequest:
+      type: object
+      properties:
+        id: { type: string }
+      required:
+        - id
     TagsBaseResponse:
       type: object
       properties:
@@ -992,7 +1026,13 @@ components:
       required:
         - status
 
-    ListWeeklyReportResponse:
+    GenerateWeeklyReportFeedBackRequest:
+      type: object
+      properties:
+        weeklyReportId: { type: string }
+      required:
+        - weeklyReportId
+    ListWeeklyReportsResponse:
       type: object
       properties:
         status: { type: string }
@@ -1008,21 +1048,26 @@ components:
               streak_days: { type: integer }
               completed_quests_each_day: { type: array, items: { type: integer } }
               failed_quests_each_day: { type: array, items: { type: integer } }
+              feedback: { type: string }
               start_date: { type: string }
               end_date: { type: string }
               user_id: { type: string }
+            required:
+              - id
+              - completed_quests
+              - failed_quests
+              - completed_percentage
+              - streak_days
+              - completed_quests_each_day
+              - failed_quests_each_day
+              - feedback
+              - start_date
+              - end_date
+              - user_id
       required:
         - status
         - weeklyReports
     GenerateWeeklyReportFeedBackResponse:
-      type: object
-      properties:
-        status: { type: string }
-        feedBack: { type: string }
-      required:
-        - status
-        - feedBack
-    GetWeeklyReportFeedBackResponse:
       type: object
       properties:
         status: { type: string }
@@ -1037,8 +1082,8 @@ components:
         badge_id: { type: string }
         name: { type: string }
         description: { type: string }
-        image_type: { type: string }
-        frame_color: { type: string }
+        image_type: { type: string, enum:  ["bow", "cat", "crown", "gem", "horse", "shield", "sword"] }
+        frame_color: { type: string, enum: ["bronze", "silver", "gold"] }
         obtained_at: { type: string }
         is_pinned: { type: boolean }
         unlockable: { type: boolean }
@@ -1051,6 +1096,12 @@ components:
         - obtained_at
         - is_pinned
         - unlockable
+    AchieveBadgeRequest:
+      type: object
+      properties:
+        badge_id: { type: string }
+      required:
+        - badge_id
     AchieveBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
@@ -1067,6 +1118,12 @@ components:
       required:
         - status
         - badgesWithDetail
+    PinBadgeRequest:
+      type: object
+      properties:
+        badge_id: { type: string }
+      required:
+        - badge_id
     PinBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
@@ -1075,6 +1132,12 @@ components:
             status: { type: string }
           required:
             - status
+    UnpinBadgeRequest:
+      type: object
+      properties:
+        badge_id: { type: string }
+      required:
+        - badge_id
     UnpinBadgeResponse:
       allOf:
         - $ref: '#/components/schemas/BadgeBaseResponse'
