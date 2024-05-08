@@ -19,7 +19,7 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      maxAge: 60 * 60 * 1000 * 7,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     });
     const response: AuthResponse = { status: "ok" };
     return res.status(200).json(response);
