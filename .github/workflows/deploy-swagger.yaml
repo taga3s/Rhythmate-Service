@@ -4,17 +4,12 @@ on:
   push:
     branches:
       - develop
-  pull_request:
-    branches:
-      - develop
-    types:
-      - closed
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Chekcout code
+      - name: Checkout code
         uses: actions/checkout@v4
       - name: Install swagger-cli
         run: npm install -g swagger-cli
@@ -23,14 +18,11 @@ jobs:
         with:
           output: swagger-ui
           spec-file: docs/api/openapi.yaml
-      - name: Upload Documents
+      - name: Upload documents
         uses: actions/upload-pages-artifact@v3
         with:
-          # 絶対パスを指定
           path: swagger-ui
 
-  # Deploy the artifact to GitHub pages.
-  # This is a separate job so that only actions/deploy-pages has the necessary permissions.
   deploy:
     needs: build
     runs-on: ubuntu-latest
