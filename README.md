@@ -1,20 +1,31 @@
 # Rhythmate-Service
 
-ゲーム感覚で習慣化を楽しむ「Rhythmate」のバックエンドです。
+ゲーム感覚で習慣化を楽しめるサービス**Rhythmate**のバックエンドです。  
+フロントエンドは[こちら](https://github.com/ayanami77/Rhythmate-Web)
 
-## 概要
+## 開発期間
+- 2024/02 - 2024/05
 
-Rhythmate のバックエンドです。
+## 主な技術スタック
 
-## 技術スタック
+- 言語
+  - TypeScript
 
-- Express
-- TypeScript
-- Prisma
-- postgresql
-- firebase
-- biome
-- jest
+- フレームワーク・ライブラリ
+  - Express
+  - Prisma
+
+- DB
+  - PostgreSQL
+  - Firebase Storage 
+
+- PaaS
+  - koyeb
+
+- その他
+  - Gemini API
+  - Biome
+  - jest
 
 ## 環境構築
 
