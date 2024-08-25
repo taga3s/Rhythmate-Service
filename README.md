@@ -19,13 +19,16 @@
   - PostgreSQL
   - Firebase Storage 
 
+- ツール
+  - biome
+  - jest
+
 - PaaS
   - koyeb
 
 - その他
   - Gemini API
-  - Biome
-  - jest
+  - micro cms
 
 ## 環境構築
 
