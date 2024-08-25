@@ -4,6 +4,10 @@ on:
     branches:
       - develop
 
+env:
+  APP_ID: ${{ secrets.APP_ID }}
+  PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
 jobs:
   dispatch:
     runs-on: ubuntu-latest
@@ -12,7 +16,7 @@ jobs:
         uses: tibdex/github-app-token@v2
         id: create_token
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
+          app_id: ${{ env.APP_ID }}
+          private_key: ${{ env.PRIVATE_KEY }}
       - run: |
-          curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ steps.create_token.outputs.token }}" "https://api.github.com/repos/ayanami77/Rhythmate-Web/dispatches" -d '{ "event_type": "update" }'
+          curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ steps.create_token.outputs.token }}" "https://api.github.com/repos/taga3s/Rhythmate-Web/dispatches" -d '{ "event_type": "update" }'
