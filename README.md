@@ -19,28 +19,37 @@
   - PostgreSQL
   - Firebase Storage 
 
+- ツール
+  - biome
+  - jest
+
 - PaaS
   - koyeb
 
 - その他
   - Gemini API
-  - Biome
-  - jest
+  - micro cms
 
 ## 環境構築
 
 ### 前提
 
-1. npm モジュールをインストールする。
+1. パッケージ管理に`pnpm`を利用するので、有効化します。
 
 ```
-$ npm i
+$ corepack enable pnpm
 ```
 
-2. `.env.example`をコピーして`.env`を配置する。
+2. `node_modules` をインストールする。
 
 ```
-$ cp .env.example .env
+$ pnpm i
+```
+
+3. `.env.example`をコピーして`.env`配置する。（値は管理人に尋ねること。）
+
+```
+cp .env.example .env
 ```
 
 ### express サーバーを立ち上げる
@@ -48,7 +57,7 @@ $ cp .env.example .env
 `http://localhost:3000`で立ち上がります。
 
 ```
-$ npm run start:watch
+$ pnpm run start:watch
 ```
 
 ヘルスチェックのエンドポイントを叩き、サーバー及び DB が起動しているか確認します。
@@ -86,17 +95,17 @@ $ psql -U rhyth_user -d rhyth_db
 - マイグレーションを行いたい時
 
 ```
-$ npm run migrate
+$ pnpm run migrate
 ```
 
 - DB をリセットして、マイグレーションを行いたい時
 
 ```
-$ npm run migrate:reset
+$ pnpm run migrate:reset
 ```
 
 - prisma studio を立ち上げたい時
 
 ```
-$ npm run studio
+$ pnpm run studio
 ```
