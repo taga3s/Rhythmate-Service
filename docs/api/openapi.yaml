@@ -802,8 +802,6 @@ components:
         difficulty:
           type: string
           enum: ["EASY", "NORMAL", "HARD"]
-        is_succeeded:
-          type: boolean
         days:
           type: array
           items:

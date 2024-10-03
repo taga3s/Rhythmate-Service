@@ -746,7 +746,6 @@ export interface components {
       tag_id: string;
       /** @enum {string} */
       difficulty: "EASY" | "NORMAL" | "HARD";
-      is_succeeded?: boolean;
       days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
     };
     DeleteQuestRequest: {

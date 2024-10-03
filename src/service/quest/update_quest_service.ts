@@ -7,16 +7,10 @@ type InputDTO = {
   title: string;
   description: string;
   startsAt: string;
-  startedAt: string;
   minutes: number;
   tagId: string;
   difficulty: string;
-  state: string;
-  isSucceeded: boolean;
-  continuationLevel: number;
   days: string[];
-  weeklyCompletionCount: number;
-  totalCompletionCount: number;
   userId: string;
 };
 
@@ -34,16 +28,10 @@ export const updateQuestService = async (inputDTO: InputDTO) => {
       inputDTO.title,
       inputDTO.description,
       inputDTO.startsAt,
-      inputDTO.startedAt,
       inputDTO.minutes,
       inputDTO.tagId,
       inputDTO.difficulty,
-      inputDTO.startedAt,
-      inputDTO.isSucceeded,
-      inputDTO.continuationLevel,
       inputDTO.days,
-      inputDTO.weeklyCompletionCount,
-      inputDTO.totalCompletionCount,
       inputDTO.userId,
       tx,
     );
