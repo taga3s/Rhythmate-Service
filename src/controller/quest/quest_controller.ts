@@ -101,16 +101,10 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
     title: req.body.title,
     description: req.body.description,
     startsAt: req.body.starts_at,
-    startedAt: req.body.started_at,
     minutes: req.body.minutes,
     tagId: req.body.tag_id,
     difficulty: req.body.difficulty,
-    state: req.body.state,
-    isSucceeded: req.body.is_succeeded,
-    continuationLevel: req.body.continuation_level,
     days: req.body.days,
-    weeklyCompletionCount: req.body.weekly_completion_count,
-    totalCompletionCount: req.body.total_completion_count,
     userId: userId,
   };
 

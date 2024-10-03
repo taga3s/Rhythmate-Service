@@ -742,18 +742,11 @@ export interface components {
       title: string;
       description: string;
       starts_at: string;
-      started_at: string;
       minutes: number;
       tag_id: string;
       /** @enum {string} */
       difficulty: "EASY" | "NORMAL" | "HARD";
-      /** @enum {string} */
-      state: "INACTIVE" | "ACTIVE";
-      is_succeeded: boolean;
-      continuation_level: number;
       days: ("MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN")[];
-      weekly_completion_count: number;
-      total_completion_count: number;
     };
     DeleteQuestRequest: {
       id: string;

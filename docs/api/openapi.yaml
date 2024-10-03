@@ -795,8 +795,6 @@ components:
           type: string
         starts_at:
           type: string
-        started_at:
-          type: string
         minutes:
           type: integer
         tag_id:
@@ -804,36 +802,19 @@ components:
         difficulty:
           type: string
           enum: ["EASY", "NORMAL", "HARD"]
-        state:
-          type: string
-          enum: ["INACTIVE", "ACTIVE"]
-        is_succeeded:
-          type: boolean
-        continuation_level:
-          type: integer
         days:
           type: array
           items:
             type: string
             enum: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
-        weekly_completion_count:
-          type: integer
-        total_completion_count:
-          type: integer
       required:
         - title
         - description
         - starts_at
-        - started_at
         - minutes
         - tag_id
         - difficulty
-        - state
-        - is_succeeded
-        - continuation_level
         - days
-        - weekly_completion_count
-        - total_completion_count
     DeleteQuestRequest:
       type: object
       properties:
