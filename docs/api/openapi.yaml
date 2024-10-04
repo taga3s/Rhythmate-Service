@@ -717,12 +717,9 @@ components:
     AuthResponse:
       type: object
       properties:
-        rtoken:
-          type: string
         status:
           type: string
       required:
-        - rtoken
         - status
     GetLoginUserResponse:
       type: object
