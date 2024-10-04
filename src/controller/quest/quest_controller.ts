@@ -25,7 +25,7 @@ import {
 
 // クエストの作成
 export const createQuestController = async (req: Request<{}, {}, CreateQuestRequest>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.cookies.rtoken);
   const inputDTO = {
     title: req.body.title,
     description: req.body.description,
@@ -56,7 +56,7 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
 
 // ユーザーの所持するすべてのクエストを取得
 export const listQuestsController = async (req: Request, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.cookies.rtoken);
   const inputDTO = { userId: userId };
 
   try {
@@ -95,7 +95,7 @@ export const deleteQuestController = async (req: Request<{ id: string }>, res: R
 
 // クエストの更新
 export const updateQuestController = async (req: Request<{ id: string }, {}, UpdateQuestRequest>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.cookies.rtoken);
   const inputDTO = {
     id: req.params.id,
     title: req.body.title,
@@ -148,7 +148,7 @@ export const startQuestController = async (req: Request<{ id: string }>, res: Re
 
 // クエストの終了
 export const finishQuestController = async (req: Request<{ id: string }>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.cookies.rtoken);
   const inputDTO = { id: req.params.id, userId: userId };
 
   try {
@@ -170,7 +170,7 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
 
 // クエストの強制終了
 export const forceFinishQuestController = async (req: Request<{ id: string }>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.cookies.rtoken);
   const inputDTO = { id: req.params.id, userId: userId };
 
   try {

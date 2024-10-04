@@ -712,6 +712,7 @@ export interface components {
       image_src: string;
     };
     AuthResponse: {
+      rtoken: string;
       status: string;
     };
     GetLoginUserResponse: {
