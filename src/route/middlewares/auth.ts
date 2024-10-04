@@ -3,7 +3,7 @@ import { verifyToken } from "../../core/jwt";
 
 export const auth = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies.access_token;
+    const token = req.cookies.rtoken;
     const decoded = verifyToken(token);
     next();
   } catch (err) {
