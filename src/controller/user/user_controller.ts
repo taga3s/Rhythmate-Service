@@ -14,14 +14,14 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
     const outputDTO = await authService(inputDTO);
     // jwtを生成し、クッキーにセットする
     const jwt = generateToken(outputDTO.id, outputDTO.email);
-    res.cookie("access_token", jwt, {
-      path: "/",
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-    });
-    const response: AuthResponse = { status: "ok" };
+    // res.cookie("access_token", jwt, {
+    //   path: "/",
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "none",
+    //   expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    // });
+    const response: AuthResponse = { rtoken: jwt, status: "ok" };
     return res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
@@ -43,13 +43,13 @@ export const authCheckController = async (req: Request, res: Response) => {
 
 // ログアウト
 export const logoutController = async (req: Request, res: Response) => {
-  res.cookie("access_token", "");
+  // res.cookie("access_token", "");
   res.sendStatus(204);
 };
 
 // ユーザー取得（条件付き）
 export const getLoginUserController = async (req: Request, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.cookies.rtoken);
   const inputDTO = { userId: userId };
 
   try {
@@ -73,7 +73,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
 
 // ユーザー情報更新（条件付き）
 export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserRequest>, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.cookies.rtoken);
   const inputDTO = {
     userId: userId,
     name: req.body.name,
@@ -101,14 +101,14 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
 
 // ユーザー削除
 export const deleteUserController = async (req: Request, res: Response) => {
-  const userId = getUserIdFromToken(req.cookies.access_token);
+  const userId = getUserIdFromToken(req.cookies.rtoken);
 
   try {
     await deleteUserService({ userId: userId });
     const response: DeleteUserResponse = {
       status: "ok",
     };
-    res.cookie("access_token", "");
+    // res.cookie("access_token", "");
     return res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
