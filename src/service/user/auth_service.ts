@@ -42,7 +42,7 @@ export const authService = async (inputDTO: InputDTO) => {
     const completedDays = 0;
     const completedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
     const { startUTC: startDate, endUTC: endDate } = getStartAndEndUTCDateTime();
-    await weeklyReportModel.createWithTx(
+    const newWeeklyReport = await weeklyReportModel.createWithTx(
       completedQuests,
       failedQuests,
       completedDays,
