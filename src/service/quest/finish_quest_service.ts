@@ -26,7 +26,11 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("すでに終了したクエストです", 400);
     }
 
-    const finishedQuest = await questModel.finishByIdWithTx(inputDTO.id, quest.continuationLevel, tx);
+    const finishedQuest = await questModel.finishByIdWithTx({
+      id: inputDTO.id,
+      continuationLevel: quest.continuationLevel,
+      tx,
+    });
     if (!finishedQuest) {
       throw new HttpError("クエストの完了に失敗しました", 500);
     }

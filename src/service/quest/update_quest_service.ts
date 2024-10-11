@@ -24,19 +24,19 @@ export const updateQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("指定したidのクエストが存在しません", 400);
     }
 
-    const updatedQuest = await questModel.updateWithTx(
-      inputDTO.id,
-      inputDTO.title,
-      inputDTO.description,
-      inputDTO.startsAt,
-      inputDTO.state,
-      inputDTO.minutes,
-      inputDTO.tagId,
-      inputDTO.difficulty,
-      inputDTO.days,
-      inputDTO.userId,
+    const updatedQuest = await questModel.updateWithTx({
+      id: inputDTO.id,
+      title: inputDTO.title,
+      description: inputDTO.description,
+      startsAt: inputDTO.startsAt,
+      state: inputDTO.state,
+      minutes: inputDTO.minutes,
+      tagId: inputDTO.tagId,
+      difficulty: inputDTO.difficulty,
+      days: inputDTO.days,
+      userId: inputDTO.userId,
       tx,
-    );
+    });
 
     return {
       id: updatedQuest.id,
