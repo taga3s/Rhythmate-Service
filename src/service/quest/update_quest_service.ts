@@ -7,6 +7,7 @@ type InputDTO = {
   title: string;
   description: string;
   startsAt: string;
+  state: string;
   minutes: number;
   tagId: string;
   difficulty: string;
@@ -28,6 +29,7 @@ export const updateQuestService = async (inputDTO: InputDTO) => {
       inputDTO.title,
       inputDTO.description,
       inputDTO.startsAt,
+      inputDTO.state,
       inputDTO.minutes,
       inputDTO.tagId,
       inputDTO.difficulty,

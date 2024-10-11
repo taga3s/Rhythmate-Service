@@ -795,6 +795,9 @@ components:
           type: string
         starts_at:
           type: string
+        state:
+          type: string
+          enum: ["INACTIVE", "ACTIVE"]
         minutes:
           type: integer
         tag_id:
@@ -811,6 +814,7 @@ components:
         - title
         - description
         - starts_at
+        - state
         - minutes
         - tag_id
         - difficulty
