@@ -742,6 +742,8 @@ export interface components {
       title: string;
       description: string;
       starts_at: string;
+      /** @enum {string} */
+      state: "INACTIVE" | "ACTIVE";
       minutes: number;
       tag_id: string;
       /** @enum {string} */
