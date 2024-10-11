@@ -101,6 +101,7 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
     title: req.body.title,
     description: req.body.description,
     startsAt: req.body.starts_at,
+    state: req.body.state,
     minutes: req.body.minutes,
     tagId: req.body.tag_id,
     difficulty: req.body.difficulty,
