@@ -1,4 +1,3 @@
-import { prisma } from "../../../db/db";
 import { PrismaClientWithTx } from "../../../db/types";
 import { BadgeModel } from "../../../model/badge/badge_model";
 import { BadgeDetailModel } from "../../../model/badgeDetail/badge_detail_model";
@@ -42,9 +41,16 @@ export const totalQuestsCheckService = async (inputDTO: InputDTO, tx: PrismaClie
       throw new HttpError("指定されたバッジのデータが見つかりません。", 500);
     }
 
-    const existedBadge = await badgeModel.getByBadgeIdAndUserId(stage1BadgeDetail.id, userId);
+    const existedBadge = await badgeModel.getByBadgeIdAndUserId({
+      badgeId: stage1BadgeDetail.id,
+      userId: userId,
+    });
     if (!existedBadge) {
-      await badgeModel.createWithTx(stage1BadgeDetail.id, userId, tx);
+      await badgeModel.createWithTx({
+        badgeId: stage1BadgeDetail.id,
+        userId: userId,
+        tx: tx,
+      });
     }
   }
 
@@ -58,9 +64,16 @@ export const totalQuestsCheckService = async (inputDTO: InputDTO, tx: PrismaClie
       throw new HttpError("指定されたバッジのデータが見つかりません。", 500);
     }
 
-    const existedBadge = await badgeModel.getByBadgeIdAndUserId(stage2BadgeDetail.id, userId);
+    const existedBadge = await badgeModel.getByBadgeIdAndUserId({
+      badgeId: stage2BadgeDetail.id,
+      userId: userId,
+    });
     if (!existedBadge) {
-      await badgeModel.createWithTx(stage2BadgeDetail.id, userId, tx);
+      await badgeModel.createWithTx({
+        badgeId: stage2BadgeDetail.id,
+        userId: userId,
+        tx: tx,
+      });
     }
   }
 
@@ -74,9 +87,16 @@ export const totalQuestsCheckService = async (inputDTO: InputDTO, tx: PrismaClie
       throw new HttpError("指定されたバッジのデータが見つかりません。", 500);
     }
 
-    const existedBadge = await badgeModel.getByBadgeIdAndUserId(stage3BadgeDetail.id, userId);
+    const existedBadge = await badgeModel.getByBadgeIdAndUserId({
+      badgeId: stage3BadgeDetail.id,
+      userId: userId,
+    });
     if (!existedBadge) {
-      await badgeModel.createWithTx(stage3BadgeDetail.id, userId, tx);
+      await badgeModel.createWithTx({
+        badgeId: stage3BadgeDetail.id,
+        userId: userId,
+        tx: tx,
+      });
     }
   }
 };

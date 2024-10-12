@@ -16,12 +16,18 @@ export const achieveBadgeService = async (inputDTO: {
       throw new HttpError("バッジ詳細が見つかりません", 400);
     }
 
-    const targetBadge = await badgeModel.getByBadgeIdAndUserId(inputDTO.badgeId, inputDTO.userId);
+    const targetBadge = await badgeModel.getByBadgeIdAndUserId({
+      badgeId: inputDTO.badgeId,
+      userId: inputDTO.userId,
+    });
     if (!targetBadge) {
       throw new HttpError("バッジが見つかりません", 500);
     }
 
-    const updatedBadge = await badgeModel.achieveWithTx(targetBadge.id, tx);
+    const updatedBadge = await badgeModel.achieveWithTx({
+      id: targetBadge.id,
+      tx: tx,
+    });
 
     return {
       badgeId: updatedBadge.badgeId,
