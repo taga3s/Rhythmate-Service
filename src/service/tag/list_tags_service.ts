@@ -4,7 +4,7 @@ import { HttpError } from "../../pkg/httpError";
 export const listTagsService = async (inputDTO: { userId: string }) => {
   const model = new TagModel();
 
-  const tags = await model.listByUserId(inputDTO.userId);
+  const tags = await model.listByUserId({ userId: inputDTO.userId });
   if (tags === null) {
     throw new HttpError("タグが見つかりませんでした", 500);
   }
