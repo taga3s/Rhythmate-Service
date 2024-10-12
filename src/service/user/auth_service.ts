@@ -26,7 +26,9 @@ export const authService = async (inputDTO: InputDTO) => {
       throw new HttpError("認証に失敗しました。", 401);
     }
 
-    const user = await userModel.getByEmail(email);
+    const user = await userModel.getByEmail({
+      email,
+    });
     if (user) {
       return {
         id: user.id,
@@ -35,7 +37,12 @@ export const authService = async (inputDTO: InputDTO) => {
       };
     }
 
-    const newUser = await userModel.createWithTx(name, email, imageUrl, tx);
+    const newUser = await userModel.createWithTx({
+      name,
+      email,
+      photoUrl: imageUrl,
+      tx,
+    });
     const completedQuests = 0;
     const failedQuests = 0;
     const failedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];

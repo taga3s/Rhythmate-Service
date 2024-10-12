@@ -77,13 +77,20 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     }
 
     //ユーザーの経験値とレベルを更新
-    const user = await userModel.getById(quest.userId);
+    const user = await userModel.getById({
+      id: quest.userId,
+    });
     if (!user) {
       throw new HttpError("ユーザーが見つかりません", 400);
     }
 
     const expIncrement = getQuestExp(quest.difficulty, quest.continuationLevel);
-    const updatedUser = await userModel.updateExpWithTx(user.id, user.exp, expIncrement, tx);
+    const updatedUser = await userModel.updateExpWithTx({
+      id: quest.userId,
+      currentExp: user.exp,
+      expIncrement: expIncrement,
+      tx,
+    });
     if (!updatedUser) {
       throw new HttpError("ユーザーの経験値の更新に失敗しました", 500);
     }
