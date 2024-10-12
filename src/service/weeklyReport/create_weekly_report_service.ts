@@ -1,7 +1,7 @@
 import { prisma } from "../../db/db";
-import { getStartAndEndUTCDateTime } from "../../funcs/datetime";
+import { getStartAndEndUTCDateTime } from "../../utils/datetime";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const createWeeklyReportService = async (inputDTO: {
   completedQuests: number;

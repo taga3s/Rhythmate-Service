@@ -1,5 +1,5 @@
 import { QuestModel } from "../../model/quest/quest_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 type InputDTO = { userId: string };
 

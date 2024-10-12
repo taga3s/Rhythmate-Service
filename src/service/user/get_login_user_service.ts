@@ -1,5 +1,5 @@
 import { UserModel } from "../../model/user/user_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const getLoginUserService = async (inputDTO: { userId: string }) => {
   const userModel = new UserModel();

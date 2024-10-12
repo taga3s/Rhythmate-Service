@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
 import { PrismaClientWithTx } from "../../db/types";
-import { now } from "../../pkg/dayjs";
+import { now } from "../../utils/dayjs";
 import { Quest } from "./types";
 
 export class QuestModel {

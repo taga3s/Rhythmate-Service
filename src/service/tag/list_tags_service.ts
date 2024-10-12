@@ -1,5 +1,5 @@
 import { TagModel } from "../../model/tag/tag_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const listTagsService = async (inputDTO: { userId: string }) => {
   const model = new TagModel();

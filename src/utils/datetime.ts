@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { now } from "../pkg/dayjs";
+import { now } from "./dayjs";
 
 export const getStartAndEndUTCDateTime = () => {
   const nowUTC = dayjs(now()).format();

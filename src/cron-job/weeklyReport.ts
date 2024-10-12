@@ -2,7 +2,7 @@ import cron from "node-cron";
 import { logger } from "../pkg/logger";
 import { prisma } from "../db/db";
 import { WeeklyReportModel } from "../model/weeklyReport/weekly_report_model";
-import { getStartAndEndUTCDateTime } from "../funcs/datetime";
+import { getStartAndEndUTCDateTime } from "../utils/datetime";
 
 const updateEveryDay = () => {
   const weeklyReportModel = new WeeklyReportModel();

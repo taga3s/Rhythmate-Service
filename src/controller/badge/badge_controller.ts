@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { getUserIdFromToken } from "../../core/jwt";
-import { HttpError } from "../../pkg/httpError";
+import { getUserIdFromToken } from "../../pkg/jwt";
+import { HttpError } from "../../utils/httpError";
 import { achieveBadgeService, listBadgesService, pinBadgeService, unpinBadgeService } from "../../service/badge";
 import { AchieveBadgeResponse, ListBadgesResponse, PinBadgeResponse, UnpinBadgeResponse } from "./response";
 

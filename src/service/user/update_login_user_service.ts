@@ -2,7 +2,7 @@ import { prisma } from "../../db/db";
 import { admin } from "../../firebase/config";
 import { getDownloadURL } from "firebase-admin/storage";
 import { UserModel } from "../../model/user/user_model";
-import { now } from "../../pkg/dayjs";
+import { now } from "../../utils/dayjs";
 
 export const updateLoginUserService = (inputDTO: {
   userId: string;

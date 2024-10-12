@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { getUserIdFromToken } from "../../core/jwt";
+import { getUserIdFromToken } from "../../pkg/jwt";
 import { Quest } from "../../model/quest/types";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 import {
   createQuestService,
   deleteQuestService,
