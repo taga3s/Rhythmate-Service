@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../pkg/jwt";
+import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../pkg/jwt/jwt";
 import { HttpError } from "../../utils/httpError";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
 import { AuthResponse, GetLoginUserResponse, UpdateLoginUserResponse, DeleteUserResponse } from "./response";

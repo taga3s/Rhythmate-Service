@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getUserIdFromToken } from "../../pkg/jwt";
+import { getUserIdFromToken } from "../../pkg/jwt/jwt";
 import { Quest } from "../../model/quest/types";
 import { HttpError } from "../../utils/httpError";
 import {

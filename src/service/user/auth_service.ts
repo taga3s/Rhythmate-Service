@@ -1,5 +1,5 @@
 import { prisma } from "../../db/db";
-import { admin } from "../../firebase/config";
+import { admin } from "../../pkg/firebase/config";
 import { UserModel } from "../../model/user/user_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../utils/httpError";

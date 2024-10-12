@@ -1,5 +1,5 @@
 import { prisma } from "../../db/db";
-import { admin } from "../../firebase/config";
+import { admin } from "../../pkg/firebase/config";
 import { getDownloadURL } from "firebase-admin/storage";
 import { UserModel } from "../../model/user/user_model";
 import { now } from "../../utils/dayjs";

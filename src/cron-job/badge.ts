@@ -1,8 +1,8 @@
 import cron from "node-cron";
-import { logger } from "../pkg/logger";
+import { logger } from "../pkg/logger/logger";
 import { prisma } from "../db/db";
-import { microCMSClient } from "../microcms/client";
-import { ListBadgesDetail } from "../microcms/types";
+import { microCMSClient } from "../pkg/microcms/client";
+import { ListBadgesDetail } from "../pkg/microcms/types";
 
 const upsertEverySunday = async () => {
   const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * 0" : "0 0 0 * * 1";

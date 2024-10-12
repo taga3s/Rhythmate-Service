@@ -1,6 +1,6 @@
 import cron from "node-cron";
 import { prisma } from "../db/db";
-import { logger } from "../pkg/logger";
+import { logger } from "../pkg/logger/logger";
 
 const updateEveryDay = () => {
   const scheduledTime = process.env.CRON_TZ === "UTC" ? "0 0 15 * * *" : "0 0 0 * * *";
