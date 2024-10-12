@@ -33,10 +33,10 @@ export const levelCheckService = async (inputDTO: InputDTO, tx: PrismaClientWith
 
   // cat, bronze
   if (features.stage1.level <= level) {
-    const stage1BadgeDetail = await badgeDetailModel.getByFeatures(
-      features.stage1.imageType,
-      features.stage1.frameColor,
-    );
+    const stage1BadgeDetail = await badgeDetailModel.getByFeatures({
+      imageType: features.stage1.imageType,
+      frameColor: features.stage1.frameColor,
+    });
     if (!stage1BadgeDetail) {
       throw new HttpError("指定されたバッジのデータが見つかりません。", 500);
     }
@@ -56,10 +56,10 @@ export const levelCheckService = async (inputDTO: InputDTO, tx: PrismaClientWith
 
   // cat, silver
   if (features.stage2.level <= level) {
-    const stage2BadgeDetail = await badgeDetailModel.getByFeatures(
-      features.stage2.imageType,
-      features.stage2.frameColor,
-    );
+    const stage2BadgeDetail = await badgeDetailModel.getByFeatures({
+      imageType: features.stage2.imageType,
+      frameColor: features.stage2.frameColor,
+    });
     if (!stage2BadgeDetail) {
       throw new HttpError("指定されたバッジのデータが見つかりません。", 500);
     }
@@ -79,10 +79,10 @@ export const levelCheckService = async (inputDTO: InputDTO, tx: PrismaClientWith
 
   // cat, gold
   if (features.stage3.level <= level) {
-    const stage3BadgeDetail = await badgeDetailModel.getByFeatures(
-      features.stage3.imageType,
-      features.stage3.frameColor,
-    );
+    const stage3BadgeDetail = await badgeDetailModel.getByFeatures({
+      imageType: features.stage3.imageType,
+      frameColor: features.stage3.frameColor,
+    });
     if (!stage3BadgeDetail) {
       throw new HttpError("指定されたバッジのデータが見つかりません。", 500);
     }

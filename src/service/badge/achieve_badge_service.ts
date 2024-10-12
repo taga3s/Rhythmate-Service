@@ -11,7 +11,9 @@ export const achieveBadgeService = async (inputDTO: {
     const badgeModel = new BadgeModel();
     const badgeDetailModel = new BadgeDetailModel();
 
-    const badgeDetail = await badgeDetailModel.getById(inputDTO.badgeId);
+    const badgeDetail = await badgeDetailModel.getById({
+      id: inputDTO.badgeId,
+    });
     if (!badgeDetail) {
       throw new HttpError("バッジ詳細が見つかりません", 400);
     }
