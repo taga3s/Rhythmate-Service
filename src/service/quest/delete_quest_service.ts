@@ -8,7 +8,9 @@ export const deleteQuestService = async (inputDTO: InputDTO) => {
   return prisma.$transaction(async (tx) => {
     const model = new QuestModel();
 
-    const quest = await model.getById(inputDTO.id);
+    const quest = await model.getById({
+      id: inputDTO.id,
+    });
     if (!quest) {
       throw new HttpError("指定したidのクエストが存在しません", 400);
     }

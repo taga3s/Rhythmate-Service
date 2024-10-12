@@ -18,7 +18,9 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     const userModel = new UserModel();
     const weeklyReportModel = new WeeklyReportModel();
 
-    const quest = await questModel.getById(inputDTO.id);
+    const quest = await questModel.getById({
+      id: inputDTO.id,
+    });
     if (!quest) {
       throw new HttpError("指定したidのクエストが存在しません", 400);
     }
