@@ -1,9 +1,9 @@
 import { prisma } from "../../db/db";
-import { admin } from "../../firebase/config";
+import { admin } from "../../pkg/firebase/config";
 import { UserModel } from "../../model/user/user_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
-import { getStartAndEndUTCDateTime } from "../../funcs/datetime";
+import { HttpError } from "../../utils/httpError";
+import { getStartAndEndUTCDateTime } from "../../utils/datetime";
 
 type InputDTO = { id_token: string };
 
@@ -26,7 +26,9 @@ export const authService = async (inputDTO: InputDTO) => {
       throw new HttpError("認証に失敗しました。", 401);
     }
 
-    const user = await userModel.getByEmail(email);
+    const user = await userModel.getByEmail({
+      email,
+    });
     if (user) {
       return {
         id: user.id,
@@ -35,24 +37,29 @@ export const authService = async (inputDTO: InputDTO) => {
       };
     }
 
-    const newUser = await userModel.createWithTx(name, email, imageUrl, tx);
+    const newUser = await userModel.createWithTx({
+      name,
+      email,
+      photoUrl: imageUrl,
+      tx,
+    });
     const completedQuests = 0;
     const failedQuests = 0;
     const failedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
     const completedDays = 0;
     const completedQuestsEachDay = [0, 0, 0, 0, 0, 0, 0];
     const { startUTC: startDate, endUTC: endDate } = getStartAndEndUTCDateTime();
-    const newWeeklyReport = await weeklyReportModel.createWithTx(
+    const newWeeklyReport = await weeklyReportModel.createWithTx({
       completedQuests,
       failedQuests,
-      completedDays,
+      streakDays: completedDays,
       completedQuestsEachDay,
       failedQuestsEachDay,
       startDate,
       endDate,
-      newUser.id,
+      userId: newUser.id,
       tx,
-    );
+    });
 
     return {
       id: newUser.id,

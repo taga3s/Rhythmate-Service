@@ -6,7 +6,7 @@ import {
   listTagsController,
 } from "../controller/tag/tag_controller";
 import { body } from "express-validator";
-import { validate } from "../pkg/validate";
+import { validate } from "./utils/validate";
 import { auth } from "./middlewares/auth";
 
 const tagRouter = Router();

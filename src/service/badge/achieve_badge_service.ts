@@ -1,7 +1,7 @@
 import { prisma } from "../../db/db";
 import { BadgeModel } from "../../model/badge/badge_model";
 import { BadgeDetailModel } from "../../model/badgeDetail/badge_detail_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const achieveBadgeService = async (inputDTO: {
   badgeId: string;
@@ -11,17 +11,25 @@ export const achieveBadgeService = async (inputDTO: {
     const badgeModel = new BadgeModel();
     const badgeDetailModel = new BadgeDetailModel();
 
-    const badgeDetail = await badgeDetailModel.getById(inputDTO.badgeId);
+    const badgeDetail = await badgeDetailModel.getById({
+      id: inputDTO.badgeId,
+    });
     if (!badgeDetail) {
       throw new HttpError("バッジ詳細が見つかりません", 400);
     }
 
-    const targetBadge = await badgeModel.getByBadgeIdAndUserId(inputDTO.badgeId, inputDTO.userId);
+    const targetBadge = await badgeModel.getByBadgeIdAndUserId({
+      badgeId: inputDTO.badgeId,
+      userId: inputDTO.userId,
+    });
     if (!targetBadge) {
       throw new HttpError("バッジが見つかりません", 500);
     }
 
-    const updatedBadge = await badgeModel.achieveWithTx(targetBadge.id, tx);
+    const updatedBadge = await badgeModel.achieveWithTx({
+      id: targetBadge.id,
+      tx: tx,
+    });
 
     return {
       badgeId: updatedBadge.badgeId,

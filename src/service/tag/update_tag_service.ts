@@ -1,6 +1,6 @@
 import { prisma } from "../../db/db";
 import { TagModel } from "../../model/tag/tag_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const updateTagService = async (inputDTO: {
   id: string;
@@ -10,12 +10,19 @@ export const updateTagService = async (inputDTO: {
   return prisma.$transaction(async (tx) => {
     const model = new TagModel();
 
-    const tag = await model.getById(inputDTO.id);
+    const tag = await model.getById({
+      id: inputDTO.id,
+    });
     if (tag === null) {
       throw new HttpError("タグが見つかりません", 404);
     }
 
-    const result = await model.updateWithTx(inputDTO.id, inputDTO.name, inputDTO.color, tx);
+    const result = await model.updateWithTx({
+      id: inputDTO.id,
+      name: inputDTO.name,
+      color: inputDTO.color,
+      tx,
+    });
 
     return {
       id: result.id,

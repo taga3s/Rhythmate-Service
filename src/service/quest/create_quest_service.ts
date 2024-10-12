@@ -1,7 +1,7 @@
 import { prisma } from "../../db/db";
 import { QuestModel } from "../../model/quest/quest_model";
 
-export const createQuestService = async (inputDTO: {
+type InputDTO = {
   title: string;
   description: string;
   startsAt: string;
@@ -11,22 +11,24 @@ export const createQuestService = async (inputDTO: {
   days: string[];
   state: string;
   userId: string;
-}) => {
+};
+
+export const createQuestService = async (inputDTO: InputDTO) => {
   return prisma.$transaction(async (tx) => {
     const model = new QuestModel();
 
-    const quest = await model.createWithTx(
-      inputDTO.title,
-      inputDTO.description,
-      inputDTO.startsAt,
-      inputDTO.minutes,
-      inputDTO.tagId,
-      inputDTO.state,
-      inputDTO.difficulty,
-      inputDTO.days,
-      inputDTO.userId,
+    const quest = await model.createWithTx({
+      title: inputDTO.title,
+      description: inputDTO.description,
+      startsAt: inputDTO.startsAt,
+      minutes: inputDTO.minutes,
+      tagId: inputDTO.tagId,
+      state: inputDTO.state,
+      difficulty: inputDTO.difficulty,
+      days: inputDTO.days,
+      userId: inputDTO.userId,
       tx,
-    );
+    });
 
     return {
       id: quest.id,

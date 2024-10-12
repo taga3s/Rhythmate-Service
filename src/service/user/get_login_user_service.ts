@@ -1,10 +1,12 @@
 import { UserModel } from "../../model/user/user_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const getLoginUserService = async (inputDTO: { userId: string }) => {
   const userModel = new UserModel();
 
-  const user = await userModel.getById(inputDTO.userId);
+  const user = await userModel.getById({
+    id: inputDTO.userId,
+  });
   if (!user) {
     throw new HttpError("クライアントの値が不正です。", 400);
   }

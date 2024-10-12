@@ -1,6 +1,6 @@
 import { prisma } from "../../db/db";
 import { BadgeModel } from "../../model/badge/badge_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 type InputDTO = { badgeId: string; userId: string };
 
@@ -8,7 +8,10 @@ export const unpinBadgeService = async (inputDTO: InputDTO) => {
   return prisma.$transaction(async (tx) => {
     const badgeModel = new BadgeModel();
 
-    const badge = await badgeModel.getByBadgeIdAndUserId(inputDTO.badgeId, inputDTO.userId);
+    const badge = await badgeModel.getByBadgeIdAndUserId({
+      badgeId: inputDTO.badgeId,
+      userId: inputDTO.userId,
+    });
     if (!badge) {
       throw new HttpError("指定したidのバッジが存在しません", 400);
     }
@@ -17,7 +20,10 @@ export const unpinBadgeService = async (inputDTO: InputDTO) => {
       throw new HttpError("ピン止めされていないバッジです", 400);
     }
 
-    const unpinnedBadge = await badgeModel.unpinByIdWithTx(badge.id, tx);
+    const unpinnedBadge = await badgeModel.unpinByIdWithTx({
+      id: badge.id,
+      tx: tx,
+    });
     if (!unpinnedBadge) {
       throw new HttpError("バッジのピン止め解除に失敗しました", 500);
     }

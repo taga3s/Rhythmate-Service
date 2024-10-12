@@ -5,7 +5,10 @@ export const deleteUserService = (inputDTO: { userId: string }) => {
   return prisma.$transaction(async (tx) => {
     const userModel = new UserModel();
 
-    const user = await userModel.deleteWithTx(inputDTO.userId, tx);
+    const user = await userModel.deleteWithTx({
+      id: inputDTO.userId,
+      tx,
+    });
 
     return {
       name: user.name,

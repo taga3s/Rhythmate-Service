@@ -9,7 +9,7 @@ import {
   startQuestController,
   updateQuestController,
 } from "../controller/quest/quest_controller";
-import { validate } from "../pkg/validate";
+import { validate } from "./utils/validate";
 import { auth } from "./middlewares/auth";
 
 const questRouter = Router();

@@ -1,11 +1,15 @@
 import { QuestModel } from "../../model/quest/quest_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
-export const listQuestsService = async (inputDTO: { userId: string }) => {
+type InputDTO = { userId: string };
+
+export const listQuestsService = async (inputDTO: InputDTO) => {
   const questModel = new QuestModel();
 
-  const quests = await questModel.listByUserId(inputDTO.userId);
-  if (quests === null) {
+  const quests = await questModel.listByUserId({
+    userId: inputDTO.userId,
+  });
+  if (!quests) {
     throw new HttpError("クエストが見つかりませんでした", 500);
   }
 

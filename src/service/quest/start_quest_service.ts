@@ -1,6 +1,6 @@
 import { prisma } from "../../db/db";
 import { QuestModel } from "../../model/quest/quest_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 type InputDTO = { id: string };
 
@@ -8,7 +8,9 @@ export const startQuestService = async (inputDTO: InputDTO) => {
   return prisma.$transaction(async (tx) => {
     const questModel = new QuestModel();
 
-    const quest = await questModel.getById(inputDTO.id);
+    const quest = await questModel.getById({
+      id: inputDTO.id,
+    });
     if (!quest) {
       throw new HttpError("指定したidのクエストが存在しません", 400);
     }
@@ -16,7 +18,10 @@ export const startQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("すでに開始しているクエストです", 500);
     }
 
-    const startedQuest = await questModel.startByIdWithTx(inputDTO.id, tx);
+    const startedQuest = await questModel.startByIdWithTx({
+      id: inputDTO.id,
+      tx,
+    });
     if (!startedQuest) {
       throw new HttpError("クエストの開始に失敗しました", 500);
     }

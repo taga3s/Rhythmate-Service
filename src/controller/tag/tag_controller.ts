@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { CreateTagRequest, UpdateTagRequest } from "./request";
 import { CreateTagResponse, UpdateTagResponse, DeleteTagResponse, ListTagsResponse } from "./response";
-import { getUserIdFromToken } from "../../core/jwt";
-import { HttpError } from "../../pkg/httpError";
+import { getUserIdFromToken } from "../../pkg/jwt/jwt";
+import { HttpError } from "../../utils/httpError";
 import { Tag } from "../../model/tag/types";
 import { createTagService, deleteTagService, listTagsService, updateTagService } from "../../service/tag";
 

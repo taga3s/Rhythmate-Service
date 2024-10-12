@@ -1,7 +1,7 @@
 import { prisma } from "../../db/db";
-import { getStartAndEndUTCDateTime } from "../../funcs/datetime";
+import { getStartAndEndUTCDateTime } from "../../utils/datetime";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const createWeeklyReportService = async (inputDTO: {
   completedQuests: number;
@@ -15,18 +15,18 @@ export const createWeeklyReportService = async (inputDTO: {
     const model = new WeeklyReportModel();
     const { startUTC: startDate, endUTC: endDate } = getStartAndEndUTCDateTime();
 
-    const weeklyReport = await model.createWithTx(
-      inputDTO.completedQuests,
-      inputDTO.failedQuests,
-      inputDTO.streakDays,
-      inputDTO.completedQuestsEachDay,
-      inputDTO.failedQuestsEachDay,
+    const weeklyReport = await model.createWithTx({
+      completedQuests: inputDTO.completedQuests,
+      failedQuests: inputDTO.failedQuests,
+      streakDays: inputDTO.streakDays,
+      completedQuestsEachDay: inputDTO.completedQuestsEachDay,
+      failedQuestsEachDay: inputDTO.failedQuestsEachDay,
       startDate,
       endDate,
-      inputDTO.userId,
+      userId: inputDTO.userId,
       tx,
-    );
-    if (weeklyReport === null) {
+    });
+    if (!weeklyReport) {
       throw new HttpError("週次レポートの作成に失敗しました", 500);
     }
 

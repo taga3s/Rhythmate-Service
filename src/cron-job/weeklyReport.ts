@@ -1,8 +1,8 @@
 import cron from "node-cron";
-import { logger } from "../pkg/logger";
+import { logger } from "../pkg/logger/logger";
 import { prisma } from "../db/db";
 import { WeeklyReportModel } from "../model/weeklyReport/weekly_report_model";
-import { getStartAndEndUTCDateTime } from "../funcs/datetime";
+import { getStartAndEndUTCDateTime } from "../utils/datetime";
 
 const updateEveryDay = () => {
   const weeklyReportModel = new WeeklyReportModel();
@@ -57,7 +57,7 @@ const createEverySunday = () => {
       await Promise.all(
         users.map(
           async (user) =>
-            await weeklyReportModel.createWithTx(
+            await weeklyReportModel.createWithTx({
               completedQuests,
               failedQuests,
               streakDays,
@@ -65,9 +65,9 @@ const createEverySunday = () => {
               failedQuestsEachDay,
               startDate,
               endDate,
-              user.id,
+              userId: user.id,
               tx,
-            ),
+            }),
         ),
       );
     });

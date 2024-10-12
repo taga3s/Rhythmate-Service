@@ -1,6 +1,6 @@
 import { prisma } from "../../db/db";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const updateWeeklyReportService = async (inputDTO: {
   id: string;
@@ -16,22 +16,24 @@ export const updateWeeklyReportService = async (inputDTO: {
   return prisma.$transaction(async (tx) => {
     const model = new WeeklyReportModel();
 
-    const weeklyReport = await model.getById(inputDTO.id);
+    const weeklyReport = await model.getById({
+      id: inputDTO.id,
+    });
     if (weeklyReport === null) {
       throw new HttpError("週次レポートが見つかりませんでした", 500);
     }
 
-    const updatedWeeklyReport = await model.updateWithTx(
-      inputDTO.completedQuests,
-      inputDTO.failedQuests,
-      inputDTO.streakDays,
-      inputDTO.completedQuestsEachDay,
-      inputDTO.failedQuestsEachDay,
-      inputDTO.startDate,
-      inputDTO.endDate,
-      inputDTO.userId,
+    const updatedWeeklyReport = await model.updateWithTx({
+      completedQuests: inputDTO.completedQuests,
+      failedQuests: inputDTO.failedQuests,
+      streakDays: inputDTO.streakDays,
+      completedQuestsEachDay: inputDTO.completedQuestsEachDay,
+      failedQuestsEachDay: inputDTO.failedQuestsEachDay,
+      startDate: inputDTO.startDate,
+      endDate: inputDTO.endDate,
+      userId: inputDTO.userId,
       tx,
-    );
+    });
 
     return {
       id: updatedWeeklyReport.id,

@@ -1,7 +1,7 @@
 import { prisma } from "../../db/db";
 import { QuestModel } from "../../model/quest/quest_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 type InputDTO = { id: string };
 
@@ -10,7 +10,9 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
     const weeklyReportModel = new WeeklyReportModel();
     const questModel = new QuestModel();
 
-    const quest = await questModel.getById(inputDTO.id);
+    const quest = await questModel.getById({
+      id: inputDTO.id,
+    });
     if (!quest) {
       throw new HttpError("指定したidのクエストが存在しません", 400);
     }
@@ -18,7 +20,10 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("すでに終了したクエストです", 400);
     }
 
-    const forceFinishedQuest = await questModel.forceFinishByIdWithTx(inputDTO.id, tx);
+    const forceFinishedQuest = await questModel.forceFinishByIdWithTx({
+      id: inputDTO.id,
+      tx,
+    });
     if (!forceFinishedQuest) {
       throw new HttpError("クエストの完了に失敗しました", 500);
     }

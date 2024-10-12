@@ -4,8 +4,8 @@ import {
   GenerateWeeklyReportFeedBackResponse,
   GetWeeklyReportFeedBackResponse,
 } from "./response";
-import { getUserIdFromToken } from "../../core/jwt";
-import { HttpError } from "../../pkg/httpError";
+import { getUserIdFromToken } from "../../pkg/jwt/jwt";
+import { HttpError } from "../../utils/httpError";
 import { WeeklyReport } from "../../model/weeklyReport/types";
 import { listWeeklyReportsService } from "../../service/weeklyReport/list_weekly_reports_service";
 import { generateWeeklyReportFeedBackService } from "../../service/weeklyReport";
