@@ -152,7 +152,7 @@ export class WeeklyReportModel {
   }: {
     id: string;
     tx: PrismaClientWithTx;
-  }): Promise<WeeklyReport | null> {
+  }): Promise<WeeklyReport> {
     const result = await tx.weeklyReport.delete({ where: { id: id } });
     return result;
   }

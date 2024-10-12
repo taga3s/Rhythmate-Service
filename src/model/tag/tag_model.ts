@@ -79,7 +79,7 @@ export class TagModel {
   }: {
     id: string;
     tx: PrismaClientWithTx;
-  }): Promise<Tag | null> {
+  }): Promise<Tag> {
     const result = await tx.tag.delete({ where: { id: id } });
     return result;
   }

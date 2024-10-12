@@ -107,7 +107,7 @@ export class BadgeModel {
   }: {
     id: string;
     tx: PrismaClientWithTx;
-  }): Promise<Badge | null> {
+  }): Promise<Badge> {
     const badge: Prisma.BadgeUpdateInput = {
       isPinned: true,
     };
@@ -124,7 +124,7 @@ export class BadgeModel {
   }: {
     id: string;
     tx: PrismaClientWithTx;
-  }): Promise<Badge | null> {
+  }): Promise<Badge> {
     const badge: Prisma.BadgeUpdateInput = {
       isPinned: false,
     };

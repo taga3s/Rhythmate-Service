@@ -15,9 +15,6 @@ export const deleteTagService = async (inputDTO: { id: string }) => {
       id: inputDTO.id,
       tx,
     });
-    if (result === null) {
-      throw new HttpError("タグの削除に失敗しました", 500);
-    }
 
     return {
       name: result.name,

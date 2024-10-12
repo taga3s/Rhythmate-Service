@@ -22,7 +22,7 @@ export class QuestModel {
     userId,
   }: {
     userId: string;
-  }): Promise<Quest[] | null> {
+  }): Promise<Quest[]> {
     const result = await prisma.quest.findMany({
       where: {
         userId: userId,
@@ -81,7 +81,7 @@ export class QuestModel {
   }: {
     id: string;
     tx: PrismaClientWithTx;
-  }): Promise<Quest | null> {
+  }): Promise<Quest> {
     const result = await tx.quest.delete({ where: { id: id } });
     return result;
   }
@@ -141,7 +141,7 @@ export class QuestModel {
   }: {
     id: string;
     tx: PrismaClientWithTx;
-  }): Promise<Quest | null> {
+  }): Promise<Quest> {
     const quest: Prisma.QuestUpdateInput = {
       startedAt: now(),
     };
@@ -160,7 +160,7 @@ export class QuestModel {
     id: string;
     continuationLevel: number;
     tx: PrismaClientWithTx;
-  }): Promise<Quest | null> {
+  }): Promise<Quest> {
     const continuationLevelIncrement = continuationLevel === 7 ? 0 : 1;
     const updatedQuest: Prisma.QuestUpdateInput = {
       isSucceeded: true,

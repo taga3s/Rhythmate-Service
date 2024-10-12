@@ -9,9 +9,6 @@ export const listQuestsService = async (inputDTO: InputDTO) => {
   const quests = await questModel.listByUserId({
     userId: inputDTO.userId,
   });
-  if (!quests) {
-    throw new HttpError("クエストが見つかりませんでした", 500);
-  }
 
   return {
     quests: quests,
