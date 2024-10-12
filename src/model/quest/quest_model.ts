@@ -5,7 +5,11 @@ import { now } from "../../pkg/dayjs";
 import { Quest } from "./types";
 
 export class QuestModel {
-  public async getById(id: string): Promise<Quest | null> {
+  public async getById({
+    id,
+  }: {
+    id: string;
+  }): Promise<Quest | null> {
     const result = await prisma.quest.findFirst({
       where: {
         id: id,
