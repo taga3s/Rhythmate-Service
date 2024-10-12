@@ -5,7 +5,7 @@ export const listBadgesService = async (inputDTO: { userId: string }) => {
   const badgeModel = new BadgeModel();
   const badgeDetailModel = new BadgeDetailModel();
 
-  const badges = await badgeModel.listByUserId(inputDTO.userId);
+  const badges = await badgeModel.listByUserId({ userId: inputDTO.userId });
   const badgesMasterData = await badgeDetailModel.listAll();
 
   const badgesWithDetail = badgesMasterData.map((badgeDetail) => {

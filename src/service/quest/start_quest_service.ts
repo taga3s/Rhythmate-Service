@@ -16,7 +16,10 @@ export const startQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("すでに開始しているクエストです", 500);
     }
 
-    const startedQuest = await questModel.startByIdWithTx(inputDTO.id, tx);
+    const startedQuest = await questModel.startByIdWithTx({
+      id: inputDTO.id,
+      tx,
+    });
     if (!startedQuest) {
       throw new HttpError("クエストの開始に失敗しました", 500);
     }

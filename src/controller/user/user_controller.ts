@@ -3,8 +3,7 @@ import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../..
 import { HttpError } from "../../pkg/httpError";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
 import { AuthResponse, GetLoginUserResponse, UpdateLoginUserResponse, DeleteUserResponse } from "./response";
-import { authService, getLoginUserService, updateLoginUserService } from "../../service/user";
-import { deleteUserService } from "../../service/user/delete_user_service";
+import { authService, deleteUserService, getLoginUserService, updateLoginUserService } from "../../service/user";
 
 // 認証
 export const authController = async (req: Request<{}, {}, AuthRequest>, res: Response) => {

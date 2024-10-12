@@ -4,17 +4,27 @@ import { PrismaClientWithTx } from "../../db/types";
 import { WeeklyReport } from "./types";
 
 export class WeeklyReportModel {
-  public async createWithTx(
-    completedQuests: number,
-    failedQuests: number,
-    streakDays: number,
-    completedQuestsEachDay: number[],
-    failedQuestsEachDay: number[],
-    startDate: string,
-    endDate: string,
-    userId: string,
-    tx: PrismaClientWithTx,
-  ): Promise<WeeklyReport> {
+  public async createWithTx({
+    completedQuests,
+    failedQuests,
+    streakDays,
+    completedQuestsEachDay,
+    failedQuestsEachDay,
+    startDate,
+    endDate,
+    userId,
+    tx,
+  }: {
+    completedQuests: number;
+    failedQuests: number;
+    streakDays: number;
+    completedQuestsEachDay: number[];
+    failedQuestsEachDay: number[];
+    startDate: string;
+    endDate: string;
+    userId: string;
+    tx: PrismaClientWithTx;
+  }): Promise<WeeklyReport> {
     const completedPercentage = failedQuests === 0 ? 0 : (completedQuests / (completedQuests + failedQuests)) * 100;
     const weeklyReport: Prisma.WeeklyReportCreateInput = {
       completedQuests: completedQuests,
@@ -36,17 +46,27 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async updateWithTx(
-    completedQuests: number,
-    failedQuests: number,
-    streakDays: number,
-    completedQuestsEachDay: number[],
-    failedQuestsEachDay: number[],
-    startDate: string,
-    endDate: string,
-    userId: string,
-    tx: PrismaClientWithTx,
-  ): Promise<WeeklyReport> {
+  public async updateWithTx({
+    completedQuests,
+    failedQuests,
+    streakDays,
+    completedQuestsEachDay,
+    failedQuestsEachDay,
+    startDate,
+    endDate,
+    userId,
+    tx,
+  }: {
+    completedQuests: number;
+    failedQuests: number;
+    streakDays: number;
+    completedQuestsEachDay: number[];
+    failedQuestsEachDay: number[];
+    startDate: string;
+    endDate: string;
+    userId: string;
+    tx: PrismaClientWithTx;
+  }): Promise<WeeklyReport> {
     const completedPercentage = (completedQuests / (completedQuests + failedQuests)) * 100;
     const weeklyReport: Prisma.WeeklyReportUpdateInput = {
       completedQuests: completedQuests,
@@ -108,7 +128,15 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async updateFeedBackByIdWithTx(id: string, feedBack: string, tx: PrismaClientWithTx): Promise<WeeklyReport> {
+  public async updateFeedBackByIdWithTx({
+    id,
+    feedBack,
+    tx,
+  }: {
+    id: string;
+    feedBack: string;
+    tx: PrismaClientWithTx;
+  }): Promise<WeeklyReport> {
     const result = await tx.weeklyReport.update({
       where: { id: id },
       data: {
@@ -118,12 +146,22 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async deleteByIdWithTx(id: string, tx: PrismaClientWithTx): Promise<WeeklyReport | null> {
+  public async deleteByIdWithTx({
+    id,
+    tx,
+  }: {
+    id: string;
+    tx: PrismaClientWithTx;
+  }): Promise<WeeklyReport | null> {
     const result = await tx.weeklyReport.delete({ where: { id: id } });
     return result;
   }
 
-  public async getById(id: string): Promise<WeeklyReport | null> {
+  public async getById({
+    id,
+  }: {
+    id: string;
+  }): Promise<WeeklyReport | null> {
     const result = await prisma.weeklyReport.findUnique({
       where: {
         id: id,
@@ -132,7 +170,11 @@ export class WeeklyReportModel {
     return result;
   }
 
-  public async listByUserId(userId: string): Promise<WeeklyReport[]> {
+  public async listByUserId({
+    userId,
+  }: {
+    userId: string;
+  }): Promise<WeeklyReport[]> {
     const result = await prisma.weeklyReport.findMany({
       where: {
         userId: userId,

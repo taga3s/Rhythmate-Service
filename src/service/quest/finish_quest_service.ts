@@ -26,7 +26,11 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       throw new HttpError("すでに終了したクエストです", 400);
     }
 
-    const finishedQuest = await questModel.finishByIdWithTx(inputDTO.id, quest.continuationLevel, tx);
+    const finishedQuest = await questModel.finishByIdWithTx({
+      id: inputDTO.id,
+      continuationLevel: quest.continuationLevel,
+      tx,
+    });
     if (!finishedQuest) {
       throw new HttpError("クエストの完了に失敗しました", 500);
     }
@@ -73,13 +77,20 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     }
 
     //ユーザーの経験値とレベルを更新
-    const user = await userModel.getById(quest.userId);
+    const user = await userModel.getById({
+      id: quest.userId,
+    });
     if (!user) {
       throw new HttpError("ユーザーが見つかりません", 400);
     }
 
     const expIncrement = getQuestExp(quest.difficulty, quest.continuationLevel);
-    const updatedUser = await userModel.updateExpWithTx(user.id, user.exp, expIncrement, tx);
+    const updatedUser = await userModel.updateExpWithTx({
+      id: quest.userId,
+      currentExp: user.exp,
+      expIncrement: expIncrement,
+      tx,
+    });
     if (!updatedUser) {
       throw new HttpError("ユーザーの経験値の更新に失敗しました", 500);
     }
@@ -87,7 +98,9 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     // バッジ獲得条件(レベルチェックサービス・累計クエスト数チェックサービスの注入）
     await levelCheckService({ userId: updatedUser.id, level: updatedUser.level }, tx);
 
-    const targetWeeklyReports = await weeklyReportModel.listByUserId(quest.userId);
+    const targetWeeklyReports = await weeklyReportModel.listByUserId({
+      userId: quest.userId,
+    });
     const totalQuestsNum = targetWeeklyReports.reduce((acc, weeklyReport) => acc + weeklyReport.completedQuests, 1);
     await totalQuestsCheckService({ userId: updatedUser.id, totalQuestsNum: totalQuestsNum }, tx);
 

@@ -41,7 +41,12 @@ export const updateLoginUserService = (inputDTO: {
       fileUrl = inputDTO.imageSrc;
     }
 
-    const user = await userModel.updateWithTx(tx, inputDTO.userId, inputDTO.name, fileUrl);
+    const user = await userModel.updateWithTx({
+      id: inputDTO.userId,
+      name: inputDTO.name,
+      imageUrl: fileUrl,
+      tx,
+    });
 
     return {
       name: user.name,

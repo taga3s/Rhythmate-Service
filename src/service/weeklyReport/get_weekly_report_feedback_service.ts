@@ -6,7 +6,9 @@ export const getWeeklyReportFeedBackService = async (inputDTO: {
 }) => {
   const model = new WeeklyReportModel();
 
-  const weeklyReport = await model.getById(inputDTO.weeklyReportId);
+  const weeklyReport = await model.getById({
+    id: inputDTO.weeklyReportId,
+  });
   if (!weeklyReport) {
     throw new HttpError("週次レポートが見つかりませんでした", 400);
   }
