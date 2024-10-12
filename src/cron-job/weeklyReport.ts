@@ -57,7 +57,7 @@ const createEverySunday = () => {
       await Promise.all(
         users.map(
           async (user) =>
-            await weeklyReportModel.createWithTx(
+            await weeklyReportModel.createWithTx({
               completedQuests,
               failedQuests,
               streakDays,
@@ -65,9 +65,9 @@ const createEverySunday = () => {
               failedQuestsEachDay,
               startDate,
               endDate,
-              user.id,
+              userId: user.id,
               tx,
-            ),
+            }),
         ),
       );
     });

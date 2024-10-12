@@ -2,8 +2,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
 import { HttpError } from "../../pkg/httpError";
 import { WeeklyReport } from "@prisma/client";
-import "dotenv/config";
 import { prisma } from "../../db/db";
+import "dotenv/config";
 
 const runGemini = async (weeklyReport: WeeklyReport) => {
   const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY as string);
@@ -33,13 +33,19 @@ export const generateWeeklyReportFeedBackService = async (inputDTO: {
   return prisma.$transaction(async (tx) => {
     const model = new WeeklyReportModel();
 
-    const weeklyReport = await model.getById(inputDTO.weeklyReportId);
+    const weeklyReport = await model.getById({
+      id: inputDTO.weeklyReportId,
+    });
     if (!weeklyReport) {
       throw new HttpError("週次レポートが見つかりませんでした", 400);
     }
 
     const feedBack = await runGemini(weeklyReport);
-    await model.updateFeedBackByIdWithTx(inputDTO.weeklyReportId, feedBack, tx);
+    await model.updateFeedBackByIdWithTx({
+      id: inputDTO.weeklyReportId,
+      feedBack: feedBack,
+      tx: tx,
+    });
     return { feedBack: feedBack };
   });
 };

@@ -98,7 +98,9 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
     // バッジ獲得条件(レベルチェックサービス・累計クエスト数チェックサービスの注入）
     await levelCheckService({ userId: updatedUser.id, level: updatedUser.level }, tx);
 
-    const targetWeeklyReports = await weeklyReportModel.listByUserId(quest.userId);
+    const targetWeeklyReports = await weeklyReportModel.listByUserId({
+      userId: quest.userId,
+    });
     const totalQuestsNum = targetWeeklyReports.reduce((acc, weeklyReport) => acc + weeklyReport.completedQuests, 1);
     await totalQuestsCheckService({ userId: updatedUser.id, totalQuestsNum: totalQuestsNum }, tx);
 

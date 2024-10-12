@@ -6,7 +6,9 @@ export const listWeeklyReportsService = async (inputDTO: {
 }) => {
   const model = new WeeklyReportModel();
 
-  const weeklyReports = await model.listByUserId(inputDTO.userId);
+  const weeklyReports = await model.listByUserId({
+    userId: inputDTO.userId,
+  });
   if (!weeklyReports) {
     throw new HttpError("週次レポートが見つかりませんでした", 400);
   }
