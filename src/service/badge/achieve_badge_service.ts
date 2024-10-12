@@ -1,7 +1,7 @@
 import { prisma } from "../../db/db";
 import { BadgeModel } from "../../model/badge/badge_model";
 import { BadgeDetailModel } from "../../model/badgeDetail/badge_detail_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const achieveBadgeService = async (inputDTO: {
   badgeId: string;

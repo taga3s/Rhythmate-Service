@@ -1,9 +1,9 @@
 import { prisma } from "../../db/db";
-import { admin } from "../../firebase/config";
+import { admin } from "../../pkg/firebase/config";
 import { UserModel } from "../../model/user/user_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
-import { getStartAndEndUTCDateTime } from "../../funcs/datetime";
+import { HttpError } from "../../utils/httpError";
+import { getStartAndEndUTCDateTime } from "../../utils/datetime";
 
 type InputDTO = { id_token: string };
 

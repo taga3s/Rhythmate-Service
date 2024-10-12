@@ -2,7 +2,7 @@ import { prisma } from "../../db/db";
 import { QuestModel } from "../../model/quest/quest_model";
 import { UserModel } from "../../model/user/user_model";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 import { levelCheckService, totalQuestsCheckService } from "../badge/check-achievements";
 
 const getQuestExp = (difficulty: string, continuationLevel: number) => {

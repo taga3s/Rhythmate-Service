@@ -1,6 +1,6 @@
 import { prisma } from "../../db/db";
 import { TagModel } from "../../model/tag/tag_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const deleteTagService = async (inputDTO: { id: string }) => {
   return prisma.$transaction(async (tx) => {

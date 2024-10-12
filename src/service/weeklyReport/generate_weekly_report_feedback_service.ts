@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 import { WeeklyReport } from "@prisma/client";
 import { prisma } from "../../db/db";
 import "dotenv/config";

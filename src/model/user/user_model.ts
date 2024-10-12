@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
 import { PrismaClientWithTx } from "../../db/types";
 import { User } from "./types";
-import { getUpdatedLevelAndExp } from "../../funcs/exp";
+import { getUpdatedLevelAndExp } from "../../utils/exp";
 
 export class UserModel {
   public async getById({

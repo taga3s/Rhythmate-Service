@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "../../db/db";
 import { PrismaClientWithTx } from "../../db/types";
 import { Badge } from "./types";
-import { now } from "../../pkg/dayjs";
+import { now } from "../../utils/dayjs";
 
 export class BadgeModel {
   public async createWithTx({

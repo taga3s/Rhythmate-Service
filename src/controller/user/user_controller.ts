@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../core/jwt";
-import { HttpError } from "../../pkg/httpError";
+import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../pkg/jwt/jwt";
+import { HttpError } from "../../utils/httpError";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
 import { AuthResponse, GetLoginUserResponse, UpdateLoginUserResponse, DeleteUserResponse } from "./response";
 import { authService, deleteUserService, getLoginUserService, updateLoginUserService } from "../../service/user";

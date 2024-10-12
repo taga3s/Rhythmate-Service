@@ -1,6 +1,6 @@
 import { prisma } from "../../db/db";
 import { WeeklyReportModel } from "../../model/weeklyReport/weekly_report_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 export const updateWeeklyReportService = async (inputDTO: {
   id: string;

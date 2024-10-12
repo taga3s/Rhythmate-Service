@@ -1,6 +1,6 @@
 import { prisma } from "../../db/db";
 import { BadgeModel } from "../../model/badge/badge_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 type InputDTO = { badgeId: string; userId: string };
 

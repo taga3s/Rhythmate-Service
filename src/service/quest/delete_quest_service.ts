@@ -1,6 +1,6 @@
 import { prisma } from "../../db/db";
 import { QuestModel } from "../../model/quest/quest_model";
-import { HttpError } from "../../pkg/httpError";
+import { HttpError } from "../../utils/httpError";
 
 type InputDTO = { id: string };
 
