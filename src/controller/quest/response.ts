@@ -1,4 +1,4 @@
-import * as schemaHelper from "../../pkg/schemaHelper";
+import * as schemaHelper from "../../pkg/schema/schemaHelper";
 
 export type CreateQuestResponse = schemaHelper.ResponseData<"/quests", "post">;
 
