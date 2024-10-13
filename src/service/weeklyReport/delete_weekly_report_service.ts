@@ -17,8 +17,5 @@ export const deleteWeeklyReportService = async (inputDTO: { id: string }) => {
       id: inputDTO.id,
       tx: tx,
     });
-    if (result === null) {
-      throw new HttpError("週次レポートの削除に失敗しました", 500);
-    }
   });
 };
