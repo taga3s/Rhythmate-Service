@@ -25,7 +25,7 @@ export const pinBadgeService = async (inputDTO: InputDTO) => {
     const pinnedBadges = await badgeModel.listPinnedByUserId({
       userId: inputDTO.userId,
     });
-    if (pinnedBadges && pinnedBadges.length === 3) {
+    if (pinnedBadges.length === 3) {
       throw new HttpError("ピン止めできるバッジは３つまでです", 400);
     }
 
@@ -33,9 +33,6 @@ export const pinBadgeService = async (inputDTO: InputDTO) => {
       id: badge.id,
       tx: tx,
     });
-    if (!pinnedBadge) {
-      throw new HttpError("バッジのピン止めに失敗しました", 500);
-    }
 
     // バッジの詳細を取得
     const badgeDetail = await prisma.badgeDetail.findFirst({

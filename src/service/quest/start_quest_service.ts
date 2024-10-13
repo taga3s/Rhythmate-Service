@@ -22,9 +22,6 @@ export const startQuestService = async (inputDTO: InputDTO) => {
       id: inputDTO.id,
       tx,
     });
-    if (!startedQuest) {
-      throw new HttpError("クエストの開始に失敗しました", 500);
-    }
 
     return {
       id: startedQuest.id,

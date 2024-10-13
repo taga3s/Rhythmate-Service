@@ -1,4 +1,4 @@
-import * as schemaHelper from "../../pkg/schemaHelper";
+import * as schemaHelper from "../../pkg/schema/schemaHelper";
 
 export type AuthResponse = schemaHelper.ResponseData<"/users/auth", "post">;
 

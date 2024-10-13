@@ -33,9 +33,6 @@ export const finishQuestService = async (inputDTO: InputDTO) => {
       continuationLevel: quest.continuationLevel,
       tx,
     });
-    if (!finishedQuest) {
-      throw new HttpError("クエストの完了に失敗しました", 500);
-    }
 
     // 週次レポートの更新
     const targetWeeklyReport = await weeklyReportModel.getByUserId(quest.userId);

@@ -24,9 +24,6 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
       id: inputDTO.id,
       tx,
     });
-    if (!forceFinishedQuest) {
-      throw new HttpError("クエストの完了に失敗しました", 500);
-    }
 
     const targetWeeklyReport = await weeklyReportModel.getByUserId(quest.userId);
     if (!targetWeeklyReport) {
@@ -65,9 +62,6 @@ export const forceFinishQuestService = async (inputDTO: InputDTO) => {
       completedPercentage,
       tx,
     );
-    if (!weeklyReport) {
-      throw new HttpError("週報の更新に失敗しました", 500);
-    }
 
     return {
       id: forceFinishedQuest.id,

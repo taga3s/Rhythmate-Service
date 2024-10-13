@@ -24,9 +24,6 @@ export const unpinBadgeService = async (inputDTO: InputDTO) => {
       id: badge.id,
       tx: tx,
     });
-    if (!unpinnedBadge) {
-      throw new HttpError("バッジのピン止め解除に失敗しました", 500);
-    }
 
     // バッジの詳細を取得
     const badgeDetail = await prisma.badgeDetail.findFirst({

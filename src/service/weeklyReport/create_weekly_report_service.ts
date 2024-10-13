@@ -26,9 +26,6 @@ export const createWeeklyReportService = async (inputDTO: {
       userId: inputDTO.userId,
       tx,
     });
-    if (!weeklyReport) {
-      throw new HttpError("週次レポートの作成に失敗しました", 500);
-    }
 
     return {
       id: weeklyReport.id,
