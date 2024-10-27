@@ -25,12 +25,13 @@ export const achieveBadgeController = async (req: Request<{ id: string }>, res: 
       is_pinned: outputDTO.isPinned,
       unlockable: true,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -56,12 +57,13 @@ export const listBadgesController = async (req: Request, res: Response) => {
         };
       }),
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -85,12 +87,13 @@ export const pinBadgeController = async (req: Request<{ id: string }>, res: Resp
       unlockable: outputDTO.unlockable,
       is_pinned: outputDTO.isPinned,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -114,11 +117,12 @@ export const unpinBadgeController = async (req: Request<{ id: string }>, res: Re
       unlockable: outputDTO.unlockable,
       is_pinned: outputDTO.isPinned,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
