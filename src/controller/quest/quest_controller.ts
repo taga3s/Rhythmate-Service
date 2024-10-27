@@ -45,12 +45,13 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
       status: "ok",
       ...questBaseResponse,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -67,12 +68,13 @@ export const listQuestsController = async (req: Request, res: Response) => {
       status: "ok",
       quests: questBaseResponses,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -84,12 +86,13 @@ export const deleteQuestController = async (req: Request<{ id: string }>, res: R
     await deleteQuestService(inputDTO);
 
     const response: DeleteQuestResponse = { status: "ok" };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -117,12 +120,13 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
       status: "ok",
       ...questBaseResponse,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -138,12 +142,13 @@ export const startQuestController = async (req: Request<{ id: string }>, res: Re
       status: "ok",
       ...questBaseResponse,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -160,12 +165,13 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
       status: "ok",
       ...questBaseResponse,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -182,11 +188,12 @@ export const forceFinishQuestController = async (req: Request<{ id: string }>, r
       status: "ok",
       ...questBaseResponse,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };

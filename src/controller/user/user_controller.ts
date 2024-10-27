@@ -21,12 +21,13 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     });
     const response: AuthResponse = { status: "ok" };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -34,9 +35,9 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
 export const authCheckController = async (req: Request, res: Response) => {
   try {
     const isAuthenticated = getUserIsAuthenticated(req.cookies.access_token || "");
-    return res.status(200).json({ status: "ok", isAuthenticated: isAuthenticated });
+    res.status(200).json({ status: "ok", isAuthenticated: isAuthenticated });
   } catch {
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -64,9 +65,10 @@ export const getLoginUserController = async (req: Request, res: Response) => {
     res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -89,12 +91,13 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
       level: outputDTO.level,
       imageUrl: outputDTO.imageUrl,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -108,11 +111,12 @@ export const deleteUserController = async (req: Request, res: Response) => {
       status: "ok",
     };
     res.cookie("access_token", "");
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
