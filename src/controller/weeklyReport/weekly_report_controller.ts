@@ -35,12 +35,13 @@ export const listWeeklyReportController = async (req: Request, res: Response) =>
         };
       }),
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -56,12 +57,13 @@ export const generateWeeklyReportFeedBackController = async (
       status: "ok",
       feedBack: outputDTO.feedBack,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
 
@@ -75,11 +77,12 @@ export const getWeeklyReportFeedBackController = async (req: Request<{ weeklyRep
       status: "ok",
       feedBack: summary,
     };
-    return res.status(200).json(response);
+    res.status(200).json(response);
   } catch (err) {
     if (err instanceof HttpError) {
-      return res.status(err.statusCode).json({ status: "error", message: err.message });
+      res.status(err.statusCode).json({ status: "error", message: err.message });
+      return;
     }
-    return res.status(500).json({ status: "error", message: "Internal server error." });
+    res.status(500).json({ status: "error", message: "Internal server error." });
   }
 };
