@@ -1,7 +1,7 @@
 # Rhythmate-Service
 
 ゲーム感覚で習慣化を楽しめるサービス**Rhythmate**のバックエンドです。  
-フロントエンドは[こちら](https://github.com/ayanami77/Rhythmate-Web)
+フロントエンドのリポジトリは [https://github.com/taga3s/Rhythmate-Web](https://github.com/taga3s/Rhythmate-Web) へ
 
 ## 開発期間
 - 2024/02 - 2024/05

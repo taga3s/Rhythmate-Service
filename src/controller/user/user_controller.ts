@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
-import { generateToken, getUserIdFromToken, getUserIsAuthenticated } from "../../pkg/jwt/jwt";
+import { generateToken, getUserIdFromToken } from "../../pkg/jwt/jwt";
 import { HttpError } from "../../utils/httpError";
 import { AuthRequest, UpdateLoginUserRequest } from "./request";
-import { AuthResponse, GetLoginUserResponse, UpdateLoginUserResponse, DeleteUserResponse } from "./response";
+import {
+  AuthResponse,
+  GetLoginUserResponse,
+  UpdateLoginUserResponse,
+  DeleteUserResponse,
+  toUserBaseResponse,
+} from "./response";
 import { authService, deleteUserService, getLoginUserService, updateLoginUserService } from "../../service/user";
 
 // 認証
@@ -31,16 +37,6 @@ export const authController = async (req: Request<{}, {}, AuthRequest>, res: Res
   }
 };
 
-// 認可状態確認
-export const authCheckController = async (req: Request, res: Response) => {
-  try {
-    const isAuthenticated = getUserIsAuthenticated(req.cookies.access_token || "");
-    res.status(200).json({ status: "ok", isAuthenticated: isAuthenticated });
-  } catch {
-    res.status(500).json({ status: "error", message: "Internal server error." });
-  }
-};
-
 // ログアウト
 export const logoutController = async (req: Request, res: Response) => {
   res.cookie("access_token", "");
@@ -56,11 +52,7 @@ export const getLoginUserController = async (req: Request, res: Response) => {
     const outputDTO = await getLoginUserService(inputDTO);
     const response: GetLoginUserResponse = {
       status: "ok",
-      name: outputDTO.name,
-      email: outputDTO.email,
-      exp: outputDTO.exp,
-      level: outputDTO.level,
-      imageUrl: outputDTO.imageUrl,
+      ...toUserBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -85,11 +77,7 @@ export const updateUserController = async (req: Request<{}, {}, UpdateLoginUserR
     const outputDTO = await updateLoginUserService(inputDTO);
     const response: UpdateLoginUserResponse = {
       status: "ok",
-      name: outputDTO.name,
-      email: outputDTO.email,
-      exp: outputDTO.exp,
-      level: outputDTO.level,
-      imageUrl: outputDTO.imageUrl,
+      ...toUserBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {

@@ -5,19 +5,17 @@
   "main": "src/app.ts",
   "packageManager": "pnpm@9.6.0",
   "scripts": {
-    "start": "node dist/app.js",
-    "start:utc": "TZ=utc node dist/app.js",
-    "start:watch": "tsc-watch --onSuccess \"node dist/app.js\"",
-    "start:watch-utc": "TZ=utc tsc-watch --onSuccess \"node dist/app.js\"",
+    "start": "TZ=utc node dist/app.js",
+    "start:watch": "TZ=utc tsc-watch --onSuccess \"node dist/app.js\"",
     "build": "tsc",
-    "migrate": "npx prisma migrate dev",
-    "migrate:reset": "npx prisma migrate reset",
-    "studio": "npx prisma studio",
+    "migrate": "pnpx prisma migrate dev",
+    "migrate:reset": "pnpx prisma migrate reset",
+    "studio": "pnpx prisma studio",
     "lint": "biome lint --apply ./src",
     "format": "biome format --write ./src",
     "prepare": "husky",
     "test": "TZ=utc jest",
-    "generate:types": "npx openapi-typescript docs/api/openapi.yaml --output src/pkg/schema/schema.gen.ts"
+    "generate:types": "pnpx openapi-typescript docs/api/openapi.yaml --output src/pkg/schema/schema.gen.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
