@@ -40,10 +40,9 @@ export const createQuestController = async (req: Request<{}, {}, CreateQuestRequ
 
   try {
     const outputDTO = await createQuestService(inputDTO);
-    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: CreateQuestResponse = {
       status: "ok",
-      ...questBaseResponse,
+      ...toQuestBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -62,11 +61,9 @@ export const listQuestsController = async (req: Request, res: Response) => {
 
   try {
     const outputDTO = await listQuestsService(inputDTO);
-
-    const questBaseResponses = outputDTO.quests.map((quest: Quest) => toQuestBaseResponse(quest));
     const response: ListQuestsResponse = {
       status: "ok",
-      quests: questBaseResponses,
+      quests: outputDTO.quests.map((quest: Quest) => toQuestBaseResponse(quest)),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -84,7 +81,6 @@ export const deleteQuestController = async (req: Request<{ id: string }>, res: R
 
   try {
     await deleteQuestService(inputDTO);
-
     const response: DeleteQuestResponse = { status: "ok" };
     res.status(200).json(response);
   } catch (err) {
@@ -114,11 +110,9 @@ export const updateQuestController = async (req: Request<{ id: string }, {}, Upd
 
   try {
     const outputDTO = await updateQuestService(inputDTO);
-
-    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: UpdateQuestResponse = {
       status: "ok",
-      ...questBaseResponse,
+      ...toQuestBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -136,11 +130,9 @@ export const startQuestController = async (req: Request<{ id: string }>, res: Re
 
   try {
     const outputDTO = await startQuestService(inputDTO);
-
-    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: StartQuestResponse = {
       status: "ok",
-      ...questBaseResponse,
+      ...toQuestBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -159,11 +151,9 @@ export const finishQuestController = async (req: Request<{ id: string }>, res: R
 
   try {
     const outputDTO = await finishQuestService(inputDTO);
-
-    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: FinishQuestResponse = {
       status: "ok",
-      ...questBaseResponse,
+      ...toQuestBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -182,11 +172,9 @@ export const forceFinishQuestController = async (req: Request<{ id: string }>, r
 
   try {
     const outputDTO = await forceFinishQuestService(inputDTO);
-
-    const questBaseResponse = toQuestBaseResponse(outputDTO);
     const response: ForceFinishQuestResponse = {
       status: "ok",
-      ...questBaseResponse,
+      ...toQuestBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {

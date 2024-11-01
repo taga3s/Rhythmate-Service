@@ -1,6 +1,12 @@
 import { Request, Response } from "express";
 import { CreateTagRequest, UpdateTagRequest } from "./request";
-import { CreateTagResponse, UpdateTagResponse, DeleteTagResponse, ListTagsResponse } from "./response";
+import {
+  CreateTagResponse,
+  UpdateTagResponse,
+  DeleteTagResponse,
+  ListTagsResponse,
+  toTagBaseResponse,
+} from "./response";
 import { getUserIdFromToken } from "../../pkg/jwt/jwt";
 import { HttpError } from "../../utils/httpError";
 import { Tag } from "../../model/tag/types";
@@ -14,15 +20,7 @@ export const listTagsController = async (req: Request, res: Response) => {
     const outputDTO = await listTagsService(inputDTO);
     const response: ListTagsResponse = {
       status: "ok",
-      tags: outputDTO.tags?.map((tag: Tag) => {
-        return {
-          id: tag.id,
-          name: tag.name,
-          color: tag.color,
-          created_at: tag.createdAt,
-          updated_at: tag.updatedAt,
-        };
-      }),
+      tags: outputDTO.tags?.map((tag: Tag) => toTagBaseResponse(tag)),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -46,9 +44,7 @@ export const createTagController = async (req: Request<{}, {}, CreateTagRequest>
     const outputDTO = await createTagService(inputDTO);
     const response: CreateTagResponse = {
       status: "ok",
-      id: outputDTO.id,
-      name: outputDTO.name,
-      color: outputDTO.color,
+      ...toTagBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -88,9 +84,7 @@ export const updateTagController = async (req: Request<{ id: string }, {}, Updat
     const outputDTO = await updateTagService(inputDTO);
     const response: UpdateTagResponse = {
       status: "ok",
-      id: outputDTO.id,
-      name: outputDTO.name,
-      color: outputDTO.color,
+      ...toTagBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
