@@ -2,7 +2,13 @@ import { Request, Response } from "express";
 import { getUserIdFromToken } from "../../pkg/jwt/jwt";
 import { HttpError } from "../../utils/httpError";
 import { achieveBadgeService, listBadgesService, pinBadgeService, unpinBadgeService } from "../../service/badge";
-import { AchieveBadgeResponse, ListBadgesResponse, PinBadgeResponse, UnpinBadgeResponse } from "./response";
+import {
+  AchieveBadgeResponse,
+  ListBadgesResponse,
+  PinBadgeResponse,
+  toBadgeBaseResponse,
+  UnpinBadgeResponse,
+} from "./response";
 
 // バッジの達成
 export const achieveBadgeController = async (req: Request<{ id: string }>, res: Response) => {
@@ -44,18 +50,7 @@ export const listBadgesController = async (req: Request, res: Response) => {
     const outputDTO = await listBadgesService(inputDTO);
     const response: ListBadgesResponse = {
       status: "ok",
-      badgesWithDetail: outputDTO.badgesWithDetail.map((badge) => {
-        return {
-          badge_id: badge.id,
-          name: badge.name,
-          description: badge.description,
-          image_type: badge.imageType as "bow" | "cat" | "crown" | "gem" | "horse" | "shield" | "sword",
-          frame_color: badge.frameColor as "bronze" | "silver" | "gold",
-          unlockable: badge.unlockable,
-          obtained_at: badge.obtainedAt,
-          is_pinned: badge.isPinned,
-        };
-      }),
+      badgesWithDetail: outputDTO.badgesWithDetail.map((badge) => toBadgeBaseResponse(badge)),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -78,14 +73,7 @@ export const pinBadgeController = async (req: Request<{ id: string }>, res: Resp
     const outputDTO = await pinBadgeService(inputDTO);
     const response: PinBadgeResponse = {
       status: "ok",
-      badge_id: outputDTO.badgeId,
-      name: outputDTO.name,
-      description: outputDTO.description,
-      image_type: outputDTO.imageType as "bow" | "cat" | "crown" | "gem" | "horse" | "shield" | "sword",
-      frame_color: outputDTO.frameColor as "bronze" | "silver" | "gold",
-      obtained_at: outputDTO.obtainedAt,
-      unlockable: outputDTO.unlockable,
-      is_pinned: outputDTO.isPinned,
+      ...toBadgeBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
@@ -108,14 +96,7 @@ export const unpinBadgeController = async (req: Request<{ id: string }>, res: Re
     const outputDTO = await unpinBadgeService(inputDTO);
     const response: UnpinBadgeResponse = {
       status: "ok",
-      badge_id: outputDTO.badgeId,
-      name: outputDTO.name,
-      description: outputDTO.description,
-      image_type: outputDTO.imageType as "bow" | "cat" | "crown" | "gem" | "horse" | "shield" | "sword",
-      frame_color: outputDTO.frameColor as "bronze" | "silver" | "gold",
-      obtained_at: outputDTO.obtainedAt,
-      unlockable: outputDTO.unlockable,
-      is_pinned: outputDTO.isPinned,
+      ...toBadgeBaseResponse(outputDTO),
     };
     res.status(200).json(response);
   } catch (err) {
