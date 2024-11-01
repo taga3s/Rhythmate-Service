@@ -4,7 +4,7 @@ import { healthRouter, userRouter, questRouter, tagRouter, weeklyReportRouter, b
 import { cookie } from "express-validator";
 import cookieParser from "cookie-parser";
 import { logger } from "./pkg/logger/logger";
-import { requestsLogger } from "./route/middlewares/requestsLogger";
+import { appLogger } from "./route/middlewares/appLogger";
 import { badgeCronJob, weeklyReportCronJob, questCronJob } from "./cron-job";
 import helmet from "helmet";
 import cors from "cors";
@@ -18,10 +18,8 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 // security
 app.use(helmet());
-
 // logging
-app.use(requestsLogger);
-
+app.use(appLogger());
 // cors
 app.use(
   cors({
@@ -29,7 +27,6 @@ app.use(
     credentials: true,
   }),
 );
-
 // routing
 app.use("/v1/users", userRouter);
 app.use("/v1/quests", questRouter);
@@ -40,7 +37,7 @@ if (process.env.NODE_ENV === "dev") {
   app.use("/v1/health", healthRouter);
 }
 
-// cron jobs
+// TODO: move cron-jobs to another service
 questCronJob.updateEveryDay();
 questCronJob.updateEverySunday();
 weeklyReportCronJob.updateEveryDay();
